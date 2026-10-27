@@ -1,0 +1,566 @@
+<UserControl x:Class="VibeTorrent.App.Views.LibraryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:VibeTorrent.App.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="820" d:DesignWidth="820"
+             x:Name="LibraryRoot">
+    <Grid Margin="28,20,22,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ============================== header ============================== -->
+        <Grid Grid.Row="0" Margin="0,0,0,18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="{Binding HeaderEyebrow}" Style="{StaticResource MicroCaption}"
+                           Foreground="{StaticResource CyanBrush}" Margin="0,0,0,4" />
+                <TextBlock Text="{Binding HeaderTitle}" Style="{StaticResource DisplayTitle}" />
+                <TextBlock Text="{Binding HeaderSubtitle}" Style="{StaticResource Caption}" Margin="1,3,0,0" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <Button Style="{StaticResource IconButton}" ToolTip="Пауза для всех"
+                        Command="{Binding PauseAllCommand}" Margin="0,0,4,0"
+                        IsEnabled="{Binding IsInitialized}">
+                    <TextBlock Text="&#xE769;" Style="{StaticResource IconGlyph}" FontSize="14" />
+                </Button>
+                <Button Style="{StaticResource IconButton}" ToolTip="Возобновить все"
+                        Command="{Binding ResumeAllCommand}" Margin="0,0,10,0"
+                        IsEnabled="{Binding IsInitialized}">
+                    <TextBlock Text="&#xE768;" Style="{StaticResource IconGlyph}" FontSize="14" />
+                </Button>
+                <Button Style="{StaticResource PrimaryButton}" Command="{Binding OpenAddTorrentCommand}"
+                        IsEnabled="{Binding IsInitialized}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="14"
+                                   VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Text="Добавить торрент" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- ============================== traffic cards ============================== -->
+        <Grid Grid.Row="1" Margin="0,0,0,18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" CornerRadius="16" BorderThickness="1" BorderBrush="#20FFFFFF"
+                    Padding="15,13" ClipToBounds="True">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#141B2D" Offset="0" />
+                        <GradientStop Color="#0D1220" Offset="0.78" />
+                        <GradientStop Color="#0C111D" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="25" Height="25" CornerRadius="8" Background="#2222D3EE" Margin="0,0,8,0">
+                                <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" FontSize="12"
+                                           Foreground="{StaticResource CyanBrush}" />
+                            </Border>
+                            <TextBlock Text="СКАЧИВАНИЕ" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding DownloadedTotalText, StringFormat=всего {0}}"
+                                   Style="{StaticResource MicroCaption}" HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" />
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="0,6,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="112" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{Binding DownloadSpeedText}" Style="{StaticResource H2}"
+                                       FontSize="22" FontWeight="SemiBold" Foreground="#E9FDFF" />
+                            <TextBlock Text="{Binding ActiveCaption}" Style="{StaticResource MicroCaption}"
+                                       Foreground="{StaticResource CyanBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <controls:Sparkline Grid.Column="1" Values="{Binding DownloadHistory}"
+                                            Stroke="{StaticResource CyanBrush}" Height="36"
+                                            VerticalAlignment="Center" Margin="4,4,0,0">
+                            <controls:Sparkline.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#4422D3EE" Offset="0" />
+                                    <GradientStop Color="#0022D3EE" Offset="1" />
+                                </LinearGradientBrush>
+                            </controls:Sparkline.Fill>
+                        </controls:Sparkline>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2" CornerRadius="16" BorderThickness="1" BorderBrush="#20FFFFFF"
+                    Padding="15,13" ClipToBounds="True">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#1A1628" Offset="0" />
+                        <GradientStop Color="#100E1D" Offset="0.78" />
+                        <GradientStop Color="#0D0C18" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="25" Height="25" CornerRadius="8" Background="#26F472B6" Margin="0,0,8,0">
+                                <TextBlock Text="&#xE898;" Style="{StaticResource IconGlyph}" FontSize="12"
+                                           Foreground="{StaticResource PinkBrush}" />
+                            </Border>
+                            <TextBlock Text="ОТДАЧА" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding UploadedTotalText, StringFormat=всего {0}}"
+                                   Style="{StaticResource MicroCaption}" HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" />
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="0,6,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="112" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{Binding UploadSpeedText}" Style="{StaticResource H2}"
+                                       FontSize="22" FontWeight="SemiBold" Foreground="#FFF1F8" />
+                            <TextBlock Text="рейтинг и раздача" Style="{StaticResource MicroCaption}"
+                                       Foreground="{StaticResource PinkBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <controls:Sparkline Grid.Column="1" Values="{Binding UploadHistory}"
+                                            Stroke="{StaticResource PinkBrush}" Height="36"
+                                            VerticalAlignment="Center" Margin="4,4,0,0">
+                            <controls:Sparkline.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#44F472B6" Offset="0" />
+                                    <GradientStop Color="#00F472B6" Offset="1" />
+                                </LinearGradientBrush>
+                            </controls:Sparkline.Fill>
+                        </controls:Sparkline>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="4" CornerRadius="16" BorderThickness="1" BorderBrush="#20FFFFFF"
+                    Padding="15,13" ClipToBounds="True">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#17162D" Offset="0" />
+                        <GradientStop Color="#100F1E" Offset="0.78" />
+                        <GradientStop Color="#0D0C18" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="25" Height="25" CornerRadius="8" Background="#26A855F7" Margin="0,0,8,0">
+                                <TextBlock Text="&#xE774;" Style="{StaticResource IconGlyph}" FontSize="12"
+                                           Foreground="{StaticResource VioletBrush}" />
+                            </Border>
+                            <TextBlock Text="СЕТЬ" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,5,0" />
+                            <TextBlock Text="{Binding EngineStatusText}" Style="{StaticResource MicroCaption}"
+                                       Foreground="{StaticResource SuccessBrush}" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="0,7,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{Binding DhtStatusText}" FontSize="13.5" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}" />
+                            <TextBlock Text="{Binding ListenPortText}" Style="{StaticResource MicroCaption}"
+                                       Margin="0,3,0,0" Foreground="{StaticResource TextMutedBrush}" />
+                        </StackPanel>
+                        <Border Grid.Column="1" Background="#14A855F7" BorderBrush="#30A855F7" BorderThickness="1"
+                                CornerRadius="9" Padding="9,5" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding ActiveCount}" FontSize="14" FontWeight="SemiBold"
+                                       Foreground="#EDE9FE" />
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ============================== toolbar ============================== -->
+        <Grid Grid.Row="2" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Width="310" Height="38" HorizontalAlignment="Left" CornerRadius="11"
+                    Background="{StaticResource SearchGradient}" BorderBrush="#22FFFFFF" BorderThickness="1">
+                <Grid Margin="12,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="&#xE721;" Style="{StaticResource IconGlyph}" FontSize="14"
+                               Foreground="{StaticResource TextMutedBrush}" Margin="0,0,8,0" />
+                    <TextBox x:Name="SearchBox" Grid.Column="1" Style="{StaticResource SearchTextBox}"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=120}"
+                             Tag="Поиск по названию, хешу или пути" />
+                    <Button Grid.Column="2" Style="{StaticResource IconButton}" Width="26" Height="26"
+                            Command="{Binding ClearSearchCommand}" ToolTip="Очистить"
+                            Visibility="{Binding HasSearch, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="&#xE711;" Style="{StaticResource IconGlyph}" FontSize="10" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button x:Name="SortButton" Style="{StaticResource SecondaryButton}" Padding="12,8"
+                        Click="SortButton_OnClick" ToolTip="Сортировка">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8CB;" Style="{StaticResource IconGlyph}" FontSize="13"
+                                   Foreground="{StaticResource TextMutedBrush}" Margin="0,0,7,0" />
+                        <TextBlock Text="{Binding SortLabel}" FontSize="11.5" VerticalAlignment="Center" />
+                        <TextBlock Text="&#xE70D;" Style="{StaticResource IconGlyph}" FontSize="9"
+                                   Foreground="{StaticResource TextMutedBrush}" Margin="7,0,0,0" />
+                    </StackPanel>
+                    <Button.ContextMenu>
+                        <ContextMenu x:Name="SortMenu">
+                            <MenuItem Header="Сначала новые" Command="{Binding SetSortCommand}" CommandParameter="added" />
+                            <MenuItem Header="По имени" Command="{Binding SetSortCommand}" CommandParameter="name" />
+                            <MenuItem Header="По прогрессу" Command="{Binding SetSortCommand}" CommandParameter="progress" />
+                            <MenuItem Header="По размеру" Command="{Binding SetSortCommand}" CommandParameter="size" />
+                            <MenuItem Header="По скорости" Command="{Binding SetSortCommand}" CommandParameter="speed" />
+                            <MenuItem Header="По рейтингу" Command="{Binding SetSortCommand}" CommandParameter="ratio" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+                <Border Style="{StaticResource ToolbarSeparator}" Margin="8,0" />
+
+                <Button Style="{StaticResource IconButton}" Command="{Binding ToggleDetailsPaneCommand}"
+                        ToolTip="Панель деталей">
+                    <TextBlock Text="&#xE8A9;" Style="{StaticResource IconGlyph}" FontSize="14" />
+                </Button>
+                <Button Style="{StaticResource IconButton}" Command="{Binding OpenMagnetCommand}"
+                        ToolTip="Добавить magnet-ссылку">
+                    <TextBlock Text="&#xE71B;" Style="{StaticResource IconGlyph}" FontSize="14" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- ============================== filter chips ============================== -->
+        <Grid Grid.Row="3" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <WrapPanel Orientation="Horizontal">
+                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                             IsChecked="{Binding IsFilterAll, Mode=OneWay}"
+                             Command="{Binding SetFilterCommand}" CommandParameter="all" Margin="0,0,4,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Все" />
+                        <TextBlock Text="{Binding AllCount}" Margin="6,0,0,0" Opacity="0.55" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                             IsChecked="{Binding IsFilterActive, Mode=OneWay}"
+                             Command="{Binding SetFilterCommand}" CommandParameter="active" Margin="0,0,4,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Активные" />
+                        <TextBlock Text="{Binding ActiveCount}" Margin="6,0,0,0" Opacity="0.55" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                             IsChecked="{Binding IsFilterCompleted, Mode=OneWay}"
+                             Command="{Binding SetFilterCommand}" CommandParameter="completed" Margin="0,0,4,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Завершённые" />
+                        <TextBlock Text="{Binding CompletedCount}" Margin="6,0,0,0" Opacity="0.55" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                             IsChecked="{Binding IsFilterPaused, Mode=OneWay}"
+                             Command="{Binding SetFilterCommand}" CommandParameter="paused" Margin="0,0,4,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="На паузе" />
+                        <TextBlock Text="{Binding PausedCount}" Margin="6,0,0,0" Opacity="0.55" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                             IsChecked="{Binding IsFilterError, Mode=OneWay}"
+                             Command="{Binding SetFilterCommand}" CommandParameter="error" Margin="0,0,4,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Ошибки" />
+                        <TextBlock Text="{Binding ErrorCount}" Margin="6,0,0,0" Opacity="0.55" />
+                    </StackPanel>
+                </RadioButton>
+            </WrapPanel>
+            <TextBlock Grid.Column="1" Text="{Binding FilterSummaryText}" Style="{StaticResource MicroCaption}"
+                       VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" />
+        </Grid>
+
+        <!-- ============================== list ============================== -->
+        <Grid Grid.Row="5" Margin="0,0,0,0">
+            <ListBox ItemsSource="{Binding TorrentsView}"
+                     SelectedItem="{Binding SelectedTorrent, Mode=TwoWay}"
+                     ItemContainerStyle="{StaticResource TorrentCardItem}"
+                     Visibility="{Binding ShowTorrentList, Converter={StaticResource BoolToVisibility}}"
+                     Padding="0,0,8,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="92" Margin="17,0" ToolTip="{Binding StatusDetail}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="54" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="116" />
+                                <ColumnDefinition Width="96" />
+                                <ColumnDefinition Width="78" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Width="46" Height="46" VerticalAlignment="Center">
+                                <controls:ProgressRing Value="{Binding Progress, Mode=OneWay}" Thickness="3"
+                                                       ProgressBrush="{Binding Status, Converter={StaticResource StatusBrush}}"
+                                                       TrackBrush="#16FFFFFF" />
+                                <TextBlock Text="{Binding Status, Converter={StaticResource StatusGlyph}}"
+                                           Style="{StaticResource IconGlyph}" FontSize="12"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Foreground="{Binding Status, Converter={StaticResource StatusBrush}}" />
+                            </Grid>
+
+                            <StackPanel Grid.Column="1" Margin="12,0,18,0" VerticalAlignment="Center">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Name}" FontSize="13.8" FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                    <Border Grid.Column="1" Margin="9,0,0,0" Padding="6,2" CornerRadius="5"
+                                            Background="#16A855F7" BorderBrush="#35A855F7" BorderThickness="1"
+                                            Visibility="{Binding IsPrivate, Converter={StaticResource BoolToVisibility}}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xE72E;" FontFamily="{StaticResource IconFont}" FontSize="8"
+                                                       Foreground="#D8B4FE" VerticalAlignment="Center" Margin="0,0,3,0" />
+                                            <TextBlock Text="Приватный" FontSize="8.5" Foreground="#E9D5FF"
+                                                       FontWeight="SemiBold" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                    <TextBlock Text="{Binding StatusText}" FontSize="10.5" FontWeight="SemiBold"
+                                               Foreground="{Binding Status, Converter={StaticResource StatusBrush}}" />
+                                    <TextBlock Text="·" FontSize="10.5" Foreground="{StaticResource TextDisabledBrush}" Margin="5,0" />
+                                    <TextBlock Text="{Binding FileCountText}" FontSize="10.5"
+                                               Foreground="{StaticResource TextMutedBrush}" />
+                                    <TextBlock Text="·" FontSize="10.5" Foreground="{StaticResource TextDisabledBrush}" Margin="5,0" />
+                                    <TextBlock Text="{Binding PeersText}" FontSize="10.5"
+                                               Foreground="{StaticResource TextMutedBrush}" TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <Grid Margin="0,7,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <controls:LinearProgress Value="{Binding Progress, Mode=OneWay}" Height="4"
+                                                             TrackBrush="#16FFFFFF"
+                                                             ProgressBrush="{Binding Status, Converter={StaticResource StatusBrush}}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding ProgressText}" FontSize="9.5"
+                                               Foreground="{StaticResource TextMutedBrush}" Margin="9,-2,0,0"
+                                               VerticalAlignment="Center" />
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#x2193;" FontSize="11" Foreground="{StaticResource CyanBrush}"
+                                               Margin="0,0,4,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding DownloadSpeedText}" FontSize="11.3" FontWeight="SemiBold"
+                                               Foreground="#DDFBFF" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                    <TextBlock Text="&#x2191;" FontSize="11" Foreground="{StaticResource PinkBrush}"
+                                               Margin="0,0,4,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding UploadSpeedText}" FontSize="10.5"
+                                               Foreground="{StaticResource TextSecondaryBrush}" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding EtaText}" FontSize="11.5" FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextPrimaryBrush}" />
+                                <TextBlock Text="осталось" FontSize="9.5" Foreground="{StaticResource TextMutedBrush}"
+                                           Margin="0,3,0,0" />
+                                <TextBlock Text="{Binding RatioText, StringFormat=рейтинг {0}}" FontSize="9"
+                                           Foreground="{StaticResource TextDisabledBrush}" Margin="0,3,0,0" />
+                            </StackPanel>
+
+                            <Grid Grid.Column="4" VerticalAlignment="Center">
+                                <StackPanel HorizontalAlignment="Right">
+                                    <TextBlock Text="{Binding SizeText}" FontSize="11" FontWeight="SemiBold"
+                                               HorizontalAlignment="Right" Foreground="{StaticResource TextSecondaryBrush}" />
+                                    <TextBlock Text="{Binding DownloadedText}" FontSize="9.5"
+                                               HorizontalAlignment="Right" Foreground="{StaticResource TextMutedBrush}"
+                                               Margin="0,3,0,0" />
+                                </StackPanel>
+                                <Border x:Name="RowActions" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Background="#F215192B" BorderBrush="#2AFFFFFF" BorderThickness="1"
+                                        CornerRadius="9" Padding="2">
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="Opacity" Value="0" />
+                                            <Setter Property="IsHitTestVisible" Value="False" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                             Value="True">
+                                                    <Setter Property="Opacity" Value="1" />
+                                                    <Setter Property="IsHitTestVisible" Value="True" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                             Value="True">
+                                                    <Setter Property="Opacity" Value="1" />
+                                                    <Setter Property="IsHitTestVisible" Value="True" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource IconButton}" Width="27" Height="27" FontSize="11"
+                                                Command="{Binding DataContext.PauseTorrentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                CommandParameter="{Binding}"
+                                                Visibility="{Binding IsPaused, Converter={StaticResource InverseBoolToVisibility}}"
+                                                ToolTip="Пауза">
+                                            <TextBlock Text="&#xE769;" FontFamily="{StaticResource IconFont}" FontSize="10" />
+                                        </Button>
+                                        <Button Style="{StaticResource IconButton}" Width="27" Height="27"
+                                                Command="{Binding DataContext.ResumeTorrentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                CommandParameter="{Binding}"
+                                                Visibility="{Binding IsPaused, Converter={StaticResource BoolToVisibility}}"
+                                                ToolTip="Продолжить">
+                                            <TextBlock Text="&#xE768;" FontFamily="{StaticResource IconFont}" FontSize="10" />
+                                        </Button>
+                                        <Button Style="{StaticResource IconButton}" Width="27" Height="27"
+                                                Command="{Binding DataContext.RequestRemoveCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                CommandParameter="{Binding}" ToolTip="Удалить">
+                                            <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="10" />
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- empty library -->
+            <Grid Visibility="{Binding IsLibraryEmpty, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="470">
+                    <Grid Width="152" Height="152" HorizontalAlignment="Center" Margin="0,0,0,18">
+                        <Ellipse Width="150" Height="150" Stroke="#1CFFFFFF" StrokeThickness="1" />
+                        <Ellipse Width="118" Height="118" Stroke="#2A7C3AED" StrokeThickness="1" />
+                        <Ellipse Width="88" Height="88" Stroke="#3C22D3EE" StrokeThickness="1" />
+                        <Ellipse Width="72" Height="72">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush>
+                                    <GradientStop Color="#5522D3EE" Offset="0" />
+                                    <GradientStop Color="#227C3AED" Offset="0.55" />
+                                    <GradientStop Color="#00000000" Offset="1" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Image Source="pack://application:,,,/Assets/App.png" Width="82" Height="82"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                    </Grid>
+                    <TextBlock Text="{Binding EmptyStateTitle}" Style="{StaticResource H1}" FontSize="22"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding EmptyStateDescription}" Style="{StaticResource Caption}"
+                               TextAlignment="Center" TextWrapping="Wrap" Margin="18,7,18,0" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                        <Button Style="{StaticResource PrimaryButton}" Command="{Binding OpenAddTorrentCommand}"
+                                IsEnabled="{Binding IsInitialized}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="12"
+                                           VerticalAlignment="Center" Margin="0,0,7,0" />
+                                <TextBlock Text="Выбрать .torrent" />
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource SecondaryButton}" Margin="8,0,0,0"
+                                Command="{Binding OpenMagnetCommand}" IsEnabled="{Binding IsInitialized}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE71B;" FontFamily="{StaticResource IconFont}" FontSize="12"
+                                           VerticalAlignment="Center" Margin="0,0,7,0" />
+                                <TextBlock Text="Вставить magnet" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,0">
+                        <TextBlock Text="или перетащите файл в окно" Style="{StaticResource MicroCaption}"
+                                   Foreground="{StaticResource TextMutedBrush}" />
+                        <TextBlock Text="Ctrl+O" Style="{StaticResource MicroCaption}" Margin="7,0,0,0"
+                                   Foreground="{StaticResource TextDisabledBrush}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- filtered empty -->
+            <Grid Visibility="{Binding IsFilterEmpty, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="400">
+                    <Border Width="58" Height="58" CornerRadius="18" Background="#12FFFFFF"
+                            BorderBrush="#1FFFFFFF" BorderThickness="1" HorizontalAlignment="Center">
+                        <TextBlock Text="&#xE721;" Style="{StaticResource IconGlyph}" FontSize="22"
+                                   Foreground="{StaticResource TextMutedBrush}" />
+                    </Border>
+                    <TextBlock Text="Ничего не найдено" Style="{StaticResource H2}" Margin="0,14,0,0"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding EmptyStateDescription}" Style="{StaticResource Caption}"
+                               TextAlignment="Center" TextWrapping="Wrap" Margin="0,6,0,0" />
+                    <Button Style="{StaticResource SecondaryButton}" Margin="0,16,0,0"
+                            HorizontalAlignment="Center" Command="{Binding ResetFiltersCommand}">
+                        <TextBlock Text="Сбросить фильтры" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- loading -->
+            <Grid Background="#B3080A12" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <controls:ProgressRing Width="54" Height="54" Value="0.72" Thickness="2.5"
+                                           ProgressBrush="{StaticResource AccentGradient}" TrackBrush="#16FFFFFF">
+                    </controls:ProgressRing>
+                    <TextBlock Text="Поднимаем торрент-движок…" Style="{StaticResource Caption}"
+                               HorizontalAlignment="Center" Margin="0,14,0,0" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
+
+
+

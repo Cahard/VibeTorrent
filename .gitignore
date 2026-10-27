@@ -1,0 +1,43 @@
+﻿# Build
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Pp]ublish/
+artifacts/
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# Local toolchain and packages
+.dotnet/
+.packages/
+*.nupkg
+*.snupkg
+
+# Test results
+TestResults/
+coverage/
+*.trx
+*.coverage
+
+# App runtime data (never commit)
+*.fastresume
+*.torrent
+!tests/**/Fixtures/*.torrent
+*.log
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Local deploy tooling and secrets
+.deploy/
+.tools/
+*.zip
+
