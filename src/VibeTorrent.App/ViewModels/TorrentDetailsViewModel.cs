@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using VibeTorrent.Core.Localization;
 using VibeTorrent.Core.Models;
 using VibeTorrent.Core.Utilities;
 
@@ -24,7 +25,7 @@ public sealed class TorrentDetailsViewModel : ObservableObject
     public int FileCount => Files.Count;
     public int TrackerCount => Trackers.Count;
     public int PeerCount => Peers.Count;
-    public string FileCountText => FileCount == 1 ? "1 файл" : $"{FileCount:N0} файлов";
+    public string FileCountText => L.F("{0} files", FileCount);
     public string TrackerCountText => $"{TrackerCount:N0}";
     public string PeerCountText => $"{PeerCount:N0}";
 
@@ -33,9 +34,13 @@ public sealed class TorrentDetailsViewModel : ObservableObject
         get
         {
             var selected = Files.Count(f => f.IsSelected);
-            return $"{selected:N0} из {FileCount:N0}";
+            return L.F("{0} of {1}", selected, FileCount);
         }
     }
+
+    public string SelectedFilesLabel => L.F("Selected {0}", SelectedFilesText);
+    public string SelectedSizeLabel => L.F("Selected: {0}", SelectedFilesSizeText);
+    public string TotalSizeLabel => L.F("Total: {0}", TotalFilesSizeText);
 
     public string SelectedFilesSizeText =>
         DisplayFormat.Bytes(Files.Where(f => f.IsSelected).Sum(f => f.Length));
@@ -90,8 +95,16 @@ public sealed class TorrentDetailsViewModel : ObservableObject
         OnPropertyChanged(nameof(TrackerCountText));
         OnPropertyChanged(nameof(PeerCountText));
         OnPropertyChanged(nameof(SelectedFilesText));
+        OnPropertyChanged(nameof(SelectedFilesLabel));
+        OnPropertyChanged(nameof(SelectedSizeLabel));
+        OnPropertyChanged(nameof(TotalSizeLabel));
         OnPropertyChanged(nameof(SelectedFilesSizeText));
         OnPropertyChanged(nameof(TotalFilesSizeText));
+    }
+
+    public void RefreshLocalization()
+    {
+        OnPropertyChanged(string.Empty);
     }
 
     public void Clear()

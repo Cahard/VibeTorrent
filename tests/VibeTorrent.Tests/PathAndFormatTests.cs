@@ -38,12 +38,12 @@ public sealed class PathAndFormatTests
     }
 
     [Fact]
-    public void Format_UsesBinaryRussianUnits()
+    public void Format_UsesBinaryEnglishUnitsByDefault()
     {
-        Assert.Equal("1,0 КБ", DisplayFormat.Bytes(1024));
-        Assert.Equal("1,5 МБ", DisplayFormat.Bytes(1024 * 1024 * 3 / 2));
-        Assert.Equal("2,00", DisplayFormat.Ratio(2));
+        Assert.Equal("1.0 KB", DisplayFormat.Bytes(1024));
+        Assert.Equal("1.5 MB", DisplayFormat.Bytes(1024 * 1024 * 3 / 2));
+        Assert.Equal("2.00", DisplayFormat.Ratio(2));
         Assert.Equal("—", DisplayFormat.Eta(null));
-        Assert.Contains("мин", DisplayFormat.Eta(125));
+        Assert.Contains("min", DisplayFormat.Eta(125));
     }
 }

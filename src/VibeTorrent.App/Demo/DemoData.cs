@@ -1,4 +1,5 @@
-﻿using VibeTorrent.Core.Models;
+using VibeTorrent.Core.Localization;
+using VibeTorrent.Core.Models;
 
 namespace VibeTorrent.App.Demo;
 
@@ -159,7 +160,7 @@ public static class DemoData
                 LeechCount = 0,
                 FileCount = 3,
                 HasMetadata = true,
-                ErrorMessage = "Недостаточно места на диске D:. Освободите 18,2 ГБ.",
+                ErrorMessage = L.T("Not enough space on drive D:. Free up 18.2 GB."),
                 AddedAt = now.AddHours(-8),
                 SampledAt = now
             },
@@ -226,7 +227,7 @@ public static class DemoData
                 Url = "udp://tracker.opentrackr.org:1337/announce",
                 Tier = 0,
                 Status = "ok",
-                StatusText = "Работает",
+                StatusText = L.T("Working"),
                 TimeSinceAnnounce = TimeSpan.FromSeconds(42),
                 Succeeded = true
             },
@@ -235,7 +236,7 @@ public static class DemoData
                 Url = "https://tracker.gbitt.info:443/announce",
                 Tier = 0,
                 Status = "ok",
-                StatusText = "Работает",
+                StatusText = L.T("Working"),
                 TimeSinceAnnounce = TimeSpan.FromMinutes(2),
                 Succeeded = true
             },
@@ -244,8 +245,8 @@ public static class DemoData
                 Url = "udp://open.demonii.com:1337/announce",
                 Tier = 1,
                 Status = "offline",
-                StatusText = "Недоступен",
-                Message = "Таймаут подключения",
+                StatusText = L.T("Unavailable"),
+                Message = L.T("Connection timeout"),
                 TimeSinceAnnounce = TimeSpan.FromMinutes(12),
                 Succeeded = false
             },
@@ -254,19 +255,19 @@ public static class DemoData
                 Url = "wss://tracker.webtorrent.dev",
                 Tier = 1,
                 Status = "unknown",
-                StatusText = "Ожидание",
+                StatusText = L.T("Waiting"),
                 Succeeded = false
             }
         };
 
         var peers = new List<PeerSnapshot>
         {
-            new() { Address = "185.125.190.58:51413", Client = "qBittorrent 5.1.2", Direction = "Исходящее", IsSeeder = true, Progress = 1, DownloadSpeed = 6_100_000, UploadSpeed = 810_000, Encryption = "RC4", Flags = "S" },
-            new() { Address = "91.219.212.14:52841", Client = "Transmission 4.0.6", Direction = "Входящее", IsSeeder = true, Progress = 1, DownloadSpeed = 4_800_000, UploadSpeed = 1_200_000, Encryption = "RC4", Flags = "S" },
-            new() { Address = "37.139.7.202:6881", Client = "Deluge 2.1.1", Direction = "Исходящее", IsSeeder = false, Progress = 0.84, DownloadSpeed = 3_100_000, UploadSpeed = 220_000, Encryption = "Открыто" },
-            new() { Address = "5.188.62.140:34122", Client = "qBittorrent 4.6.7", Direction = "Входящее", IsSeeder = false, Progress = 0.61, DownloadSpeed = 2_400_000, UploadSpeed = 0, Encryption = "RC4" },
-            new() { Address = "203.0.113.42:51413", Client = "BiglyBT 3.7", Direction = "Исходящее", IsSeeder = false, Progress = 0.22, DownloadSpeed = 1_900_000, UploadSpeed = 80_000, Encryption = "Открыто" },
-            new() { Address = "[2001:470:1f0a:1c2::42]:51413", Client = "libtorrent 2.0.11", Direction = "Входящее", IsSeeder = false, Progress = 0.37, DownloadSpeed = 1_100_000, UploadSpeed = 0, Encryption = "RC4 полн." }
+            new() { Address = "185.125.190.58:51413", Client = "qBittorrent 5.1.2", Direction = L.T("Outgoing"), IsSeeder = true, Progress = 1, DownloadSpeed = 6_100_000, UploadSpeed = 810_000, Encryption = "RC4", Flags = "S" },
+            new() { Address = "91.219.212.14:52841", Client = "Transmission 4.0.6", Direction = L.T("Incoming"), IsSeeder = true, Progress = 1, DownloadSpeed = 4_800_000, UploadSpeed = 1_200_000, Encryption = "RC4", Flags = "S" },
+            new() { Address = "37.139.7.202:6881", Client = "Deluge 2.1.1", Direction = L.T("Outgoing"), IsSeeder = false, Progress = 0.84, DownloadSpeed = 3_100_000, UploadSpeed = 220_000, Encryption = L.T("Open") },
+            new() { Address = "5.188.62.140:34122", Client = "qBittorrent 4.6.7", Direction = L.T("Incoming"), IsSeeder = false, Progress = 0.61, DownloadSpeed = 2_400_000, UploadSpeed = 0, Encryption = "RC4" },
+            new() { Address = "203.0.113.42:51413", Client = "BiglyBT 3.7", Direction = L.T("Outgoing"), IsSeeder = false, Progress = 0.22, DownloadSpeed = 1_900_000, UploadSpeed = 80_000, Encryption = L.T("Open") },
+            new() { Address = "[2001:470:1f0a:1c2::42]:51413", Client = "libtorrent 2.0.11", Direction = L.T("Incoming"), IsSeeder = false, Progress = 0.37, DownloadSpeed = 1_100_000, UploadSpeed = 0, Encryption = L.T("RC4 full") }
         };
 
         return new TorrentDetailsSnapshot

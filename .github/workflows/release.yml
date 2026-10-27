@@ -12,7 +12,7 @@ jobs:
   publish:
     name: Publish Windows release
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,24 +22,16 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Restore
-        run: dotnet restore VibeTorrent.slnx
+      - name: Install Inno Setup
+        shell: pwsh
+        run: choco install innosetup --no-progress -y
 
-      - name: Test
-        run: dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release --nologo
+      - name: Restore and test
+        run: |
+          dotnet restore VibeTorrent.slnx
+          dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release --nologo
 
-      - name: Publish framework-dependent build
-        run: >
-          dotnet publish src\VibeTorrent.App\VibeTorrent.App.csproj
-          -c Release
-          -r win-x64
-          --self-contained false
-          -p:PublishSingleFile=false
-          -p:DebugType=None
-          -o dist-fx
-          --nologo
-
-      - name: Publish self-contained single-file build
+      - name: Publish self-contained build
         run: >
           dotnet publish src\VibeTorrent.App\VibeTorrent.App.csproj
           -c Release
@@ -51,15 +43,25 @@ jobs:
           -o dist-sc
           --nologo
 
-      - name: Create release archives and checksums
+      - name: Build portable archive and installer
         shell: pwsh
         run: |
-          $tag = $env:GITHUB_REF_NAME
-          $fx = "VibeTorrent-$tag-win-x64.zip"
-          $sc = "VibeTorrent-$tag-win-x64-selfcontained.zip"
-          Compress-Archive -Path dist-fx\* -DestinationPath $fx -CompressionLevel Optimal
-          Compress-Archive -Path dist-sc\* -DestinationPath $sc -CompressionLevel Optimal
-          foreach ($file in @($fx, $sc)) {
+          $version = $env:GITHUB_REF_NAME.TrimStart('v')
+          $portable = "VibeTorrent-Portable.zip"
+          New-Item -ItemType Directory -Force dist-portable | Out-Null
+          Copy-Item -Path dist-sc\* -Destination dist-portable -Recurse -Force
+          Copy-Item README.md, README.ru.md, README.ko.md, LICENSE, THIRD-PARTY-NOTICES.md -Destination dist-portable
+          Compress-Archive -Path dist-portable\* -DestinationPath $portable -CompressionLevel Optimal
+
+          $iscc = Get-ChildItem "C:\Program Files (x86)\Inno Setup*", "C:\Program Files\Inno Setup*" `
+            -Filter ISCC.exe -Recurse -ErrorAction SilentlyContinue |
+            Select-Object -First 1 -ExpandProperty FullName
+          if (-not $iscc) { throw "Inno Setup compiler (ISCC.exe) was not found" }
+          & $iscc "/DAppVersion=$version" "/DSourceDir=$PWD\dist-sc" "/DOutputDir=$PWD\artifacts\installer" "$PWD\installer\VibeTorrent.iss"
+          if ($LASTEXITCODE -ne 0) { throw "Inno Setup failed with exit code $LASTEXITCODE" }
+          Copy-Item "artifacts\installer\VibeTorrent-Setup-$version.exe" "VibeTorrent-Setup.exe"
+
+          foreach ($file in @("VibeTorrent-Setup.exe", $portable)) {
             $hash = (Get-FileHash $file -Algorithm SHA256).Hash.ToLowerInvariant()
             "$hash  $file" | Set-Content "$file.sha256" -Encoding ascii
             Get-Item -LiteralPath @($file, "$file.sha256") | Select-Object Name, Length
@@ -71,14 +73,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $tag = $env:GITHUB_REF_NAME
-          $assets = @(
-            "VibeTorrent-$tag-win-x64.zip",
-            "VibeTorrent-$tag-win-x64.zip.sha256",
-            "VibeTorrent-$tag-win-x64-selfcontained.zip",
-            "VibeTorrent-$tag-win-x64-selfcontained.zip.sha256"
-          )
-          gh release create $tag @assets `
+          gh release create $tag `
+            "VibeTorrent-Setup.exe" `
+            "VibeTorrent-Setup.exe.sha256" `
+            "VibeTorrent-Portable.zip" `
+            "VibeTorrent-Portable.zip.sha256" `
             --repo $env:GITHUB_REPOSITORY `
-            --title "VibeTorrent $tag — native Windows 11 torrent client" `
+            --title "VibeTorrent $tag — Windows 11 torrent client" `
             --generate-notes `
             --latest

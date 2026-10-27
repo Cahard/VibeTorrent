@@ -43,6 +43,7 @@ public sealed class AppPaths
     public static AppPaths Create(string root, string downloads)
     {
         var absoluteRoot = Path.GetFullPath(root);
+        var cacheDirectory = Path.Combine(absoluteRoot, "cache");
         return new AppPaths
         {
             RootDirectory = absoluteRoot,
@@ -50,9 +51,9 @@ public sealed class AppPaths
             SessionFile = Path.Combine(absoluteRoot, "session.json"),
             EngineStateFile = Path.Combine(absoluteRoot, "engine.state"),
             TorrentsDirectory = Path.Combine(absoluteRoot, "torrents"),
-            FastResumeDirectory = Path.Combine(absoluteRoot, "fastresume"),
+            FastResumeDirectory = Path.Combine(cacheDirectory, "fastresume"),
             MetadataDirectory = Path.Combine(absoluteRoot, "metadata"),
-            CacheDirectory = Path.Combine(absoluteRoot, "cache"),
+            CacheDirectory = cacheDirectory,
             LogsDirectory = Path.Combine(absoluteRoot, "logs"),
             DownloadsDirectory = Path.GetFullPath(downloads)
         };

@@ -1,4 +1,6 @@
-# VibeTorrent — open-source торрент-клиент для Windows 11 на C# / WPF
+# VibeTorrent — native open-source torrent client for Windows 11 (C# / WPF)
+
+**English** · [Русский](README.ru.md) · [한국어](README.ko.md)
 
 [![CI](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/Cahard/VibeTorrent?display_name=tag&sort=semver)](https://github.com/Cahard/VibeTorrent/releases)
@@ -6,278 +8,258 @@
 [![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)](https://dotnet.microsoft.com/)
 [![Windows 11 x64](https://img.shields.io/badge/Windows-11%20x64-0078D4)](https://www.microsoft.com/windows/windows-11)
 
-<!-- CI-бейдж оживает после первого запуска .github/workflows/ci.yml; release-бейдж — после тега v1.0.0. -->
+<p align="center">
+  <a href="https://github.com/Cahard/VibeTorrent/releases/latest/download/VibeTorrent-Setup.exe">
+    <img src="docs/assets/buttons/en-installer.png" width="270" alt="Download the VibeTorrent installer for Windows 11">
+  </a>
+  <a href="https://github.com/Cahard/VibeTorrent/releases/latest/download/VibeTorrent-Portable.zip">
+    <img src="docs/assets/buttons/en-portable.png" width="270" alt="Download the portable VibeTorrent build">
+  </a>
+</p>
 
-VibeTorrent — нативный **торрент-клиент для Windows 11** на C# / .NET 10 / WPF. Это open-source BitTorrent-клиент без браузера и Electron: движок MonoTorrent 3.0.2, magnet-ссылки, DHT/PEX/LSD, шифрование MSE/PE и тёмный интерфейс с живыми градиентами.
+VibeTorrent is a native **BitTorrent client for Windows 11** built with C# / .NET 10 / WPF and **MonoTorrent 3.0.2**. No Electron, no embedded browser, no account: a fast desktop client with magnet links, DHT/PEX/LSD, MSE/PE encryption and a dark, gradient-rich interface.
 
-Данные и управление — локально: библиотека, файлы, трекеры, пиры и настройки в одном окне. Ни телеметрии, ни облачных сервисов: данные лежат в `%LOCALAPPDATA%\VibeTorrent`.
+Everything is local: the library, files, trackers, peers and settings live in one window. No telemetry, no cloud services; application data is stored in `%LOCALAPPDATA%\VibeTorrent`.
 
-*In English: VibeTorrent is a native open-source BitTorrent client for Windows 11, built with C# / WPF on .NET 10 and MonoTorrent 3.0.2.*
-
-![Библиотека VibeTorrent: список торрентов, суммарные скорости, фильтры и панель деталей](docs/assets/01-library.png)
+![VibeTorrent library with downloads, speed cards, filters and the details panel](docs/assets/en/01-library.png)
 
 > [!NOTE]
-> Скриншоты сделаны в демонстрационном режиме. Все торренты, имена и цифры в них вымышлены.
+> Screenshots are captured in demo mode. All torrent names, peers and numbers are fictional.
 
-## Содержание
+## Contents
 
-- [Возможности](#возможности)
-- [Почему VibeTorrent](#почему-vibetorrent)
-- [Быстрый старт](#быстрый-старт)
-- [Релизы и загрузка](#релизы-и-загрузка)
-- [Скриншоты](#скриншоты)
-- [Архитектура](#архитектура)
-- [Безопасность и приватность](#безопасность-и-приватность)
-- [Тесты](#тесты)
+- [Features](#features)
+- [Why VibeTorrent](#why-vibetorrent)
+- [Download and install](#download-and-install)
+- [Quick start](#quick-start)
+- [Screenshots](#screenshots)
+- [Localization](#localization)
+- [Fast resume and restart behaviour](#fast-resume-and-restart-behaviour)
+- [Architecture](#architecture)
+- [Security and privacy](#security-and-privacy)
+- [Tests](#tests)
 - [Roadmap](#roadmap)
 - [FAQ](#faq)
-- [Участие в разработке](#участие-в-разработке)
-- [Лицензия](#лицензия)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Возможности
+## Features
 
-### Добавление и библиотека
+### Add and manage
 
-- `.torrent` через файл, drag & drop, `Ctrl+O` и аргумент командной строки.
-- Magnet-ссылки с предпросмотром и получением метаданных; BTIH и multi-hash.
-- Поиск по названию, хешу или пути, фильтры по состояниям, сортировка и счётчики.
-- Пауза и возобновление одного торрента или всех сразу.
-- Удаление торрента с данными и без; удаление файлов — только внутри папки загрузки.
+- Add `.torrent` files via the file picker, drag & drop, `Ctrl+O` or a command-line argument.
+- Paste magnet links with preview and metadata fetching; BTIH and multi-hash magnets.
+- Search by name, hash or path; state filters; sorting; live counters.
+- Pause, resume, pause all, resume all, remove with or without downloaded data.
+- File selection before adding and per-file priorities after adding (`DoNotDownload`, low, normal, high, maximum).
+- Progress and completion are calculated from selected files, not from the whole torrent.
 
-### Загрузка и сеть
+### Download and network
 
-- BitTorrent-движок **MonoTorrent 3.0.2**.
-- DHT, PEX, LSD, UPnP/NAT-PMP и шифрование MSE/PE.
-- Приватные торренты не уходят в DHT и PEX.
-- Глобальные лимиты скорости, соединений и слотов отдачи.
-- Сохранение сессии, fast resume и восстановление после перезапуска или аварийного завершения.
+- **MonoTorrent 3.0.2** engine with DHT, PEX, LSD, UPnP/NAT-PMP and MSE/PE encryption.
+- Private torrents are excluded from DHT and PEX.
+- Global download/upload limits, connection limit and upload slots.
+- Session persistence, fast resume and recovery after a normal restart.
+- Optional autostart, tray mode, completion/error notifications and single-instance forwarding.
 
-### Файлы и приоритеты
+### Windows 11 interface
 
-- Выбор файлов до добавления торрента.
-- Приоритеты файлов после добавления, включая `DoNotDownload`.
-- Прогресс и завершённость считаются по выбранным файлам, а не по всему торренту.
-- Панель деталей: обзор, файлы, трекеры и пиры с индивидуальными скоростями.
+- Dark-only Fluent-inspired UI with custom `ProgressRing`, `LinearProgress`, `Sparkline` and `ShimmerBehavior`.
+- Animated gradient primary actions and an aurora background; reduced-motion-friendly defaults.
+- The details rail collapses at narrow widths and yields to the user's manual choice.
+- Custom chrome, Windows 11 rounded corners, dark titlebar, tray integration and native file dialogs.
+- Keyboard support: `Ctrl+O`, `Ctrl+F`, `Space`, `Delete`, `Esc`.
 
-### Интерфейс Windows 11
+### Data
 
-- Только тёмная тема, кастомные `ProgressRing`, `LinearProgress`, `Sparkline` и `ShimmerBehavior`.
-- Панель деталей автоматически сворачивается при узком окне, чтобы не сжимать список.
-- Сворачивание в трей, уведомления о завершении и ошибках, single-instance через named pipe.
-- Запуск при входе в Windows; опциональная регистрация `.torrent` и `magnet:`.
+- Settings, session, `.torrent` copies, metadata, logs and engine cache are stored locally.
+- Engine cache: `%LOCALAPPDATA%\VibeTorrent\cache`; fast resume: `%LOCALAPPDATA%\VibeTorrent\cache\fastresume`.
+- Atomic JSON writes, corrupt-state quarantine and path-safe deletion.
 
-### Данные
+## Why VibeTorrent
 
-- Настройки, сессия, копии `.torrent`, fastresume, metadata и логи — в `%LOCALAPPDATA%\VibeTorrent`.
-- Телеметрии и облачных сервисов нет. Сеть используется только для BitTorrent, DHT, трекеров и UPnP.
-
-## Почему VibeTorrent
-
-| Принцип | Что это значит |
+| Principle | What it means |
 |---|---|
-| Нативный стек | WPF и .NET 10, без Electron и встроенного браузера. |
-| Открытый код | GPL-3.0: проект можно собрать, проверить и форкнуть. |
-| Локальные данные | Настройки, сессия и торренты остаются на компьютере. |
-| Безопасные пути | Проверки traversal, UNC, ADS и зарезервированных имён; удаление только под папкой загрузки. |
-| BitTorrent-движок | MonoTorrent 3.0.2 — единственная точка работы с `ClientEngine`. |
-| Интерфейс | Плотная тёмная тема с градиентами и адаптивной панелью деталей. |
+| Native stack | WPF and .NET 10, not Electron or a bundled browser. |
+| Open source | GPL-3.0: build it, inspect it, fork it. |
+| Local data | Settings, session and torrents stay on your PC. |
+| Honest scope | A focused torrent client, not an ad platform or a streaming service. |
+| Safety first | Every path from torrent metadata is validated before it touches disk. |
 
-Кому подойдёт:
+## Download and install
 
-- пользователям Windows 11, которым нужен нативный open-source torrent client без облака;
-- разработчикам, которым интересен пример WPF + MonoTorrent на .NET 10.
+The buttons above always point to the latest release:
 
-## Быстрый старт
+| Build | Best for | Requirements |
+|---|---|---|
+| `VibeTorrent-Setup.exe` | Normal installation with Start menu and optional file associations | Windows 11 x64 |
+| `VibeTorrent-Portable.zip` | Running from a folder or USB drive | Windows 11 x64 |
 
-> [!IMPORTANT]
-> Нужны Windows 11 x64 и [.NET 10 SDK](https://dotnet.microsoft.com/download) 10.0.100+. В требованиях проекта также указаны Windows 10/11 x64; основной сценарий — Windows 11.
+The installer is per-user by default (`%LOCALAPPDATA%\Programs\VibeTorrent`) and does not require administrator rights. The portable archive contains the self-contained build; no .NET installation is needed.
+
+> [!WARNING]
+> The binaries are not code-signed yet, so Windows SmartScreen may show a warning. Download only from this repository's Releases page and verify the published SHA-256 checksums.
+
+## Quick start
+
+1. Download the installer or the portable archive.
+2. Add a `.torrent` file, drop it onto the window, or paste a magnet link.
+3. Pick the files and the download folder; choose whether to start immediately.
+4. Use the details panel for files, trackers, peers and per-file priorities.
+5. Open **Settings** to change the language, speed limits, DHT/PEX/LSD, encryption, tray behaviour and the download folder.
+
+### Build from source
+
+Requirements: Windows 10/11 x64, .NET 10 SDK.
 
 ```powershell
 git clone https://github.com/Cahard/VibeTorrent.git
 cd VibeTorrent
-
-.\build.ps1   # restore, build и 24 теста
-.\run.ps1     # запуск приложения
+.\build.ps1
+.\run.ps1
 ```
 
-Если PowerShell блокирует локальные скрипты:
+Manual build:
 
 ```powershell
-pwsh -ExecutionPolicy Bypass -File .\build.ps1
+dotnet restore VibeTorrent.slnx
+dotnet build VibeTorrent.slnx -c Release
+dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 ```
 
-> [!TIP]
-> Если .NET SDK лежит в `.dotnet\dotnet.exe`, скрипты найдут его автоматически.
-
-### Публикация
+Publish:
 
 ```powershell
-.\publish.ps1                  # framework-dependent, нужен .NET 10 Desktop Runtime
-.\publish.ps1 -SelfContained   # self-contained, один файл
+.\publish.ps1                  # framework-dependent; needs .NET 10 Desktop Runtime
+.\publish.ps1 -SelfContained   # self-contained
 ```
 
-Результат: `artifacts\publish\win-x64\VibeTorrent.exe`.
+### File associations
 
-### Ассоциации файлов
+The installer can optionally register `.torrent` and `magnet:` links. For a portable build, run:
 
 ```powershell
-pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 `
-    -ExePath .\artifacts\publish\win-x64\VibeTorrent.exe
+pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 -ExePath .\VibeTorrent.exe
 ```
 
-Отмена: `scripts\unregister-file-associations.ps1`.
+## Screenshots
 
-### Горячие клавиши
-
-| Клавиши | Действие |
+| Library | Add by magnet |
 |---|---|
-| `Ctrl+O` | Добавить `.torrent` |
-| `Ctrl+V` | Вставить magnet из буфера обмена |
-| `Ctrl+F` | Поиск по библиотеке |
-| `Ctrl+,` | Настройки |
-| `Space` | Пауза / продолжить выбранное |
-| `Delete` | Удалить выбранный торрент |
-| `Esc` | Закрыть диалог / сбросить поиск |
+| ![English library](docs/assets/en/01-library.png) | ![English add dialog](docs/assets/en/02-add-torrent.png) |
 
-## Релизы и загрузка
-
-Готовые сборки для `win-x64` публикуются в [GitHub Releases](https://github.com/Cahard/VibeTorrent/releases). Если релизов ещё нет, соберите проект из исходников — это одна команда.
-
-| Вариант | Что получаете | Что нужно |
-|---|---|---|
-| Framework-dependent | `VibeTorrent-<версия>-win-x64.zip` | .NET 10 Desktop Runtime |
-| Self-contained | `VibeTorrent-<версия>-win-x64-selfcontained.zip` | ничего дополнительно |
-
-Рядом с архивами публикуются `.sha256`-контрольные суммы.
-
-> [!WARNING]
-> Если сборка не подписана сертификатом код-подписи, Windows SmartScreen может показать предупреждение. Скачивайте файлы только со страницы Releases этого репозитория.
-
-## Скриншоты
-
-| Библиотека | Добавление по magnet |
+| Settings | Files and priorities |
 |---|---|
-| ![Библиотека VibeTorrent: список торрентов, суммарные скорости, фильтры и панель деталей](docs/assets/01-library.png) | ![Добавление magnet-ссылки в VibeTorrent: предпросмотр метаданных и выбор папки загрузки](docs/assets/02-add-torrent.png) |
+| ![English settings](docs/assets/en/03-settings.png) | ![English files tab](docs/assets/en/05-files-tab.png) |
 
-| Настройки | Файлы торрента |
+| Add a .torrent file | Remove confirmation |
 |---|---|
-| ![Настройки VibeTorrent: папка загрузок, автозапуск, трей, порт и DHT](docs/assets/03-settings.png) | ![Вкладка «Файлы» в VibeTorrent: приоритеты и выбор файлов торрента](docs/assets/05-files-tab.png) |
+| ![English add file dialog](docs/assets/en/04-add-file.png) | ![English remove dialog](docs/assets/en/06-confirm-remove.png) |
 
-| Добавление `.torrent` | Удаление |
-|---|---|
-| ![Добавление .torrent в VibeTorrent: проверка содержимого и выбор файлов](docs/assets/04-add-file.png) | ![Подтверждение удаления торрента в VibeTorrent с опцией удаления данных](docs/assets/06-confirm-remove.png) |
+## Localization
 
-| Первый запуск |
-|---|
-| ![Пустая библиотека VibeTorrent: добавление первого торрента или magnet-ссылки](docs/assets/08-empty.png) |
+VibeTorrent ships with **English (default), Russian and Korean**. Change the language at any time in **Settings → Language**; the interface updates immediately and the choice is persisted.
 
-## Архитектура
+To add a language, edit `src/VibeTorrent.Core/Localization/*.json`, add the code to `AppLanguage`, and rebuild. English keys are also the fallback for missing translations.
+
+## Fast resume and restart behaviour
+
+Fast resume is enabled in the engine settings:
+
+- `AutoSaveLoadFastResume = true`
+- `FastResumeMode.Accurate`
+- cache directory `%LOCALAPPDATA%\VibeTorrent\cache`, so MonoTorrent writes `cache\fastresume\<infohash>.fresume`
+- `StopAllAsync` on normal exit flushes the fast-resume state before the process ends
+
+On a normal restart the bitfield is loaded and the client does **not** re-hash gigabytes of data. With `Accurate` mode, a hard crash or a non-clean stop intentionally falls back to a full hash check: the client prefers correctness over silently trusting stale pieces. Removing a torrent with data uses `RemoveMode.CacheDataOnly`, so a deleted download cannot later reappear as a "100%" torrent.
+
+## Architecture
 
 ```text
-src/VibeTorrent.App     WPF UI, MVVM, тема, tray, chrome, single-instance
+VibeTorrent.App (WPF, MVVM)
+        │  snapshots, commands, dialogs
+        ▼
+VibeTorrent.Core (MonoTorrent engine, persistence, path safety)
         │
         ▼
-src/VibeTorrent.Core    MonoTorrent wrapper, DTO, сессия, настройки, безопасность путей
+%LOCALAPPDATA%\VibeTorrent
+  settings.json  session.json  torrents\  cache\  logs\
 ```
 
-- `VibeTorrent.Core` не ссылается на WPF и тестируется отдельно; `VibeTorrent.App` не работает с MonoTorrent напрямую.
-- `TorrentEngineService` — единственная точка работы с `ClientEngine`. Снимки состояния — раз в секунду, детали — раз в две секунды, все мутации сериализованы.
-- События движка маршалятся в UI через `IUiDispatcher`; диск и сеть не блокируют интерфейс.
-- `settings.json` и `session.json` пишутся атомарно; битый JSON уходит в `*.corrupt-<timestamp>` и не блокирует запуск.
+- `VibeTorrent.App` — views, view models, custom controls, tray, single-instance IPC.
+- `VibeTorrent.Core` — engine service, session/settings stores, preview validation, path safety, display formatting.
+- `VibeTorrent.Tests` — xUnit tests for path safety, settings/session, preview parsing, formatting and a local synthetic torrent.
+- `docs/` — architecture, design system, UX spec, research and test plan.
 
-Подробнее: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [Ревью движка](docs/research/engine-review.md).
+The UI never blocks the engine: snapshots are sampled once per second, details twice per second, and all commands are serialized through a semaphore.
 
-## Безопасность и приватность
+## Security and privacy
 
-- `.torrent` ограничен 32 МБ и 100 000 файлов.
-- Пути из метаданных отклоняются при traversal, UNC, ADS, зарезервированных именах, управляющих символах и недопустимых для Windows символах.
-- Удаление данных проверяет `PathSafety.IsUnderRoot`; корень загрузки не удаляется.
-- UNC-папки загрузки отклоняются.
-- Логи не содержат полные magnet-ссылки и passkey.
-- Телеметрии нет. Сеть используется только для BitTorrent, DHT, трекеров и UPnP.
-- Приватные торренты не анонсируются в DHT и PEX.
-- Удалённого управления и облачной синхронизации нет.
+- No telemetry, analytics, ads or cloud accounts.
+- Every torrent file name passes through `PathSafety` before writing: traversal, absolute paths, UNC, ADS, reserved names and control characters are rejected.
+- Deletion is restricted to the download root and never removes the root itself.
+- Session/settings writes are atomic; corrupt JSON is quarantined instead of crashing the app.
+- Private torrents never join DHT/PEX.
 
-> [!NOTE]
-> VibeTorrent не проверяет скачанные файлы антивирусом и не гарантирует легальность контента. Скачивайте только то, на что у вас есть права.
+See [SECURITY.md](SECURITY.md) for responsible disclosure.
 
-## Тесты
+## Tests
+
+**24 xUnit tests** cover:
+
+- path traversal, UNC/ADS and reserved-name validation;
+- settings validation and atomic persistence;
+- session round-trips and corrupted-state recovery;
+- torrent/magnet preview parsing;
+- display formatting;
+- a local synthetic torrent: add, pause, resume, remove, delete data and restore session.
 
 ```powershell
-dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj
+dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 ```
-
-24 теста: path safety (traversal, UNC, ADS, зарезервированные имена), форматирование, атомарные настройки и сессия, битый JSON, дедупликация, preview `.torrent`/magnet, приоритеты файлов, add/pause/resume/remove, удаление данных и восстановление сессии.
-
-Интеграционные тесты используют реальный `ClientEngine` с выключенными DHT/PEX/UPnP, свободным портом и синтетическим `.torrent`; внешняя сеть не требуется.
-
-Подробнее: [docs/testing/test-plan.md](docs/testing/test-plan.md).
 
 ## Roadmap
 
-Направления вне v1.0. Это не обязательства и не сроки.
-
-| Направление | Статус |
-|---|---|
-| Планировщик расписаний | не входит в v1.0 |
-| Per-torrent лимиты и seed-ratio | не входит в v1.0 |
-| Встроенный поиск и RSS | не входит в v1.0 |
-| MSIX и Windows Toast | не входит в v1.0 |
-| Английская локализация | в следующих версиях |
-| Удалённое управление | не входит в v1.0 |
-
-Предложить направление или сообщить об ошибке — через [Issues](https://github.com/Cahard/VibeTorrent/issues).
+- Per-torrent speed limits and ratio/seed rules.
+- Scheduled bandwidth profiles.
+- RSS and a torrent search extension point.
+- MSIX package and code signing.
+- More translations and accessibility polish.
 
 ## FAQ
 
-### VibeTorrent — бесплатный торрент-клиент?
+### Is VibeTorrent an ad-supported client?
 
-Да. Код распространяется под GPL-3.0, без подписок и платных функций в v1.0.
+No. It is open source under GPL-3.0, with no ads, telemetry or paid tier in v1.1.
 
-### Есть ли реклама и телеметрия?
+### Does it work on Windows 10?
 
-Телеметрии и облачных сервисов нет. Рекламных модулей в коде нет. Сеть используется только для BitTorrent, DHT, трекеров и UPnP.
+The supported target is Windows 11 x64. Windows 10 may work with the .NET 10 Desktop Runtime, but it is not part of the test matrix.
 
-### Поддерживается ли Windows 10?
+### Where is my data stored?
 
-Основная платформа — Windows 11 x64. В требованиях проекта указаны Windows 10/11 x64; целевая платформа — `net10.0-windows`.
+`%LOCALAPPDATA%\VibeTorrent`: `settings.json`, `session.json`, `torrents\`, `cache\`, `logs\`. Download payloads live in the folder you choose.
 
-### Где хранятся данные?
+### Can I choose files and priorities?
 
-В `%LOCALAPPDATA%\VibeTorrent`: `settings.json`, `session.json`, `torrents\`, `fastresume\`, `metadata\`, `cache\`, `logs\`.
+Yes. Select files before adding, then change priorities per file in the details panel.
 
-### Поддерживаются ли magnet-ссылки?
+### Are magnet links supported?
 
-Да: предпросмотр, получение метаданных, BTIH и multi-hash. Список файлов появляется после получения метаданных.
+Yes, including BTIH and multi-hash links. Metadata is fetched from the swarm and cached.
 
-### Можно ли выбрать файлы и задать приоритеты?
+### Is there a scheduler or per-torrent limit?
 
-Да. Файлы выбираются до добавления, приоритеты меняются после, включая `DoNotDownload`.
+Not in v1.1. The current release supports global speed/connection limits.
 
-### Есть ли планировщик и лимиты на отдельный торрент?
+### Is the interface only in English?
 
-Нет. В v1.0 есть только глобальные лимиты скорости, соединений и слотов отдачи.
+No. English is the default; Russian and Korean are included in Settings.
 
-### Нужен ли .NET?
+## Contributing
 
-Для framework-dependent сборки — .NET 10 Desktop Runtime. Self-contained сборка дополнительных зависимостей не требует.
+Issues and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). For security reports, use [SECURITY.md](SECURITY.md), not a public issue.
 
-### Это Electron?
+## License
 
-Нет. Это нативное WPF-приложение на C# / .NET 10.
-
-### Интерфейс только на русском?
-
-В v1.0 — да. Английская локализация заявлена в следующих версиях.
-
-## Участие в разработке
-
-- Баги и предложения — через [Issues](https://github.com/Cahard/VibeTorrent/issues). Приложите версию Windows, версию .NET и шаги воспроизведения.
-- Перед PR запустите `.\build.ps1`: сборка и 24 теста должны проходить.
-- Держите `VibeTorrent.Core` без зависимостей от WPF.
-- Изменения в работе с путями сопровождайте тестами path safety.
-- Не публикуйте уязвимости в открытых issues.
-
-## Лицензия
-
-GPL-3.0. См. [LICENSE](LICENSE). MonoTorrent распространяется под MIT; другие зависимости перечислены в [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+GPL-3.0. See [LICENSE](LICENSE). MonoTorrent and other dependencies are distributed under their own licenses; see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).

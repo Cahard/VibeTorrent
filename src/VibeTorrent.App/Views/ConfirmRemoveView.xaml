@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="470">
+             mc:Ignorable="d" d:DesignWidth="470" xmlns:loc="clr-namespace:VibeTorrent.App.Localization">
     <Border Width="470" CornerRadius="18" Background="#0E111D" BorderBrush="#38FFFFFF" BorderThickness="1"
             Padding="22" TextOptions.TextFormattingMode="Display">
         <Border.Effect>
@@ -18,11 +18,11 @@
                 </Border>
                 <Button Style="{StaticResource IconButton}" Width="30" Height="30" HorizontalAlignment="Right"
                         Command="{Binding DataContext.CancelRemoveCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                        ToolTip="Закрыть">
+                        ToolTip="{loc:T 'Close'}">
                     <TextBlock Text="&#xE711;" Style="{StaticResource IconGlyph}" FontSize="10" />
                 </Button>
             </Grid>
-            <TextBlock Text="Удалить торрент?" Style="{StaticResource H2}" Margin="0,15,0,0" />
+            <TextBlock Text="{loc:T 'Delete torrent?'}" Style="{StaticResource H2}" Margin="0,15,0,0" />
             <TextBlock Text="{Binding Name}" FontSize="12.5" FontWeight="SemiBold"
                        Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap"
                        TextTrimming="CharacterEllipsis" MaxHeight="42" Margin="0,5,0,0" />
@@ -36,11 +36,11 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock Text="Размер данных" Style="{StaticResource MicroCaption}" />
+                        <TextBlock Text="{loc:T 'Data size'}" Style="{StaticResource MicroCaption}" />
                         <TextBlock Text="{Binding SizeText}" FontSize="13" FontWeight="SemiBold" Margin="0,3,0,0" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Торрент будет убран из списка" FontSize="9.5"
+                        <TextBlock Text="{loc:T 'The torrent will be removed from the list'}" FontSize="9.5"
                                    Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Right" />
                     </StackPanel>
                 </Grid>
@@ -49,8 +49,8 @@
             <CheckBox Style="{StaticResource DarkCheckBox}" Margin="2,15,0,0"
                       IsChecked="{Binding DeleteData}">
                 <StackPanel>
-                    <TextBlock Text="Удалить скачанные файлы" FontSize="11.5" FontWeight="SemiBold" />
-                    <TextBlock Text="Файлы будут удалены с диска без возможности восстановления."
+                    <TextBlock Text="{loc:T 'Delete downloaded files'}" FontSize="11.5" FontWeight="SemiBold" />
+                    <TextBlock Text="{loc:T 'Files will be deleted from disk permanently.'}"
                                Style="{StaticResource MicroCaption}" Margin="0,2,0,0" />
                 </StackPanel>
             </CheckBox>
@@ -62,7 +62,7 @@
                     <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource IconFont}" FontSize="11"
                                Foreground="{StaticResource DangerBrush}" VerticalAlignment="Top"
                                Margin="0,1,7,0" />
-                    <TextBlock Text="Загрузка будет остановлена, а её файлы — удалены." FontSize="10"
+                    <TextBlock Text="{loc:T 'The download will stop and its files will be deleted.'}" FontSize="10"
                                Foreground="#FFE4E8" TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
@@ -75,13 +75,13 @@
                 <Button Grid.Column="0" Style="{StaticResource SecondaryButton}" Padding="14,9"
                         HorizontalAlignment="Right" Margin="0,0,8,0"
                         Command="{Binding DataContext.CancelRemoveCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                        Content="Отмена" />
+                        Content="{loc:T 'Cancel'}" />
                 <Button Grid.Column="1" Style="{StaticResource DangerButton}" Padding="14,9" MinWidth="128"
                         Command="{Binding DataContext.ConfirmRemoveCommand, RelativeSource={RelativeSource AncestorType=Window}}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="11"
                                    VerticalAlignment="Center" Margin="0,0,7,0" />
-                        <TextBlock Text="Удалить" />
+                        <TextBlock Text="{loc:T 'Delete'}" />
                     </StackPanel>
                 </Button>
             </Grid>

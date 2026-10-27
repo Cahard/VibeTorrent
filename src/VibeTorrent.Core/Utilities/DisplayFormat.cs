@@ -1,19 +1,18 @@
 using System.Globalization;
+using VibeTorrent.Core.Localization;
 
 namespace VibeTorrent.Core.Utilities;
 
 /// <summary>
 /// Human readable values for the UI. Torrent clients conventionally use binary
-/// units (1 KB = 1024 bytes), and Russian uses a comma as the decimal separator.
+/// units (1 KB = 1024 bytes). Unit names and date patterns follow the active
+/// application language, not the OS locale.
 /// </summary>
 public static class DisplayFormat
 {
-    private static readonly string[] Units = ["Б", "КБ", "МБ", "ГБ", "ТБ", "ПБ"];
-    private static readonly CultureInfo Russian = CultureInfo.GetCultureInfo("ru-RU");
-
     public static string Bytes(long bytes, int decimals = 1, CultureInfo? culture = null)
     {
-        culture ??= Russian;
+        culture ??= L.Culture;
         if (bytes < 0)
         {
             return "—";
@@ -21,34 +20,37 @@ public static class DisplayFormat
 
         if (bytes < 1024)
         {
-            return $"{bytes.ToString("N0", culture)} Б";
+            return $"{bytes.ToString("N0", culture)} {L.T("B")}";
         }
 
         var value = (double)bytes;
         var unit = 0;
-        while (value >= 1024 && unit < Units.Length - 1)
+        var units = new[] { L.T("B"), L.T("KB"), L.T("MB"), L.T("GB"), L.T("TB"), L.T("PB") };
+        while (value >= 1024 && unit < units.Length - 1)
         {
             value /= 1024;
             unit++;
         }
 
         var digits = value >= 100 ? 0 : decimals;
-        return $"{value.ToString($"N{digits}", culture)} {Units[unit]}";
+        return $"{value.ToString($"N{digits}", culture)} {units[unit]}";
     }
 
     public static string Speed(long bytesPerSecond, CultureInfo? culture = null) =>
-        bytesPerSecond <= 0 ? "0 Б/с" : $"{Bytes(bytesPerSecond, 1, culture)}/с";
+        bytesPerSecond <= 0
+            ? $"0 {L.T("B")}{L.T("/s")}"
+            : $"{Bytes(bytesPerSecond, 1, culture)}{L.T("/s")}";
 
     public static string Percent(double fraction, int decimals = 1, CultureInfo? culture = null)
     {
-        culture ??= Russian;
+        culture ??= L.Culture;
         var value = Math.Clamp(fraction, 0, 1) * 100;
         return $"{value.ToString($"N{decimals}", culture)}%";
     }
 
     public static string Eta(long? seconds, CultureInfo? culture = null)
     {
-        culture ??= Russian;
+        culture ??= L.Culture;
         if (seconds is null || seconds < 0 || seconds > TimeSpan.FromDays(365).TotalSeconds)
         {
             return "—";
@@ -56,40 +58,56 @@ public static class DisplayFormat
 
         if (seconds < 60)
         {
-            return seconds.Value <= 1 ? "меньше минуты" : $"{seconds.Value} сек";
+            return seconds.Value <= 1
+                ? L.T("less than a minute")
+                : L.F("{0} sec", seconds.Value);
         }
 
         var span = TimeSpan.FromSeconds(seconds.Value);
         if (span.TotalDays >= 1)
         {
-            return $"{(int)span.TotalDays} д {span.Hours} ч";
+            return L.F("{0} d {1} h", (int)span.TotalDays, span.Hours);
         }
 
         if (span.TotalHours >= 1)
         {
-            return $"{(int)span.TotalHours} ч {span.Minutes:D2} мин";
+            return L.F("{0} h {1:D2} min", (int)span.TotalHours, span.Minutes);
         }
 
-        return $"{span.Minutes} мин {span.Seconds:D2} сек";
+        return L.F("{0} min {1:D2} sec", span.Minutes, span.Seconds);
     }
 
     public static string Ratio(double ratio, CultureInfo? culture = null)
     {
-        culture ??= Russian;
+        culture ??= L.Culture;
         if (double.IsNaN(ratio) || double.IsInfinity(ratio) || ratio <= 0)
         {
-            return "0,00";
+            return 0d.ToString("N2", culture);
         }
 
         return ratio.ToString("N2", culture);
     }
 
     public static string Count(int value, CultureInfo? culture = null) =>
-        value.ToString("N0", culture ?? Russian);
+        value.ToString("N0", culture ?? L.Culture);
 
     public static string Date(DateTime value, CultureInfo? culture = null) =>
-        value.ToLocalTime().ToString("d MMMM, HH:mm", culture ?? Russian);
+        value.ToLocalTime().ToString(DatePattern, culture ?? L.Culture);
 
     public static string ShortDate(DateTime value, CultureInfo? culture = null) =>
-        value.ToLocalTime().ToString("dd.MM.yy", culture ?? Russian);
+        value.ToLocalTime().ToString(ShortDatePattern, culture ?? L.Culture);
+
+    private static string DatePattern => LocalizationManager.Instance.Language switch
+    {
+        AppLanguage.Russian => "d MMMM, HH:mm",
+        AppLanguage.Korean => "yyyy년 M월 d일 HH:mm",
+        _ => "MMM d, HH:mm"
+    };
+
+    private static string ShortDatePattern => LocalizationManager.Instance.Language switch
+    {
+        AppLanguage.Russian => "dd.MM.yy",
+        AppLanguage.Korean => "yyyy.MM.dd",
+        _ => "MM/dd/yy"
+    };
 }

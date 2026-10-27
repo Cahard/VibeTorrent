@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using VibeTorrent.Core.Localization;
 using VibeTorrent.Core.Utilities;
 
 namespace VibeTorrent.App.ViewModels;
@@ -18,7 +19,7 @@ public sealed partial class ConfirmRemoveViewModel : ObservableObject
     public long Size { get; }
     public int FileCount { get; }
     public string SizeText => DisplayFormat.Bytes(Size);
-    public string FileCountText => FileCount == 1 ? "1 файл" : $"{FileCount:N0} файлов";
+    public string FileCountText => L.F("{0} files", FileCount);
 
     [ObservableProperty]
     private bool deleteData;

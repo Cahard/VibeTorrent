@@ -1,4 +1,5 @@
 using Microsoft.Win32;
+using VibeTorrent.Core.Localization;
 
 namespace VibeTorrent.App.Services;
 
@@ -21,7 +22,7 @@ public sealed class StartupService : IStartupService
                             ?? Registry.CurrentUser.CreateSubKey(RunKeyPath, writable: true);
             if (key is null)
             {
-                error = "Не удалось открыть раздел автозапуска.";
+                error = L.T("Could not open the startup registry key.");
                 return false;
             }
 
@@ -34,7 +35,7 @@ public sealed class StartupService : IStartupService
             var processPath = Environment.ProcessPath;
             if (string.IsNullOrWhiteSpace(processPath))
             {
-                error = "Не удалось определить путь к приложению.";
+                error = L.T("Could not determine the application path.");
                 return false;
             }
 
@@ -43,7 +44,7 @@ public sealed class StartupService : IStartupService
         }
         catch (Exception ex)
         {
-            error = $"Автозапуск не изменён: {ex.Message}";
+            error = L.F("Autostart was not changed: {0}", ex.Message);
             return false;
         }
     }

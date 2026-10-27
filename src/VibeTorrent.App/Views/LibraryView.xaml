@@ -6,7 +6,7 @@
              xmlns:controls="clr-namespace:VibeTorrent.App.Controls"
              mc:Ignorable="d"
              d:DesignHeight="820" d:DesignWidth="820"
-             x:Name="LibraryRoot">
+             x:Name="LibraryRoot" xmlns:loc="clr-namespace:VibeTorrent.App.Localization">
     <Grid Margin="28,20,22,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -31,12 +31,12 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom">
-                <Button Style="{StaticResource IconButton}" ToolTip="Пауза для всех"
+                <Button Style="{StaticResource IconButton}" ToolTip="{loc:T 'Pause all'}"
                         Command="{Binding PauseAllCommand}" Margin="0,0,4,0"
                         IsEnabled="{Binding IsInitialized}">
                     <TextBlock Text="&#xE769;" Style="{StaticResource IconGlyph}" FontSize="14" />
                 </Button>
-                <Button Style="{StaticResource IconButton}" ToolTip="Возобновить все"
+                <Button Style="{StaticResource IconButton}" ToolTip="{loc:T 'Resume all'}"
                         Command="{Binding ResumeAllCommand}" Margin="0,0,10,0"
                         IsEnabled="{Binding IsInitialized}">
                     <TextBlock Text="&#xE768;" Style="{StaticResource IconGlyph}" FontSize="14" />
@@ -46,7 +46,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="14"
                                    VerticalAlignment="Center" Margin="0,0,8,0" />
-                        <TextBlock Text="Добавить торрент" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Text="{loc:T 'Add torrent'}" FontWeight="SemiBold" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -82,9 +82,9 @@
                                 <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" FontSize="12"
                                            Foreground="{StaticResource CyanBrush}" />
                             </Border>
-                            <TextBlock Text="СКАЧИВАНИЕ" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
+                            <TextBlock Text="{loc:T 'DOWNLOAD'}" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
                         </StackPanel>
-                        <TextBlock Text="{Binding DownloadedTotalText, StringFormat=всего {0}}"
+                        <TextBlock Text="{Binding DownloadedTotalLabel}"
                                    Style="{StaticResource MicroCaption}" HorizontalAlignment="Right"
                                    VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" />
                     </Grid>
@@ -133,9 +133,9 @@
                                 <TextBlock Text="&#xE898;" Style="{StaticResource IconGlyph}" FontSize="12"
                                            Foreground="{StaticResource PinkBrush}" />
                             </Border>
-                            <TextBlock Text="ОТДАЧА" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
+                            <TextBlock Text="{loc:T 'UPLOAD'}" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
                         </StackPanel>
-                        <TextBlock Text="{Binding UploadedTotalText, StringFormat=всего {0}}"
+                        <TextBlock Text="{Binding UploadedTotalLabel}"
                                    Style="{StaticResource MicroCaption}" HorizontalAlignment="Right"
                                    VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" />
                     </Grid>
@@ -147,7 +147,7 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{Binding UploadSpeedText}" Style="{StaticResource H2}"
                                        FontSize="22" FontWeight="SemiBold" Foreground="#FFF1F8" />
-                            <TextBlock Text="рейтинг и раздача" Style="{StaticResource MicroCaption}"
+                            <TextBlock Text="{loc:T 'ratio and seeding'}" Style="{StaticResource MicroCaption}"
                                        Foreground="{StaticResource PinkBrush}" Margin="0,2,0,0" />
                         </StackPanel>
                         <controls:Sparkline Grid.Column="1" Values="{Binding UploadHistory}"
@@ -184,7 +184,7 @@
                                 <TextBlock Text="&#xE774;" Style="{StaticResource IconGlyph}" FontSize="12"
                                            Foreground="{StaticResource VioletBrush}" />
                             </Border>
-                            <TextBlock Text="СЕТЬ" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
+                            <TextBlock Text="{loc:T 'NETWORK'}" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,5,0" />
@@ -231,9 +231,9 @@
                                Foreground="{StaticResource TextMutedBrush}" Margin="0,0,8,0" />
                     <TextBox x:Name="SearchBox" Grid.Column="1" Style="{StaticResource SearchTextBox}"
                              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=120}"
-                             Tag="Поиск по названию, хешу или пути" />
+                             Tag="{loc:T 'Search by name, hash or path'}" />
                     <Button Grid.Column="2" Style="{StaticResource IconButton}" Width="26" Height="26"
-                            Command="{Binding ClearSearchCommand}" ToolTip="Очистить"
+                            Command="{Binding ClearSearchCommand}" ToolTip="{loc:T 'Clear'}"
                             Visibility="{Binding HasSearch, Converter={StaticResource BoolToVisibility}}">
                         <TextBlock Text="&#xE711;" Style="{StaticResource IconGlyph}" FontSize="10" />
                     </Button>
@@ -242,7 +242,7 @@
 
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <Button x:Name="SortButton" Style="{StaticResource SecondaryButton}" Padding="12,8"
-                        Click="SortButton_OnClick" ToolTip="Сортировка">
+                        Click="SortButton_OnClick" ToolTip="{loc:T 'Sort'}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE8CB;" Style="{StaticResource IconGlyph}" FontSize="13"
                                    Foreground="{StaticResource TextMutedBrush}" Margin="0,0,7,0" />
@@ -252,12 +252,12 @@
                     </StackPanel>
                     <Button.ContextMenu>
                         <ContextMenu x:Name="SortMenu">
-                            <MenuItem Header="Сначала новые" Command="{Binding SetSortCommand}" CommandParameter="added" />
-                            <MenuItem Header="По имени" Command="{Binding SetSortCommand}" CommandParameter="name" />
-                            <MenuItem Header="По прогрессу" Command="{Binding SetSortCommand}" CommandParameter="progress" />
-                            <MenuItem Header="По размеру" Command="{Binding SetSortCommand}" CommandParameter="size" />
-                            <MenuItem Header="По скорости" Command="{Binding SetSortCommand}" CommandParameter="speed" />
-                            <MenuItem Header="По рейтингу" Command="{Binding SetSortCommand}" CommandParameter="ratio" />
+                            <MenuItem Header="{loc:T 'Newest first'}" Command="{Binding SetSortCommand}" CommandParameter="added" />
+                            <MenuItem Header="{loc:T 'Name'}" Command="{Binding SetSortCommand}" CommandParameter="name" />
+                            <MenuItem Header="{loc:T 'Progress'}" Command="{Binding SetSortCommand}" CommandParameter="progress" />
+                            <MenuItem Header="{loc:T 'Size'}" Command="{Binding SetSortCommand}" CommandParameter="size" />
+                            <MenuItem Header="{loc:T 'Speed'}" Command="{Binding SetSortCommand}" CommandParameter="speed" />
+                            <MenuItem Header="{loc:T 'By ratio'}" Command="{Binding SetSortCommand}" CommandParameter="ratio" />
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
@@ -265,11 +265,11 @@
                 <Border Style="{StaticResource ToolbarSeparator}" Margin="8,0" />
 
                 <Button Style="{StaticResource IconButton}" Command="{Binding ToggleDetailsPaneCommand}"
-                        ToolTip="Панель деталей">
+                        ToolTip="{loc:T 'Details panel'}">
                     <TextBlock Text="&#xE8A9;" Style="{StaticResource IconGlyph}" FontSize="14" />
                 </Button>
                 <Button Style="{StaticResource IconButton}" Command="{Binding OpenMagnetCommand}"
-                        ToolTip="Добавить magnet-ссылку">
+                        ToolTip="{loc:T 'Add magnet link'}">
                     <TextBlock Text="&#xE71B;" Style="{StaticResource IconGlyph}" FontSize="14" />
                 </Button>
             </StackPanel>
@@ -286,7 +286,7 @@
                              IsChecked="{Binding IsFilterAll, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="all" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Все" />
+                        <TextBlock Text="{loc:T 'All'}" />
                         <TextBlock Text="{Binding AllCount}" Margin="6,0,0,0" Opacity="0.55" />
                     </StackPanel>
                 </RadioButton>
@@ -294,7 +294,7 @@
                              IsChecked="{Binding IsFilterActive, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="active" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Активные" />
+                        <TextBlock Text="{loc:T 'Active'}" />
                         <TextBlock Text="{Binding ActiveCount}" Margin="6,0,0,0" Opacity="0.55" />
                     </StackPanel>
                 </RadioButton>
@@ -302,7 +302,7 @@
                              IsChecked="{Binding IsFilterCompleted, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="completed" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Завершённые" />
+                        <TextBlock Text="{loc:T 'Completed'}" />
                         <TextBlock Text="{Binding CompletedCount}" Margin="6,0,0,0" Opacity="0.55" />
                     </StackPanel>
                 </RadioButton>
@@ -310,7 +310,7 @@
                              IsChecked="{Binding IsFilterPaused, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="paused" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="На паузе" />
+                        <TextBlock Text="{loc:T 'Paused'}" />
                         <TextBlock Text="{Binding PausedCount}" Margin="6,0,0,0" Opacity="0.55" />
                     </StackPanel>
                 </RadioButton>
@@ -318,7 +318,7 @@
                              IsChecked="{Binding IsFilterError, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="error" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Ошибки" />
+                        <TextBlock Text="{loc:T 'Errors'}" />
                         <TextBlock Text="{Binding ErrorCount}" Margin="6,0,0,0" Opacity="0.55" />
                     </StackPanel>
                 </RadioButton>
@@ -369,7 +369,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="&#xE72E;" FontFamily="{StaticResource IconFont}" FontSize="8"
                                                        Foreground="#D8B4FE" VerticalAlignment="Center" Margin="0,0,3,0" />
-                                            <TextBlock Text="Приватный" FontSize="8.5" Foreground="#E9D5FF"
+                                            <TextBlock Text="{loc:T 'Private'}" FontSize="8.5" Foreground="#E9D5FF"
                                                        FontWeight="SemiBold" />
                                         </StackPanel>
                                     </Border>
@@ -416,9 +416,9 @@
                             <StackPanel Grid.Column="3" VerticalAlignment="Center">
                                 <TextBlock Text="{Binding EtaText}" FontSize="11.5" FontWeight="SemiBold"
                                            Foreground="{StaticResource TextPrimaryBrush}" />
-                                <TextBlock Text="осталось" FontSize="9.5" Foreground="{StaticResource TextMutedBrush}"
+                                <TextBlock Text="{loc:T 'left'}" FontSize="9.5" Foreground="{StaticResource TextMutedBrush}"
                                            Margin="0,3,0,0" />
-                                <TextBlock Text="{Binding RatioText, StringFormat=рейтинг {0}}" FontSize="9"
+                                <TextBlock Text="{Binding RatioLabel}" FontSize="9"
                                            Foreground="{StaticResource TextDisabledBrush}" Margin="0,3,0,0" />
                             </StackPanel>
 
@@ -456,19 +456,19 @@
                                                 Command="{Binding DataContext.PauseTorrentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                 CommandParameter="{Binding}"
                                                 Visibility="{Binding IsPaused, Converter={StaticResource InverseBoolToVisibility}}"
-                                                ToolTip="Пауза">
+                                                ToolTip="{loc:T 'Pause'}">
                                             <TextBlock Text="&#xE769;" FontFamily="{StaticResource IconFont}" FontSize="10" />
                                         </Button>
                                         <Button Style="{StaticResource IconButton}" Width="27" Height="27"
                                                 Command="{Binding DataContext.ResumeTorrentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                 CommandParameter="{Binding}"
                                                 Visibility="{Binding IsPaused, Converter={StaticResource BoolToVisibility}}"
-                                                ToolTip="Продолжить">
+                                                ToolTip="{loc:T 'Resume'}">
                                             <TextBlock Text="&#xE768;" FontFamily="{StaticResource IconFont}" FontSize="10" />
                                         </Button>
                                         <Button Style="{StaticResource IconButton}" Width="27" Height="27"
                                                 Command="{Binding DataContext.RequestRemoveCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                CommandParameter="{Binding}" ToolTip="Удалить">
+                                                CommandParameter="{Binding}" ToolTip="{loc:T 'Delete'}">
                                             <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="10" />
                                         </Button>
                                     </StackPanel>
@@ -508,7 +508,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="12"
                                            VerticalAlignment="Center" Margin="0,0,7,0" />
-                                <TextBlock Text="Выбрать .torrent" />
+                                <TextBlock Text="{loc:T 'Choose .torrent'}" />
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource SecondaryButton}" Margin="8,0,0,0"
@@ -516,12 +516,12 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE71B;" FontFamily="{StaticResource IconFont}" FontSize="12"
                                            VerticalAlignment="Center" Margin="0,0,7,0" />
-                                <TextBlock Text="Вставить magnet" />
+                                <TextBlock Text="{loc:T 'Paste magnet'}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,0">
-                        <TextBlock Text="или перетащите файл в окно" Style="{StaticResource MicroCaption}"
+                        <TextBlock Text="{loc:T 'or drag the file into the window'}" Style="{StaticResource MicroCaption}"
                                    Foreground="{StaticResource TextMutedBrush}" />
                         <TextBlock Text="Ctrl+O" Style="{StaticResource MicroCaption}" Margin="7,0,0,0"
                                    Foreground="{StaticResource TextDisabledBrush}" />
@@ -537,13 +537,13 @@
                         <TextBlock Text="&#xE721;" Style="{StaticResource IconGlyph}" FontSize="22"
                                    Foreground="{StaticResource TextMutedBrush}" />
                     </Border>
-                    <TextBlock Text="Ничего не найдено" Style="{StaticResource H2}" Margin="0,14,0,0"
+                    <TextBlock Text="{loc:T 'No results'}" Style="{StaticResource H2}" Margin="0,14,0,0"
                                HorizontalAlignment="Center" />
                     <TextBlock Text="{Binding EmptyStateDescription}" Style="{StaticResource Caption}"
                                TextAlignment="Center" TextWrapping="Wrap" Margin="0,6,0,0" />
                     <Button Style="{StaticResource SecondaryButton}" Margin="0,16,0,0"
                             HorizontalAlignment="Center" Command="{Binding ResetFiltersCommand}">
-                        <TextBlock Text="Сбросить фильтры" />
+                        <TextBlock Text="{loc:T 'Reset filters'}" />
                     </Button>
                 </StackPanel>
             </Grid>
@@ -554,7 +554,7 @@
                     <controls:ProgressRing Width="54" Height="54" Value="0.72" Thickness="2.5"
                                            ProgressBrush="{StaticResource AccentGradient}" TrackBrush="#16FFFFFF">
                     </controls:ProgressRing>
-                    <TextBlock Text="Поднимаем торрент-движок…" Style="{StaticResource Caption}"
+                    <TextBlock Text="{loc:T 'Starting torrent engine…'}" Style="{StaticResource Caption}"
                                HorizontalAlignment="Center" Margin="0,14,0,0" />
                 </StackPanel>
             </Grid>

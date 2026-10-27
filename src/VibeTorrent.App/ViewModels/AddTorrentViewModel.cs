@@ -3,6 +3,7 @@ using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VibeTorrent.App.Services;
+using VibeTorrent.Core.Localization;
 using VibeTorrent.Core.Models;
 using VibeTorrent.Core.Services;
 using VibeTorrent.Core.Utilities;
@@ -72,28 +73,40 @@ public sealed partial class AddTorrentViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     private string? _errorMessage;
 
-    public string Title => Mode == AddMode.File ? "Добавить торрент" : "Добавить по ссылке";
+    public string Title => Mode == AddMode.File
+        ? L.T("Add torrent")
+        : L.T("Add by link");
     public string Subtitle => Mode == AddMode.File
-        ? "Выберите .torrent, проверьте содержимое и папку загрузки."
-        : "Вставьте magnet-ссылку — метаданные загрузятся из роя.";
+        ? L.T("Choose a .torrent file, review its contents and the download folder.")
+        : L.T("Paste a magnet link — metadata will be fetched from the swarm.");
+    public string TorrentPathDisplay => string.IsNullOrWhiteSpace(TorrentPath)
+        ? L.T("Drop a .torrent file or choose one")
+        : TorrentPath;
+
     public bool IsFileMode => Mode == AddMode.File;
     public bool IsMagnetMode => Mode == AddMode.Magnet;
     public bool HasPreview => Preview is not null;
     public bool HasFiles => Files.Count > 0;
     public bool ShowFiles => IsFileMode && HasFiles;
     public bool IsPrivate => Preview?.IsPrivate == true;
-    public string SourceName => Preview?.Name ?? "Файл ещё не выбран";
+    public string SourceName => Preview?.Name ?? L.T("No file selected yet");
     public string SourceHash => Preview?.InfoHash ?? "—";
     public string TotalSizeText => Preview is null ? "—" : DisplayFormat.Bytes(Preview.TotalSize);
     public string SelectedSizeText => DisplayFormat.Bytes(Files.Where(f => f.IsSelected).Sum(f => f.Length));
-    public string SelectedCountText => $"{Files.Count(f => f.IsSelected):N0} из {Files.Count:N0}";
+    public string SelectedCountText => L.F("{0} of {1}",
+        Files.Count(f => f.IsSelected), Files.Count);
     public string PreviewKindText => Preview is null
         ? string.Empty
         : Preview.IsPrivate
-            ? "Приватный торрент · DHT и PEX отключены"
+            ? L.T("Private torrent · DHT and PEX disabled")
             : Preview.HasMetadata
-                ? "Публичный торрент"
-                : "Magnet · метаданные ещё не получены";
+                ? L.T("Public torrent")
+                : L.T("Magnet · metadata not received yet");
+
+    partial void OnTorrentPathChanged(string? value)
+    {
+        OnPropertyChanged(nameof(TorrentPathDisplay));
+    }
 
     partial void OnModeChanged(AddMode value)
     {
@@ -235,7 +248,7 @@ public sealed partial class AddTorrentViewModel : ObservableObject, IDisposable
         {
             if (!Clipboard.ContainsText())
             {
-                ErrorMessage = "Буфер обмена пуст.";
+                ErrorMessage = L.T("The clipboard is empty.");
                 return;
             }
 
@@ -252,12 +265,12 @@ public sealed partial class AddTorrentViewModel : ObservableObject, IDisposable
             }
             else
             {
-                ErrorMessage = "В буфере обмена нет magnet-ссылки.";
+                ErrorMessage = L.T("There is no magnet link on the clipboard.");
             }
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Не удалось прочитать буфер обмена: {ex.Message}";
+            ErrorMessage = L.F("Could not read the clipboard: {0}", ex.Message);
         }
     }
 
@@ -300,13 +313,13 @@ public sealed partial class AddTorrentViewModel : ObservableObject, IDisposable
             {
                 if (Preview is null || string.IsNullOrWhiteSpace(TorrentPath))
                 {
-                    ErrorMessage = "Сначала выберите корректный .torrent файл.";
+                    ErrorMessage = L.T("Choose a valid .torrent file first.");
                     return;
                 }
 
                 if (Files.All(f => !f.IsSelected))
                 {
-                    ErrorMessage = "Выберите хотя бы один файл для скачивания.";
+                    ErrorMessage = L.T("Select at least one file to download.");
                     return;
                 }
 
@@ -325,14 +338,14 @@ public sealed partial class AddTorrentViewModel : ObservableObject, IDisposable
 
             if (string.IsNullOrWhiteSpace(request.SavePath))
             {
-                ErrorMessage = "Укажите папку для загрузки.";
+                ErrorMessage = L.T("Choose a download folder.");
                 return;
             }
 
             var result = await _submit(request);
             if (!result.Success)
             {
-                ErrorMessage = result.Error ?? "Не удалось добавить торрент.";
+                ErrorMessage = result.Error ?? L.T("Could not add the torrent.");
                 return;
             }
 
@@ -344,7 +357,7 @@ public sealed partial class AddTorrentViewModel : ObservableObject, IDisposable
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Не удалось добавить торрент: {ex.Message}";
+            ErrorMessage = L.F("Could not add the torrent: {0}", ex.Message);
         }
         finally
         {

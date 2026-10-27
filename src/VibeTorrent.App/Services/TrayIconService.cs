@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using VibeTorrent.Core.Localization;
 using Forms = System.Windows.Forms;
 
 namespace VibeTorrent.App.Services;
@@ -10,6 +11,10 @@ public sealed class TrayIconService : IDisposable
 {
     private readonly Forms.NotifyIcon _icon;
     private readonly ContextMenu _menu;
+    private readonly MenuItem _openItem;
+    private readonly MenuItem _pauseItem;
+    private readonly MenuItem _resumeItem;
+    private readonly MenuItem _exitItem;
     private readonly Action _show;
     private readonly Action _pauseAll;
     private readonly Action _resumeAll;
@@ -36,7 +41,26 @@ public sealed class TrayIconService : IDisposable
         };
         _icon.DoubleClick += (_, _) => Dispatch(_show);
         _icon.MouseUp += OnMouseUp;
+        _openItem = new MenuItem { FontWeight = FontWeights.SemiBold };
+        _pauseItem = new MenuItem();
+        _resumeItem = new MenuItem();
+        _exitItem = new MenuItem();
         _menu = BuildMenu();
+        RefreshLanguage();
+    }
+
+    public void RefreshLanguage()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _openItem.Header = L.T("Open VibeTorrent");
+        _pauseItem.Header = L.T("Pause all");
+        _resumeItem.Header = L.T("Resume all");
+        _exitItem.Header = L.T("Exit");
+        _icon.Text = "VibeTorrent";
     }
 
     public void ShowNotification(string title, string message, bool isError = false)
@@ -86,30 +110,27 @@ public sealed class TrayIconService : IDisposable
         }
 
         _hintShown = true;
-        ShowNotification("VibeTorrent свёрнут", "Клиент продолжает работать в трее. Двойной клик — открыть окно.");
+        ShowNotification(L.T("VibeTorrent is minimized"),
+            L.T("The client keeps running in the tray. Double-click to open the window."));
     }
 
     private ContextMenu BuildMenu()
     {
         var menu = new ContextMenu();
 
-        var open = new MenuItem { Header = "Открыть VibeTorrent", FontWeight = FontWeights.SemiBold };
-        open.Click += (_, _) => Dispatch(_show);
-        menu.Items.Add(open);
+        _openItem.Click += (_, _) => Dispatch(_show);
+        menu.Items.Add(_openItem);
         menu.Items.Add(new Separator());
 
-        var pause = new MenuItem { Header = "Пауза для всех" };
-        pause.Click += (_, _) => Dispatch(_pauseAll);
-        menu.Items.Add(pause);
+        _pauseItem.Click += (_, _) => Dispatch(_pauseAll);
+        menu.Items.Add(_pauseItem);
 
-        var resume = new MenuItem { Header = "Возобновить все" };
-        resume.Click += (_, _) => Dispatch(_resumeAll);
-        menu.Items.Add(resume);
+        _resumeItem.Click += (_, _) => Dispatch(_resumeAll);
+        menu.Items.Add(_resumeItem);
         menu.Items.Add(new Separator());
 
-        var exit = new MenuItem { Header = "Выход" };
-        exit.Click += (_, _) => Dispatch(_exit);
-        menu.Items.Add(exit);
+        _exitItem.Click += (_, _) => Dispatch(_exit);
+        menu.Items.Add(_exitItem);
 
         return menu;
     }

@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="740" d:DesignWidth="820">
+             d:DesignHeight="740" d:DesignWidth="820" xmlns:loc="clr-namespace:VibeTorrent.App.Localization">
     <UserControl.Resources>
         <Style x:Key="SettingHint" TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="10" />
@@ -71,7 +71,7 @@
                     <TextBlock Text="{Binding Subtitle}" Style="{StaticResource Caption}" Margin="0,3,0,0" />
                 </StackPanel>
                 <Button Grid.Column="2" Style="{StaticResource IconButton}" Width="32" Height="32"
-                        Command="{Binding CloseCommand}" ToolTip="Закрыть" VerticalAlignment="Top">
+                        Command="{Binding CloseCommand}" ToolTip="{loc:T 'Close'}" VerticalAlignment="Top">
                     <TextBlock Text="&#xE711;" Style="{StaticResource IconGlyph}" FontSize="10" />
                 </Button>
             </Grid>
@@ -89,7 +89,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="&#xE8A5;" FontFamily="{StaticResource IconFont}" FontSize="11"
                                                VerticalAlignment="Center" Margin="0,0,6,0" />
-                                    <TextBlock Text="Файл .torrent" />
+                                    <TextBlock Text="{loc:T '.torrent file'}" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Style="{StaticResource SegmentedTab}" GroupName="AddMode"
@@ -98,7 +98,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="&#xE71B;" FontFamily="{StaticResource IconFont}" FontSize="11"
                                                VerticalAlignment="Center" Margin="0,0,6,0" />
-                                    <TextBlock Text="Magnet-ссылка" />
+                                    <TextBlock Text="{loc:T 'Magnet link'}" />
                                 </StackPanel>
                             </RadioButton>
                         </StackPanel>
@@ -120,14 +120,14 @@
                                            Foreground="{StaticResource CyanBrush}" />
                             </Border>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding TorrentPath, TargetNullValue=Перетащите .torrent или выберите файл}"
+                                <TextBlock Text="{Binding TorrentPathDisplay}"
                                            FontSize="12.5" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                                <TextBlock Text="Файл читается локально и никуда не отправляется"
+                                <TextBlock Text="{loc:T 'The file is read locally and never uploaded'}"
                                            Style="{StaticResource SettingHint}" Margin="0,3,0,0" />
                             </StackPanel>
                             <Button Grid.Column="2" Style="{StaticResource SecondaryButton}" Padding="12,8"
                                     Command="{Binding BrowseCommand}" VerticalAlignment="Center">
-                                <TextBlock Text="Обзор…" FontSize="11" />
+                                <TextBlock Text="{loc:T 'Browse…'}" FontSize="11" />
                             </Button>
                         </Grid>
                     </Border>
@@ -146,14 +146,14 @@
                                          AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                                          Tag="magnet:?xt=urn:btih:…" Background="#08000000" />
                                 <Grid Grid.Row="1" Margin="0,8,0,0">
-                                    <TextBlock Text="Поддерживаются BTIH и multi-hash magnet-ссылки."
+                                    <TextBlock Text="{loc:T 'BTIH and multi-hash magnets are supported.'}"
                                                Style="{StaticResource SettingHint}" VerticalAlignment="Center" />
                                     <Button Style="{StaticResource SecondaryButton}" Padding="10,6"
                                             HorizontalAlignment="Right" Command="{Binding PasteMagnetCommand}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="&#xE77F;" FontFamily="{StaticResource IconFont}" FontSize="10"
                                                        VerticalAlignment="Center" Margin="0,0,5,0" />
-                                            <TextBlock Text="Вставить" FontSize="10.5" />
+                                            <TextBlock Text="{loc:T 'Paste'}" FontSize="10.5" />
                                         </StackPanel>
                                     </Button>
                                 </Grid>
@@ -204,7 +204,7 @@
                                 Visibility="{Binding ShowFiles, Converter={StaticResource BoolToVisibility}}">
                         <Grid Margin="2,0,2,6">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="СОДЕРЖИМОЕ" Style="{StaticResource MicroCaption}" />
+                                <TextBlock Text="{loc:T 'CONTENTS'}" Style="{StaticResource MicroCaption}" />
                                 <TextBlock Text="{Binding SelectedSizeText, StringFormat='· {0}'}"
                                            Style="{StaticResource MicroCaption}" Margin="5,0,0,0"
                                            Foreground="{StaticResource TextSecondaryBrush}" />
@@ -212,11 +212,11 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource GhostButton}" Padding="8,3"
                                         Command="{Binding SelectAllCommand}">
-                                    <TextBlock Text="Все" FontSize="9.5" />
+                                    <TextBlock Text="{loc:T 'All'}" FontSize="9.5" />
                                 </Button>
                                 <Button Style="{StaticResource GhostButton}" Padding="8,3"
                                         Command="{Binding ClearSelectionCommand}">
-                                    <TextBlock Text="Ничего" FontSize="9.5" />
+                                    <TextBlock Text="{loc:T 'None'}" FontSize="9.5" />
                                 </Button>
                             </StackPanel>
                         </Grid>
@@ -255,13 +255,13 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <TextBlock Text="ПАПКА ЗАГРУЗКИ" Style="{StaticResource MicroCaption}" Margin="2,0,0,6" />
+                            <TextBlock Text="{loc:T 'DOWNLOAD FOLDER'}" Style="{StaticResource MicroCaption}" Margin="2,0,0,6" />
                             <TextBox Style="{StaticResource DarkTextBox}" Padding="11,9"
                                      Text="{Binding SavePath, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                         <Button Grid.Column="1" Style="{StaticResource SecondaryButton}" Padding="12,9"
                                 Command="{Binding BrowseFolderCommand}" Margin="8,19,0,0" VerticalAlignment="Top">
-                            <TextBlock Text="Выбрать" FontSize="11" />
+                            <TextBlock Text="{loc:T 'Choose'}" FontSize="11" />
                         </Button>
                     </Grid>
 
@@ -270,8 +270,8 @@
                             <ToggleButton Style="{StaticResource ToggleSwitch}" IsChecked="{Binding StartImmediately}"
                                           VerticalAlignment="Center" />
                             <StackPanel Margin="9,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="Начать сразу" FontSize="11.5" FontWeight="SemiBold" />
-                                <TextBlock Text="Иначе торрент появится на паузе" Style="{StaticResource SettingHint}"
+                                <TextBlock Text="{loc:T 'Start immediately'}" FontSize="11.5" FontWeight="SemiBold" />
+                                <TextBlock Text="{loc:T 'Otherwise the torrent starts paused'}" Style="{StaticResource SettingHint}"
                                            Margin="0,1,0,0" />
                             </StackPanel>
                         </StackPanel>
@@ -295,13 +295,13 @@
             <Border Grid.Row="2" BorderBrush="#14FFFFFF" BorderThickness="0,1,0,0" Padding="24,14"
                     Background="#0A0C16" CornerRadius="0,0,20,20">
                 <Grid>
-                    <TextBlock Text="Торрент будет добавлен в библиотеку и поставлен в очередь."
+                    <TextBlock Text="{loc:T 'The torrent will be added to the library and queued.'}"
                                Style="{StaticResource MicroCaption}" VerticalAlignment="Center"
                                Foreground="{StaticResource TextMutedBrush}" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Style="{StaticResource SecondaryButton}" Command="{Binding CloseCommand}"
                                 IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBool}}" Margin="0,0,8,0">
-                            <TextBlock Text="Отмена" />
+                            <TextBlock Text="{loc:T 'Cancel'}" />
                         </Button>
                         <Button Style="{StaticResource PrimaryButton}" Command="{Binding AddCommand}"
                                 IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBool}}"
@@ -309,7 +309,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="11"
                                            VerticalAlignment="Center" Margin="0,0,7,0" />
-                                <TextBlock Text="Добавить торрент" />
+                                <TextBlock Text="{loc:T 'Add torrent'}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>

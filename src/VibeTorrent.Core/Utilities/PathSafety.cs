@@ -1,4 +1,5 @@
 using System.Text;
+using VibeTorrent.Core.Localization;
 
 namespace VibeTorrent.Core.Utilities;
 
@@ -42,25 +43,25 @@ public static class PathSafety
     {
         if (string.IsNullOrWhiteSpace(path))
         {
-            throw new ArgumentException("Пустой путь в метаданных торрента.", nameof(path));
+            throw new ArgumentException(L.T("Empty path in torrent metadata."), nameof(path));
         }
 
         if (path.IndexOf('\0') >= 0)
         {
-            throw new ArgumentException("Путь содержит нулевой символ.", nameof(path));
+            throw new ArgumentException(L.T("The path contains a null character."), nameof(path));
         }
 
         if (path.StartsWith(@"\\", StringComparison.Ordinal) ||
             path.StartsWith("//", StringComparison.Ordinal))
         {
-            throw new ArgumentException("UNC-путь в метаданных торрента запрещён.", nameof(path));
+            throw new ArgumentException(L.T("UNC paths are not allowed in torrent metadata."), nameof(path));
         }
 
         var normalized = CanonicalRelativePath(path);
         var segments = normalized.Split('/', StringSplitOptions.None);
         if (segments.Length == 0)
         {
-            throw new ArgumentException("Пустой путь в метаданных торрента.", nameof(path));
+            throw new ArgumentException(L.T("Empty path in torrent metadata."), nameof(path));
         }
 
         foreach (var segment in segments)
@@ -72,25 +73,25 @@ public static class PathSafety
                 segment.EndsWith('.') ||
                 segment.Any(ch => InvalidWindowsChars.Contains(ch)))
             {
-                throw new ArgumentException($"Небезопасный путь в торренте: «{path}».", nameof(path));
+                throw new ArgumentException(L.F("Unsafe path in torrent: \"{0}\".", path), nameof(path));
             }
 
             // A colon in a file segment is an NTFS alternate data stream and can
             // hide content from the user; it is never needed in torrent metadata.
             if (segment.Contains(':'))
             {
-                throw new ArgumentException($"ADS-поток в пути торрента запрещён: «{path}».", nameof(path));
+                throw new ArgumentException(L.F("ADS streams are not allowed in torrent paths: \"{0}\".", path), nameof(path));
             }
 
             var stem = segment.Split('.')[0];
             if (ReservedNames.Contains(stem))
             {
-                throw new ArgumentException($"Зарезервированное имя файла в торренте: «{segment}».", nameof(path));
+                throw new ArgumentException(L.F("Reserved file name in torrent: \"{0}\".", segment), nameof(path));
             }
 
             if (segment.Any(char.IsControl))
             {
-                throw new ArgumentException("Управляющий символ в пути торрента.", nameof(path));
+                throw new ArgumentException(L.T("Control character in torrent path."), nameof(path));
             }
         }
 
@@ -98,7 +99,7 @@ public static class PathSafety
             normalized.StartsWith("//", StringComparison.Ordinal) ||
             (normalized.Length >= 2 && normalized[1] == ':'))
         {
-            throw new ArgumentException("Абсолютный путь в метаданных торрента запрещён.", nameof(path));
+            throw new ArgumentException(L.T("Absolute paths are not allowed in torrent metadata."), nameof(path));
         }
 
         return normalized;
@@ -130,8 +131,9 @@ public static class PathSafety
         }
     }
 
-    public static string SanitizeDisplayName(string? name, string fallback = "Без названия")
+    public static string SanitizeDisplayName(string? name, string? fallback = null)
     {
+        fallback ??= L.T("Untitled");
         if (string.IsNullOrWhiteSpace(name))
         {
             return fallback;

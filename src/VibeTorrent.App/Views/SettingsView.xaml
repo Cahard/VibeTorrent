@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="820" d:DesignWidth="900">
+             d:DesignHeight="820" d:DesignWidth="900" xmlns:loc="clr-namespace:VibeTorrent.App.Localization">
     <UserControl.Resources>
         <Style x:Key="SettingsSection" TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="16" />
@@ -58,10 +58,10 @@
 
         <Grid Grid.Row="0" Margin="0,0,0,16">
             <StackPanel>
-                <TextBlock Text="КОНФИГУРАЦИЯ" Style="{StaticResource MicroCaption}"
+                <TextBlock Text="{loc:T 'CONFIGURATION'}" Style="{StaticResource MicroCaption}"
                            Foreground="{StaticResource VioletBrush}" Margin="0,0,0,4" />
-                <TextBlock Text="Настройки" Style="{StaticResource DisplayTitle}" />
-                <TextBlock Text="Сеть, скорость и хранение — всё под контролем."
+                <TextBlock Text="{loc:T 'Settings'}" Style="{StaticResource DisplayTitle}" />
+                <TextBlock Text="{loc:T 'Network, speed and storage - everything is under control.'}"
                            Style="{StaticResource Caption}" Margin="1,3,0,0" />
             </StackPanel>
         </Grid>
@@ -90,8 +90,8 @@
                                            Foreground="#D8B4FE" />
                             </Border>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Общие" Style="{StaticResource H3}" />
-                                <TextBlock Text="Поведение приложения и папка загрузок" Style="{StaticResource SettingHint}"
+                                <TextBlock Text="{loc:T 'General'}" Style="{StaticResource H3}" />
+                                <TextBlock Text="{loc:T 'Application behavior and download folder'}" Style="{StaticResource SettingHint}"
                                            Margin="0,1,0,0" />
                             </StackPanel>
                         </StackPanel>
@@ -104,24 +104,52 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="Папка загрузок" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Куда складывать новые торренты" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Downloads folder'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Where new torrents are saved'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <TextBox Grid.Column="1" Style="{StaticResource DarkTextBox}"
                                          Text="{Binding DownloadDirectory, UpdateSourceTrigger=PropertyChanged}"
                                          Margin="0,0,8,0" Padding="10,7" />
                                 <Button Grid.Column="2" Style="{StaticResource SecondaryButton}" Padding="11,7"
                                         Command="{Binding BrowseDownloadFolderCommand}">
-                                    <TextBlock Text="Обзор" FontSize="11" />
+                                    <TextBlock Text="{loc:T 'Browse'}" FontSize="11" />
                                 </Button>
                             </Grid>
                         </Border>
 
                         <Border Style="{StaticResource SettingRow}">
                             <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="210" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{loc:T 'Language'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Interface language'}" Style="{StaticResource SettingHint}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right"
+                                            VerticalAlignment="Center">
+                                    <RadioButton Style="{StaticResource FilterChip}" GroupName="Language"
+                                                 Content="English" Margin="0,0,6,0"
+                                                 IsChecked="{Binding IsEnglish, Mode=OneWay}"
+                                                 Command="{Binding SetLanguageCommand}" CommandParameter="en" />
+                                    <RadioButton Style="{StaticResource FilterChip}" GroupName="Language"
+                                                 Content="Русский" Margin="0,0,6,0"
+                                                 IsChecked="{Binding IsRussian, Mode=OneWay}"
+                                                 Command="{Binding SetLanguageCommand}" CommandParameter="ru" />
+                                    <RadioButton Style="{StaticResource FilterChip}" GroupName="Language"
+                                                 Content="한국어"
+                                                 IsChecked="{Binding IsKorean, Mode=OneWay}"
+                                                 Command="{Binding SetLanguageCommand}" CommandParameter="ko" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingRow}">
+                            <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="Запускать при входе в Windows" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Клиент будет тихо стартовать вместе с системой"
+                                    <TextBlock Text="{loc:T 'Run when you log into Windows'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Start quietly with Windows'}"
                                                Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
@@ -132,8 +160,8 @@
                         <Border Style="{StaticResource SettingRow}">
                             <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="Сворачивать в трей" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Кнопка закрытия не завершает загрузки"
+                                    <TextBlock Text="{loc:T 'Minimize to tray'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Closing the window keeps downloads running'}"
                                                Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
@@ -144,8 +172,8 @@
                         <Border Style="{StaticResource SettingRow}">
                             <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="Запускать свёрнутым" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Открывать только иконку в трее" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Start minimized'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Show only the tray icon'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
                                               IsChecked="{Binding StartMinimized}" />
@@ -155,8 +183,8 @@
                         <Border Style="{StaticResource SettingRow}">
                             <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="Уведомления" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Показывать завершение и ошибки загрузок"
+                                    <TextBlock Text="{loc:T 'Notifications'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Notify on completion and errors'}"
                                                Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
@@ -167,8 +195,8 @@
                         <Border Style="{StaticResource SettingRow}" BorderThickness="0" Padding="0,12,0,0">
                             <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="Возобновлять сессию" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Продолжать незавершённые загрузки при запуске"
+                                    <TextBlock Text="{loc:T 'Restore session'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Resume unfinished downloads on startup'}"
                                                Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
@@ -187,8 +215,8 @@
                                            Foreground="#A5F3FC" />
                             </Border>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Сеть" Style="{StaticResource H3}" />
-                                <TextBlock Text="Порт, обнаружение пиров и шифрование"
+                                <TextBlock Text="{loc:T 'Network'}" Style="{StaticResource H3}" />
+                                <TextBlock Text="{loc:T 'Port, peer discovery and encryption'}"
                                            Style="{StaticResource SettingHint}" Margin="0,1,0,0" />
                             </StackPanel>
                         </StackPanel>
@@ -200,10 +228,10 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel>
-                                    <TextBlock Text="Порт прослушивания" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="TCP/UDP. Изменение применится после перезапуска"
+                                    <TextBlock Text="{loc:T 'Listening port'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'TCP/UDP. Change applies after restart'}"
                                                Style="{StaticResource SettingHint}" />
-                                    <TextBlock Text="Новый порт начнёт работать после перезапуска приложения."
+                                    <TextBlock Text="{loc:T 'The new port takes effect after restart'}"
                                                FontSize="9.5" Foreground="{StaticResource WarningBrush}" Margin="0,4,0,0"
                                                Visibility="{Binding PortRestartHintVisible, Converter={StaticResource BoolToVisibility}}" />
                                 </StackPanel>
@@ -215,7 +243,7 @@
                             <Grid>
                                 <StackPanel>
                                     <TextBlock Text="DHT" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Распределённая таблица хешей без трекера" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Trackerless distributed hash table'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
                                               IsChecked="{Binding EnableDht}" />
@@ -226,7 +254,7 @@
                             <Grid>
                                 <StackPanel>
                                     <TextBlock Text="PEX" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Обмен списками пиров между клиентами" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Peer exchange between clients'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
                                               IsChecked="{Binding EnablePex}" />
@@ -236,8 +264,8 @@
                         <Border Style="{StaticResource SettingRow}">
                             <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="Локальное обнаружение" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Искать пиров в локальной сети" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Local discovery'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Discover peers on the local network'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
                                               IsChecked="{Binding EnableLsd}" />
@@ -247,8 +275,8 @@
                         <Border Style="{StaticResource SettingRow}">
                             <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="Шифрование соединений" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="MSE/PE, совместимость с открытыми пирами" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Connection encryption'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'MSE/PE, compatible with open peers'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
                                               IsChecked="{Binding EnableEncryption}" />
@@ -259,7 +287,7 @@
                             <Grid>
                                 <StackPanel>
                                     <TextBlock Text="UPnP / NAT-PMP" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Автоматически открывать порт на роутере" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Automatically open a port on the router'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
                                               IsChecked="{Binding EnableUpnp}" />
@@ -269,8 +297,8 @@
                         <Border Style="{StaticResource SettingRow}" BorderThickness="0" Padding="0,12,0,0">
                             <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="Максимум соединений" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Общий лимит TCP-соединений" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Maximum connections'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Total TCP connection limit'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <TextBox Style="{StaticResource NumberBox}" Text="{Binding MaxConnectionsText, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>
@@ -287,8 +315,8 @@
                                            Foreground="#FBCFE8" />
                             </Border>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Скорость" Style="{StaticResource H3}" />
-                                <TextBlock Text="Ограничения трафика и слоты отдачи"
+                                <TextBlock Text="{loc:T 'Speed'}" Style="{StaticResource H3}" />
+                                <TextBlock Text="{loc:T 'Traffic limits and upload slots'}"
                                            Style="{StaticResource SettingHint}" Margin="0,1,0,0" />
                             </StackPanel>
                         </StackPanel>
@@ -301,11 +329,11 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel>
-                                    <TextBlock Text="Лимит скачивания" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="0 — без ограничений" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Download limit'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T '0 — unlimited'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <TextBox Grid.Column="1" Style="{StaticResource NumberBox}" Text="{Binding MaxDownloadText, UpdateSourceTrigger=PropertyChanged}" />
-                                <TextBlock Grid.Column="2" Text="КБ/с" Style="{StaticResource MicroCaption}"
+                                <TextBlock Grid.Column="2" Text="{loc:T 'KB/s'}" Style="{StaticResource MicroCaption}"
                                            VerticalAlignment="Center" Margin="8,0,0,0" />
                             </Grid>
                         </Border>
@@ -318,11 +346,11 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel>
-                                    <TextBlock Text="Лимит отдачи" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="0 — без ограничений" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Upload limit'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T '0 — unlimited'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <TextBox Grid.Column="1" Style="{StaticResource NumberBox}" Text="{Binding MaxUploadText, UpdateSourceTrigger=PropertyChanged}" />
-                                <TextBlock Grid.Column="2" Text="КБ/с" Style="{StaticResource MicroCaption}"
+                                <TextBlock Grid.Column="2" Text="{loc:T 'KB/s'}" Style="{StaticResource MicroCaption}"
                                            VerticalAlignment="Center" Margin="8,0,0,0" />
                             </Grid>
                         </Border>
@@ -330,8 +358,8 @@
                         <Border Style="{StaticResource SettingRow}" BorderThickness="0" Padding="0,12,0,0">
                             <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="Слоты отдачи" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Сколько пиров одновременно получают данные" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Upload slots'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'How many peers receive data at once'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <TextBox Style="{StaticResource NumberBox}" Text="{Binding UploadSlotsText, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>
@@ -348,8 +376,8 @@
                                            Foreground="#A7F3D0" />
                             </Border>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Хранилище и данные" Style="{StaticResource H3}" />
-                                <TextBlock Text="Кэш, журналы и локальные файлы приложения"
+                                <TextBlock Text="{loc:T 'Storage and data'}" Style="{StaticResource H3}" />
+                                <TextBlock Text="{loc:T 'Cache, logs and local app files'}"
                                            Style="{StaticResource SettingHint}" Margin="0,1,0,0" />
                             </StackPanel>
                         </StackPanel>
@@ -361,8 +389,8 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel>
-                                    <TextBlock Text="Кэш диска" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Буфер записи кусков, МБ" Style="{StaticResource SettingHint}" />
+                                    <TextBlock Text="{loc:T 'Disk cache'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Piece write buffer, MB'}" Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <TextBox Grid.Column="1" Style="{StaticResource NumberBox}" Text="{Binding DiskCacheText, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>
@@ -375,14 +403,14 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel>
-                                    <TextBlock Text="Данные приложения" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'App data'}" Style="{StaticResource SettingLabel}" />
                                     <TextBlock Text="{Binding DataDirectory}" Style="{StaticResource SettingHint}"
                                                FontFamily="{StaticResource MonoFont}" FontSize="9"
                                                TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                                 <Button Grid.Column="1" Style="{StaticResource SecondaryButton}" Padding="10,6"
                                         Command="{Binding OpenDataFolderCommand}">
-                                    <TextBlock Text="Открыть" FontSize="10.5" />
+                                    <TextBlock Text="{loc:T 'Open'}" FontSize="10.5" />
                                 </Button>
                             </Grid>
                         </Border>
@@ -394,13 +422,13 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel>
-                                    <TextBlock Text="Журналы" Style="{StaticResource SettingLabel}" />
-                                    <TextBlock Text="Локальные диагностические логи, без телеметрии"
+                                    <TextBlock Text="{loc:T 'Logs'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Local diagnostic logs, no telemetry'}"
                                                Style="{StaticResource SettingHint}" />
                                 </StackPanel>
                                 <Button Grid.Column="1" Style="{StaticResource SecondaryButton}" Padding="10,6"
                                         Command="{Binding OpenLogsFolderCommand}">
-                                    <TextBlock Text="Открыть" FontSize="10.5" />
+                                    <TextBlock Text="{loc:T 'Open'}" FontSize="10.5" />
                                 </Button>
                             </Grid>
                         </Border>
@@ -409,9 +437,9 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="2,0,0,4">
                     <Button Style="{StaticResource GhostButton}" Command="{Binding ResetCommand}">
-                        <TextBlock Text="Сбросить настройки по умолчанию" />
+                        <TextBlock Text="{loc:T 'Reset to defaults'}" />
                     </Button>
-                    <TextBlock Text="VibeTorrent 1.0 · MonoTorrent 3.0.2" Style="{StaticResource MicroCaption}"
+                    <TextBlock Text="VibeTorrent 1.1.0 · MonoTorrent 3.0.2" Style="{StaticResource MicroCaption}"
                                VerticalAlignment="Center" Margin="14,0,0,0" Foreground="{StaticResource TextDisabledBrush}" />
                 </StackPanel>
             </StackPanel>
@@ -427,13 +455,13 @@
                     <TextBlock Text="{Binding ErrorMessage}" FontSize="10" Foreground="{StaticResource DangerBrush}"
                                TextTrimming="CharacterEllipsis" ToolTip="{Binding ErrorMessage}"
                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibility}}" />
-                    <TextBlock Text="Порт и DHT применятся после перезапуска; остальные настройки — сразу."
+                    <TextBlock Text="{loc:T 'Port and DHT apply after restart; other settings immediately'}"
                                Style="{StaticResource MicroCaption}" VerticalAlignment="Center"
                                Foreground="{StaticResource TextMutedBrush}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Style="{StaticResource SecondaryButton}" Command="{Binding CloseCommand}" Margin="0,0,8,0">
-                        <TextBlock Text="Отмена" />
+                        <TextBlock Text="{loc:T 'Cancel'}" />
                     </Button>
                     <Button Style="{StaticResource PrimaryButton}"
                             Command="{Binding DataContext.SaveSettingsCommand, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -441,7 +469,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE73E;" FontFamily="{StaticResource IconFont}" FontSize="11"
                                        VerticalAlignment="Center" Margin="0,0,7,0" />
-                            <TextBlock Text="Сохранить настройки" />
+                            <TextBlock Text="{loc:T 'Save settings'}" />
                         </StackPanel>
                     </Button>
                 </StackPanel>

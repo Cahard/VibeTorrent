@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using VibeTorrent.Core.Localization;
 
 namespace VibeTorrent.Core.Configuration;
 
@@ -12,6 +13,7 @@ public sealed class AppSettings
     public const int MaximumAlternatePort = 65535;
 
     public string DownloadDirectory { get; set; } = string.Empty;
+    public string Language { get; set; } = "en";
     public int ListenPort { get; set; } = 55123;
     public int MaxDownloadKbps { get; set; }
     public int MaxUploadKbps { get; set; }
@@ -41,6 +43,7 @@ public sealed class AppSettings
     public AppSettings Clone() => new()
     {
         DownloadDirectory = DownloadDirectory,
+        Language = Language,
         ListenPort = ListenPort,
         MaxDownloadKbps = MaxDownloadKbps,
         MaxUploadKbps = MaxUploadKbps,
@@ -71,15 +74,15 @@ public sealed class AppSettings
 
         if (string.IsNullOrWhiteSpace(DownloadDirectory))
         {
-            errors.Add("Укажите папку для загрузок.");
+            errors.Add(L.T("Choose a download folder."));
         }
         else if (!Path.IsPathFullyQualified(DownloadDirectory))
         {
-            errors.Add("Папка загрузок должна иметь абсолютный путь.");
+            errors.Add(L.T("The download folder must be an absolute path."));
         }
         else if (DownloadDirectory.StartsWith(@"\\", StringComparison.Ordinal))
         {
-            errors.Add("Сетевые UNC-папки не поддерживаются: выберите локальный диск.");
+            errors.Add(L.T("Network UNC folders are not supported. Choose a local drive."));
         }
         else
         {
@@ -89,43 +92,43 @@ public sealed class AppSettings
             }
             catch (Exception)
             {
-                errors.Add("Путь к папке загрузок содержит недопустимые символы.");
+                errors.Add(L.T("The download folder path contains invalid characters."));
             }
         }
 
         if (ListenPort is < MinimumAlternatePort or > MaximumAlternatePort)
         {
-            errors.Add($"Порт должен быть в диапазоне {MinimumAlternatePort}–{MaximumAlternatePort}.");
+            errors.Add(L.F("The port must be between {0} and {1}.", MinimumAlternatePort, MaximumAlternatePort));
         }
 
         if (MaxDownloadKbps is < 0 or > 10_000_000)
         {
-            errors.Add("Ограничение скачивания должно быть от 0 до 10 000 000 КБ/с.");
+            errors.Add(L.T("The download limit must be between 0 and 10,000,000 KB/s."));
         }
 
         if (MaxUploadKbps is < 0 or > 10_000_000)
         {
-            errors.Add("Ограничение отдачи должно быть от 0 до 10 000 000 КБ/с.");
+            errors.Add(L.T("The upload limit must be between 0 and 10,000,000 KB/s."));
         }
 
         if (MaxConnections is < 20 or > 2000)
         {
-            errors.Add("Максимум соединений должен быть от 20 до 2000.");
+            errors.Add(L.T("Maximum connections must be between 20 and 2,000."));
         }
 
         if (MaxUploadSlots is < 1 or > 100)
         {
-            errors.Add("Количество слотов отдачи должно быть от 1 до 100.");
+            errors.Add(L.T("Upload slots must be between 1 and 100."));
         }
 
         if (DiskCacheMb is < 8 or > 1024)
         {
-            errors.Add("Кэш диска должен быть от 8 до 1024 МБ.");
+            errors.Add(L.T("The disk cache must be between 8 and 1,024 MB."));
         }
 
         if (paths.RootDirectory.Length > 200)
         {
-            errors.Add("Слишком длинный путь к данным приложения.");
+            errors.Add(L.T("The application data path is too long."));
         }
 
         return errors;
@@ -200,6 +203,18 @@ public sealed class AppSettings
         if (WindowHeight is < 700 or > 10000)
         {
             WindowHeight = 900;
+            changed = true;
+        }
+
+        var normalizedLanguage = Language?.Trim().ToLowerInvariant();
+        if (normalizedLanguage is not ("en" or "ru" or "ko"))
+        {
+            Language = "en";
+            changed = true;
+        }
+        else if (Language != normalizedLanguage)
+        {
+            Language = normalizedLanguage;
             changed = true;
         }
 

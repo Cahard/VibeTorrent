@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using VibeTorrent.App.Converters;
+using VibeTorrent.Core.Localization;
 using VibeTorrent.Core.Models;
 using VibeTorrent.Core.Utilities;
 
@@ -44,11 +45,12 @@ public sealed class TorrentItemViewModel : ObservableObject
     public int PeerCount => _snapshot.PeerCount;
     public int SeedCount => _snapshot.SeedCount;
     public int LeechCount => _snapshot.LeechCount;
-    public string PeersText => $"{_snapshot.PeerCount:N0} пиров · {_snapshot.SeedCount:N0} сидов";
+    public string PeersText => L.F("{0} peers · {1} seeds", _snapshot.PeerCount, _snapshot.SeedCount);
     public int FileCount => _snapshot.FileCount;
-    public string FileCountText => _snapshot.FileCount == 1 ? "1 файл" : $"{_snapshot.FileCount:N0} файлов";
+    public string FileCountText => L.F("{0} files", _snapshot.FileCount);
     public double Ratio => _snapshot.Ratio;
     public string RatioText => DisplayFormat.Ratio(_snapshot.Ratio);
+    public string RatioLabel => L.F("Ratio {0}", RatioText);
     public bool IsPrivate => _snapshot.IsPrivate;
     public bool HasMetadata => _snapshot.HasMetadata;
     public bool IsPaused => _snapshot.IsPaused || _snapshot.Status == TorrentStatus.Paused;
@@ -70,6 +72,8 @@ public sealed class TorrentItemViewModel : ObservableObject
         OnPropertyChanged(string.Empty);
     }
 
+    public void RefreshLocalization() => OnPropertyChanged(string.Empty);
+
     private string BuildStatusDetail()
     {
         if (IsError && HasError)
@@ -79,24 +83,24 @@ public sealed class TorrentItemViewModel : ObservableObject
 
         if (IsComplete && IsSeeding)
         {
-            return $"Раздаётся · {PeersText}";
+            return L.F("Seeding · {0}", PeersText);
         }
 
         if (IsPaused)
         {
-            return $"Приостановлено на {DisplayFormat.Percent(Progress, 0)}";
+            return L.F("Paused at {0}", DisplayFormat.Percent(Progress, 0));
         }
 
         if (Status == TorrentStatus.Metadata)
         {
-            return "Получение метаданных из роя";
+            return L.T("Fetching metadata from the swarm");
         }
 
         if (Status == TorrentStatus.Checking)
         {
-            return "Проверка целостности файлов";
+            return L.T("Checking file integrity");
         }
 
-        return $"{DownloadSpeedText} · осталось {EtaText}";
+        return L.F("{0} · {1} left", DownloadSpeedText, EtaText);
     }
 }

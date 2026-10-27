@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Win32;
+using VibeTorrent.Core.Localization;
 
 namespace VibeTorrent.App.Services;
 
@@ -20,8 +21,8 @@ public sealed class DialogService : IDialogService
     {
         var dialog = new OpenFileDialog
         {
-            Title = "Выберите торрент-файл",
-            Filter = "Торрент-файлы (*.torrent)|*.torrent|Все файлы (*.*)|*.*",
+            Title = L.T("Select a torrent file"),
+            Filter = L.T("Torrent files (*.torrent)|*.torrent|All files (*.*)|*.*"),
             CheckFileExists = true,
             Multiselect = false
         };
@@ -33,7 +34,7 @@ public sealed class DialogService : IDialogService
     {
         var dialog = new OpenFolderDialog
         {
-            Title = "Папка для загрузки",
+            Title = L.T("Download folder"),
             Multiselect = false
         };
 

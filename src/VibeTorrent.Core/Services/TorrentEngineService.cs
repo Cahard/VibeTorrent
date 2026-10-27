@@ -5,6 +5,7 @@ using MonoTorrent.Connections;
 using MonoTorrent.Dht;
 using MonoTorrent.Trackers;
 using VibeTorrent.Core.Configuration;
+using VibeTorrent.Core.Localization;
 using VibeTorrent.Core.Models;
 using VibeTorrent.Core.Utilities;
 
@@ -190,7 +191,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         {
             if (_torrents.ContainsKey(preview.InfoHash) || _failed.ContainsKey(preview.InfoHash))
             {
-                throw new TorrentValidationException("Этот торрент уже добавлен в библиотеку.");
+                throw new TorrentValidationException(L.T("This torrent is already in the library."));
             }
 
             _paths.EnsureCreated();
@@ -207,14 +208,14 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {
-                throw new TorrentValidationException("Не удалось подготовить торрент для загрузки.", ex);
+                throw new TorrentValidationException(L.T("Could not prepare the torrent for download."), ex);
             }
 
             var infoHash = torrent.InfoHashes.V1OrV2?.ToHex()
-                           ?? throw new TorrentValidationException("В торренте отсутствует info hash.");
+                           ?? throw new TorrentValidationException(L.T("The torrent has no info hash."));
             if (!string.Equals(infoHash, preview.InfoHash, StringComparison.OrdinalIgnoreCase))
             {
-                throw new TorrentValidationException("Info hash торрента изменился при чтении.");
+                throw new TorrentValidationException(L.T("The torrent info hash changed while reading."));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -332,7 +333,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         {
             if (_torrents.ContainsKey(preview.InfoHash) || _failed.ContainsKey(preview.InfoHash))
             {
-                throw new TorrentValidationException("Этот торрент уже добавлен в библиотеку.");
+                throw new TorrentValidationException(L.T("This torrent is already in the library."));
             }
 
             var link = MagnetLink.Parse(preview.Magnet!);
@@ -605,21 +606,21 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             var managed = GetManagedOrThrow(id);
             if (!managed.Manager.HasMetadata || managed.Manager.Torrent is null)
             {
-                throw new TorrentValidationException("Файлы ещё не получены: дождитесь метаданных торрента.");
+                throw new TorrentValidationException(L.T("Files are not available yet; wait for torrent metadata."));
             }
 
             var canonical = PathSafety.CanonicalRelativePath(relativePath);
             var index = FindFileIndex(managed.Manager.Torrent, canonical);
             if (index < 0 || index >= managed.Manager.Files.Count)
             {
-                throw new ArgumentException("Файл не найден в торренте.", nameof(relativePath));
+                throw new ArgumentException(L.T("File not found in the torrent."), nameof(relativePath));
             }
 
             if (priority == FilePriority.DoNotDownload &&
                 managed.Manager.Files.Count(file => file.Priority != Priority.DoNotDownload) <= 1 &&
                 managed.Manager.Files[index].Priority != Priority.DoNotDownload)
             {
-                throw new TorrentValidationException("Нельзя исключить все файлы — оставьте хотя бы один.");
+                throw new TorrentValidationException(L.T("You cannot skip every file; keep at least one."));
             }
 
             await managed.Manager
@@ -729,7 +730,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             catch (Exception ex)
             {
                 _logger.LogWarning(ex, "Engine-wide settings update failed; applying per-torrent settings.");
-                warnings.Add("Часть сетевых настроек применится после перезапуска приложения.");
+                warnings.Add(L.T("Some network settings will apply after restarting the app."));
             }
 
             foreach (var managed in _torrents.Values)
@@ -750,12 +751,12 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
 
             if (oldPort != _settings.ListenPort)
             {
-                warnings.Add("Новый порт прослушивания применится после перезапуска приложения.");
+                warnings.Add(L.T("The new listening port will apply after restarting the app."));
             }
 
             if (oldDht != _settings.EnableDht)
             {
-                warnings.Add("Изменение DHT применится после перезапуска приложения.");
+                warnings.Add(L.T("The DHT change will apply after restarting the app."));
             }
 
             _startupWarning = warnings.Count == 0 ? null : string.Join(" ", warnings);
@@ -893,7 +894,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
                 await CleanupFailedRestoreAsync(record).ConfigureAwait(false);
                 _failed[record.Id] = new FailedTorrent(
                     record,
-                    $"Не удалось восстановить торрент: {ex.Message}");
+                    L.F("Could not restore the torrent: {0}", ex.Message));
             }
         }
 
@@ -944,7 +945,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         if (!Path.IsPathFullyQualified(record.SavePath) ||
             record.SavePath.StartsWith(@"\\", StringComparison.Ordinal))
         {
-            throw new TorrentValidationException("В сессии сохранён недопустимый путь загрузки.");
+            throw new TorrentValidationException(L.T("The session contains an invalid download path."));
         }
 
         string? actualHash;
@@ -957,12 +958,12 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             actualHash = torrent.InfoHashes.V1OrV2?.ToHex();
             if (string.IsNullOrWhiteSpace(actualHash))
             {
-                throw new TorrentValidationException("В сохранённом торренте отсутствует info hash.");
+                throw new TorrentValidationException(L.T("The saved torrent has no info hash."));
             }
 
             if (_torrents.ContainsKey(actualHash) || _failed.ContainsKey(actualHash))
             {
-                throw new TorrentValidationException("Дубликат торрента в сессии.");
+                throw new TorrentValidationException(L.T("Duplicate torrent in the session."));
             }
 
             if (!Directory.Exists(record.SavePath))
@@ -982,12 +983,12 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             actualHash = link.InfoHashes.V1OrV2?.ToHex();
             if (string.IsNullOrWhiteSpace(actualHash))
             {
-                throw new TorrentValidationException("В сохранённой magnet-ссылке отсутствует info hash.");
+                throw new TorrentValidationException(L.T("The saved magnet link has no info hash."));
             }
 
             if (_torrents.ContainsKey(actualHash) || _failed.ContainsKey(actualHash))
             {
-                throw new TorrentValidationException("Дубликат торрента в сессии.");
+                throw new TorrentValidationException(L.T("Duplicate torrent in the session."));
             }
 
             if (!Directory.Exists(record.SavePath))
@@ -1003,7 +1004,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         }
         else
         {
-            throw new TorrentValidationException("Потерян файл .torrent и magnet-ссылка.");
+            throw new TorrentValidationException(L.T("Both the .torrent file and the magnet link are missing."));
         }
 
         record.Id = actualHash;
@@ -1240,8 +1241,8 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
                     Client = peer.ClientApp.ToString(),
                     Direction = peer.ConnectionDirection switch
                     {
-                        Direction.Incoming => "Входящее",
-                        Direction.Outgoing => "Исходящее",
+                        Direction.Incoming => L.T("Incoming"),
+                        Direction.Outgoing => L.T("Outgoing"),
                         _ => "—"
                     },
                     IsSeeder = peer.IsSeeder,
@@ -1250,9 +1251,9 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
                     UploadSpeed = peer.Monitor?.UploadRate ?? 0,
                     Encryption = peer.EncryptionType switch
                     {
-                        EncryptionType.PlainText => "Открыто",
+                        EncryptionType.PlainText => L.T("Open"),
                         EncryptionType.RC4Header => "RC4",
-                        EncryptionType.RC4Full => "RC4 полн.",
+                        EncryptionType.RC4Full => L.T("RC4 full"),
                         _ => "—"
                     },
                     Flags = peer.IsSeeder ? "S" : string.Empty
@@ -1525,7 +1526,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         {
             _logger.LogWarning(ex, "Could not listen on port {Port}; falling back to a random port.", port);
             port = 0;
-            warning = $"Порт {settings.ListenPort} занят — используется случайный порт.";
+            warning = L.F("Port {0} is busy; using a random port.", settings.ListenPort);
             var fallback = BuildEngineSettings(settings, _paths, 0, settings.EnableDht, out _);
             return new ClientEngine(fallback);
         }
@@ -1539,12 +1540,12 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
 
         if (!Path.IsPathFullyQualified(path))
         {
-            throw new TorrentValidationException("Папка загрузки должна иметь абсолютный путь.");
+            throw new TorrentValidationException(L.T("The download folder must be an absolute path."));
         }
 
         if (path.StartsWith(@"\\", StringComparison.Ordinal))
         {
-            throw new TorrentValidationException("Сетевые UNC-папки не поддерживаются: выберите локальный диск.");
+            throw new TorrentValidationException(L.T("Network UNC folders are not supported. Choose a local drive."));
         }
 
         try
@@ -1557,7 +1558,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         }
         catch (Exception ex)
         {
-            throw new TorrentValidationException("Папка загрузки недоступна для записи.", ex);
+            throw new TorrentValidationException(L.T("The download folder is not writable."), ex);
         }
 
         return path;
@@ -1611,6 +1612,9 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
 
         builder.AllowedEncryption.Add(EncryptionType.PlainText);
         effectivePort = port;
+        // MonoTorrent derives FastResumeCacheDirectory as
+        // <CacheDirectory>/fastresume. AppPaths.FastResumeDirectory points to
+        // exactly that directory and EnsureCreated() creates it before start.
         return builder.ToSettings();
     }
 
@@ -1650,19 +1654,19 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
 
     private static string MapDhtState(DhtState state) => state switch
     {
-        DhtState.Ready => "Подключено",
-        DhtState.Initialising => "Инициализация",
-        DhtState.NotReady => "Ожидание",
-        _ => "Ожидание"
+        DhtState.Ready => L.T("Connected"),
+        DhtState.Initialising => L.T("Initializing"),
+        DhtState.NotReady => L.T("Waiting"),
+        _ => L.T("Waiting")
     };
 
     private static string MapTrackerState(TrackerState state) => state switch
     {
-        TrackerState.Ok => "Работает",
-        TrackerState.Connecting => "Подключение",
-        TrackerState.Offline => "Недоступен",
-        TrackerState.InvalidResponse => "Ошибка ответа",
-        _ => "Ожидание"
+        TrackerState.Ok => L.T("Working"),
+        TrackerState.Connecting => L.T("Connecting"),
+        TrackerState.Offline => L.T("Unavailable"),
+        TrackerState.InvalidResponse => L.T("Invalid response"),
+        _ => L.T("Waiting")
     };
 
     private static Priority MapPriority(FilePriority priority) => priority switch
@@ -1751,14 +1755,14 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
     private TorrentSnapshot GetSnapshotOrThrow(string id)
     {
         return CurrentSnapshot.Torrents.FirstOrDefault(t => t.Id.Equals(id, StringComparison.OrdinalIgnoreCase))
-               ?? throw new InvalidOperationException("Торрент не найден в снимке состояния.");
+               ?? throw new InvalidOperationException(L.T("Torrent not found in the state snapshot."));
     }
 
     private ManagedTorrent GetManagedOrThrow(string id)
     {
         if (string.IsNullOrWhiteSpace(id) || !_torrents.TryGetValue(id, out var managed))
         {
-            throw new KeyNotFoundException("Торрент не найден.");
+            throw new KeyNotFoundException(L.T("Torrent not found."));
         }
 
         return managed;
@@ -1769,7 +1773,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         ObjectDisposedException.ThrowIf(_disposed, this);
         if (!_initialized)
         {
-            throw new InvalidOperationException("Торрент-движок ещё не инициализирован.");
+            throw new InvalidOperationException(L.T("The torrent engine is not initialized yet."));
         }
     }
 

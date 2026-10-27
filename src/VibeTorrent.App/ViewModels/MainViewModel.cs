@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using VibeTorrent.App.Demo;
 using VibeTorrent.App.Services;
 using VibeTorrent.Core.Configuration;
+using VibeTorrent.Core.Localization;
 using VibeTorrent.Core.Models;
 using VibeTorrent.Core.Services;
 using VibeTorrent.Core.Utilities;
@@ -75,6 +76,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         UploadHistory = _uploadSamplesQueue.ToArray();
         _storageTimer = new DispatcherTimer(TimeSpan.FromSeconds(30), DispatcherPriority.Background,
             (_, _) => RefreshStorage(), Dispatcher.CurrentDispatcher);
+        LocalizationManager.Instance.LanguageChanged += OnLanguageChanged;
     }
 
     public event Action<string, string, bool>? NotificationRequested;
@@ -169,28 +171,37 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public string DownloadedTotalText => DisplayFormat.Bytes(Stats.DownloadedBytes);
     public string UploadedTotalText => DisplayFormat.Bytes(Stats.UploadedBytes);
     public string DhtStatusText => !Stats.DhtEnabled
-        ? "DHT выключен"
-        : $"{Stats.DhtState} · {Stats.DhtNodes:N0} {Plural(Stats.DhtNodes, "узел", "узла", "узлов")}";
-    public string ListenPortText => Stats.ListenPort > 0 ? $"Порт {Stats.ListenPort}" : "Порт: авто";
-    public string EngineStatusText => Stats.IsEngineRunning ? "Сеть активна" : "Сеть остановлена";
-    public string ActiveCaption => $"{ActiveCount} активн{Plural(ActiveCount, "ый", "ых", "ых")}";
-    public string HeaderTitle => IsSettingsOpen ? "Настройки" : SelectedFilter switch
-    {
-        "active" => "Активные",
-        "completed" => "Завершённые",
-        "paused" => "На паузе",
-        "error" => "С ошибкой",
-        _ => "Все загрузки"
-    };
-    public string HeaderEyebrow => IsSettingsOpen ? "КОНФИГУРАЦИЯ" : "БИБЛИОТЕКА";
+        ? L.T("DHT is off")
+        : L.F("{0} · {1:N0} nodes", Stats.DhtState, Stats.DhtNodes);
+    public string ListenPortText => Stats.ListenPort > 0
+        ? L.F("Port {0}", Stats.ListenPort)
+        : L.T("Port: auto");
+    public string EngineStatusText => Stats.IsEngineRunning
+        ? L.T("Network active")
+        : L.T("Network stopped");
+    public string ActiveCaption => L.F("{0} active", ActiveCount);
+    public string HeaderTitle => IsSettingsOpen
+        ? L.T("Settings")
+        : SelectedFilter switch
+        {
+            "active" => L.T("Active"),
+            "completed" => L.T("Completed"),
+            "paused" => L.T("Paused"),
+            "error" => L.T("Error"),
+            _ => L.T("All downloads")
+        };
+    public string HeaderEyebrow => IsSettingsOpen ? L.T("CONFIGURATION") : L.T("LIBRARY");
     public string HeaderSubtitle => IsSettingsOpen
-        ? "Сеть, скорость и хранение — всё под контролем."
+        ? L.T("Network, speed and storage — all under control.")
         : _torrents.Count == 0
-            ? "Добавьте первый торрент — файл или magnet-ссылку."
-            : $"{AllCount} {Plural(AllCount, "загрузка", "загрузки", "загрузок")} · {ActiveCount} {Plural(ActiveCount, "активна", "активны", "активны")}";
+            ? L.T("Add your first torrent — a file or a magnet link.")
+            : L.F("{0} downloads · {1} active", AllCount, ActiveCount);
     public string FilterSummaryText => SearchText.Length > 0
-        ? $"Найдено: {FilteredCount}"
-        : $"{FilteredCount} {Plural(FilteredCount, "торрент", "торрента", "торрентов")}";
+        ? L.F("Found: {0}", FilteredCount)
+        : L.F("{0} torrents", FilteredCount);
+    public string UptimeLabel => L.F("Uptime {0}", UptimeText);
+    public string DownloadedTotalLabel => L.F("Total {0}", DownloadedTotalText);
+    public string UploadedTotalLabel => L.F("Total {0}", UploadedTotalText);
 
     public bool IsFilterAll => SelectedFilter == "all";
     public bool IsFilterActive => SelectedFilter == "active";
@@ -204,18 +215,18 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public bool HasSearch => !string.IsNullOrWhiteSpace(SearchText);
     public bool IsSearchEmpty => HasSearch && FilteredCount == 0;
     public bool ShowDetailsPane => IsDetailsPaneOpen && SelectedTorrent is not null && !IsSettingsOpen;
-    public string EmptyStateTitle => IsSearchEmpty ? "Ничего не нашлось" : "Пока тихо";
+    public string EmptyStateTitle => IsSearchEmpty ? L.T("No results") : L.T("Nothing here yet");
     public string EmptyStateDescription => IsSearchEmpty
-        ? "Попробуйте изменить запрос или сбросить фильтр."
-        : "Перетащите .torrent в окно или добавьте magnet-ссылку. Загрузки появятся здесь.";
+        ? L.T("Try a different query or reset the filters.")
+        : L.T("Drop a .torrent file or add a magnet link. Downloads will appear here.");
     public string SortLabel => SortMode switch
     {
-        "name" => "По имени",
-        "progress" => "По прогрессу",
-        "size" => "По размеру",
-        "speed" => "По скорости",
-        "ratio" => "По рейтингу",
-        _ => "Сначала новые"
+        "name" => L.T("Name"),
+        "progress" => L.T("Progress"),
+        "size" => L.T("Size"),
+        "speed" => L.T("Speed"),
+        "ratio" => L.T("Ratio"),
+        _ => L.T("Newest first")
     };
 
     public double DownloadHistoryMaximum => Math.Max(1, DownloadHistory.DefaultIfEmpty(0).Max());
@@ -257,7 +268,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         {
             engineReady = false;
             _logger.LogError(ex, "Engine initialization failed.");
-            ShowToast("Не удалось запустить сеть", ex.Message, ToastKind.Error);
+            ShowToast(L.T("Could not start the network"), ex.Message, ToastKind.Error);
         }
         finally
         {
@@ -274,7 +285,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         IsInitialized = engineReady;
         if (!string.IsNullOrWhiteSpace(Stats.Warning))
         {
-            ShowToast("Сеть", Stats.Warning, ToastKind.Warning);
+            ShowToast(L.T("Network"), Stats.Warning, ToastKind.Warning);
         }
 
         if (SelectedTorrent is null && _torrents.Count > 0 && IsDetailsPaneOpen)
@@ -436,7 +447,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         }
         catch (Exception ex)
         {
-            ShowToast("Не удалось поставить на паузу", ex.Message, ToastKind.Error);
+            ShowToast(L.T("Could not pause the torrent"), ex.Message, ToastKind.Error);
         }
     }
 
@@ -454,7 +465,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         }
         catch (Exception ex)
         {
-            ShowToast("Не удалось возобновить", ex.Message, ToastKind.Error);
+            ShowToast(L.T("Could not resume the torrent"), ex.Message, ToastKind.Error);
         }
     }
 
@@ -488,11 +499,11 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         try
         {
             await _engine.PauseAllAsync();
-            ShowToast("Все загрузки на паузе", "Сеть освобождена, позиции сохранены.", ToastKind.Info);
+            ShowToast(L.T("All downloads paused"), L.T("The network is idle; progress is saved."), ToastKind.Info);
         }
         catch (Exception ex)
         {
-            ShowToast("Не удалось остановить загрузки", ex.Message, ToastKind.Error);
+            ShowToast(L.T("Could not pause downloads"), ex.Message, ToastKind.Error);
         }
     }
 
@@ -507,11 +518,11 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         try
         {
             await _engine.ResumeAllAsync();
-            ShowToast("Загрузки возобновлены", "Клиент снова обменивается данными с роем.", ToastKind.Success);
+            ShowToast(L.T("Downloads resumed"), L.T("The client is exchanging data with the swarm again."), ToastKind.Success);
         }
         catch (Exception ex)
         {
-            ShowToast("Не удалось возобновить загрузки", ex.Message, ToastKind.Error);
+            ShowToast(L.T("Could not resume downloads"), ex.Message, ToastKind.Error);
         }
     }
 
@@ -549,8 +560,10 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         {
             await _engine.RemoveAsync(confirmation.Id, confirmation.DeleteData);
             ShowToast(
-                "Торрент удалён",
-                confirmation.DeleteData ? "Данные также удалены с диска." : "Скачанные файлы сохранены.",
+                L.T("Torrent removed"),
+                confirmation.DeleteData
+                    ? L.T("The data was deleted from disk.")
+                    : L.T("Downloaded files were kept."),
                 ToastKind.Success);
             if (SelectedTorrent?.Id.Equals(confirmation.Id, StringComparison.OrdinalIgnoreCase) == true)
             {
@@ -559,7 +572,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         }
         catch (Exception ex)
         {
-            ShowToast("Не удалось удалить торрент", ex.Message, ToastKind.Error);
+            ShowToast(L.T("Could not remove the torrent"), ex.Message, ToastKind.Error);
         }
         finally
         {
@@ -594,7 +607,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         try
         {
             Clipboard.SetText(item.InfoHash);
-            ShowToast("Info hash скопирован", item.HashShort, ToastKind.Info);
+            ShowToast(L.T("Info hash copied"), item.HashShort, ToastKind.Info);
         }
         catch (Exception)
         {
@@ -658,7 +671,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         if (IsDemoMode)
         {
             CloseSettingsInternal();
-            ShowToast("Демо-режим", "Настройки не сохраняются в демонстрационном режиме.", ToastKind.Info);
+            ShowToast(L.T("Demo mode"), L.T("Settings are not saved in demo mode."), ToastKind.Info);
             return;
         }
 
@@ -671,18 +684,21 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             _settings = candidate.Clone();
             CurrentSettings = _settings;
             IsDetailsPaneOpen = _settings.IsDetailsPaneOpen;
+            LocalizationManager.Instance.SetLanguage(_settings.Language);
 
             if (!_startupService.TrySetEnabled(candidate.StartWithWindows, out var startupError) &&
                 !string.IsNullOrWhiteSpace(startupError))
             {
-                ShowToast("Автозапуск", startupError, ToastKind.Warning);
+                ShowToast(L.T("Autostart"), startupError, ToastKind.Warning);
             }
 
             CloseSettingsInternal();
             var warning = _engine.CurrentSnapshot.Stats.Warning;
             ShowToast(
-                "Настройки сохранены",
-                string.IsNullOrWhiteSpace(warning) ? "Изменения применены к текущей сессии." : warning,
+                L.T("Settings saved"),
+                string.IsNullOrWhiteSpace(warning)
+                    ? L.T("Changes are applied to the current session.")
+                    : warning,
                 string.IsNullOrWhiteSpace(warning) ? ToastKind.Success : ToastKind.Warning);
         }
         catch (Exception ex)
@@ -720,7 +736,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         }
         catch (Exception ex)
         {
-            ShowToast("Не удалось изменить приоритет файла", ex.Message, ToastKind.Error);
+            ShowToast(L.T("Could not change the file priority"), ex.Message, ToastKind.Error);
         }
     }
 
@@ -746,7 +762,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         }
         catch (Exception ex)
         {
-            ShowToast("Не удалось изменить приоритет файла", ex.Message, ToastKind.Error);
+            ShowToast(L.T("Could not change the file priority"), ex.Message, ToastKind.Error);
         }
     }
 
@@ -770,7 +786,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         try
         {
             Clipboard.SetText(SelectedTorrent.SavePath);
-            ShowToast("Путь скопирован", SelectedTorrent.SavePath, ToastKind.Info);
+            ShowToast(L.T("Path copied"), SelectedTorrent.SavePath, ToastKind.Info);
         }
         catch (Exception)
         {
@@ -855,6 +871,23 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         _detailsCts?.Cancel();
         _detailsCts?.Dispose();
         _engine.SnapshotUpdated -= OnEngineSnapshot;
+        LocalizationManager.Instance.LanguageChanged -= OnLanguageChanged;
+    }
+
+    private void OnLanguageChanged(object? sender, EventArgs e)
+    {
+        _ui.Post(RefreshLocalization);
+    }
+
+    public void RefreshLocalization()
+    {
+        OnPropertyChanged(string.Empty);
+        foreach (var item in _torrents)
+        {
+            item.RefreshLocalization();
+        }
+
+        Details?.RefreshLocalization();
     }
 
     private void OpenAddDialog(AddMode mode)
@@ -944,7 +977,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             TorrentsView.Refresh();
             SelectedTorrent = item;
             IsDetailsPaneOpen = true;
-            ShowToast("Торрент добавлен", item.Name, ToastKind.Success);
+            ShowToast(L.T("Torrent added"), item.Name, ToastKind.Success);
             return (true, null);
         }
         catch (Exception ex) when (ex is TorrentValidationException or IOException or UnauthorizedAccessException or InvalidOperationException)
@@ -963,7 +996,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             null));
         if (!result.Success)
         {
-            ShowToast("Не удалось добавить торрент", result.Error ?? "Неизвестная ошибка", ToastKind.Error);
+            ShowToast(L.T("Could not add the torrent"), result.Error ?? L.T("Unknown error"), ToastKind.Error);
         }
     }
 
@@ -1202,20 +1235,20 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             var drive = new DriveInfo(root);
             if (!drive.IsReady)
             {
-                StorageFreeText = "Недоступно";
+                StorageFreeText = L.T("Unavailable");
                 return;
             }
 
             var used = drive.TotalSize - drive.AvailableFreeSpace;
             StorageUsedPercent = drive.TotalSize > 0 ? used * 100d / drive.TotalSize : 0;
-            StorageFreeText = $"{DisplayFormat.Bytes(drive.AvailableFreeSpace)} свободно";
-            StorageTotalText = $"из {DisplayFormat.Bytes(drive.TotalSize)}";
+            StorageFreeText = L.F("{0} free", DisplayFormat.Bytes(drive.AvailableFreeSpace));
+            StorageTotalText = L.F("of {0}", DisplayFormat.Bytes(drive.TotalSize));
             StoragePathText = CompactPath(_settings.DownloadDirectory);
         }
         catch (Exception ex)
         {
             _logger.LogDebug(ex, "Could not read drive stats.");
-            StorageFreeText = "Недоступно";
+            StorageFreeText = L.T("Unavailable");
         }
     }
 
@@ -1344,7 +1377,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             ErrorTorrents = snapshots.Count(s => s.Status == TorrentStatus.Error),
             IsEngineRunning = true,
             DhtEnabled = true,
-            DhtState = "Подключено",
+            DhtState = L.T("Connected"),
             DhtNodes = 184,
             ListenPort = 55123,
             Uptime = TimeSpan.FromHours(3.7),
@@ -1368,19 +1401,19 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     private void NotifyCompletion(TorrentItemViewModel item)
     {
-        ShowToast("Загрузка завершена", item.Name, ToastKind.Success);
+        ShowToast(L.T("Download complete"), item.Name, ToastKind.Success);
         if (_settings.ShowNotifications)
         {
-            NotificationRequested?.Invoke("Загрузка завершена", item.Name, false);
+            NotificationRequested?.Invoke(L.T("Download complete"), item.Name, false);
         }
     }
 
     private void NotifyError(TorrentItemViewModel item)
     {
-        ShowToast("Ошибка загрузки", item.Name, ToastKind.Error);
+        ShowToast(L.T("Download error"), item.Name, ToastKind.Error);
         if (_settings.ShowNotifications)
         {
-            NotificationRequested?.Invoke("Ошибка загрузки", item.Name, true);
+            NotificationRequested?.Invoke(L.T("Download error"), item.Name, true);
         }
     }
 
@@ -1535,11 +1568,13 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(UploadSpeedText));
         OnPropertyChanged(nameof(DownloadedTotalText));
         OnPropertyChanged(nameof(UploadedTotalText));
+        OnPropertyChanged(nameof(DownloadedTotalLabel));
+        OnPropertyChanged(nameof(UploadedTotalLabel));
         OnPropertyChanged(nameof(DhtStatusText));
         OnPropertyChanged(nameof(ListenPortText));
         OnPropertyChanged(nameof(EngineStatusText));
-        OnPropertyChanged(nameof(UptimeText));
         UptimeText = FormatUptime(value.Uptime);
+        OnPropertyChanged(nameof(UptimeLabel));
     }
 
     private static string FormatUptime(TimeSpan uptime)
@@ -1551,12 +1586,12 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
         if (uptime.TotalDays >= 1)
         {
-            return $"{(int)uptime.TotalDays} д {uptime.Hours} ч";
+            return L.F("{0} d {1} h", (int)uptime.TotalDays, uptime.Hours);
         }
 
         return uptime.TotalHours >= 1
-            ? $"{(int)uptime.TotalHours} ч {uptime.Minutes} мин"
-            : $"{uptime.Minutes} мин";
+            ? L.F("{0} h {1} min", (int)uptime.TotalHours, uptime.Minutes)
+            : L.F("{0} min", uptime.Minutes);
     }
 }
 

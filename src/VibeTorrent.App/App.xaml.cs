@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using VibeTorrent.App.Services;
 using VibeTorrent.App.ViewModels;
 using VibeTorrent.Core.Configuration;
+using VibeTorrent.Core.Localization;
 using VibeTorrent.Core.Models;
 using VibeTorrent.Core.Services;
 
@@ -46,7 +47,7 @@ public partial class App : Application
                 if (!forwarded)
                 {
                     MessageBox.Show(
-                        "VibeTorrent уже запущен, но не ответил на запрос. Откройте окно из трея.",
+                        L.T("VibeTorrent is already running but did not respond. Open it from the tray."),
                         "VibeTorrent",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
@@ -70,6 +71,13 @@ public partial class App : Application
 
             var settingsService = _services.GetRequiredService<ISettingsService>();
             var settings = await settingsService.LoadAsync();
+            var languageOverride = GetArgumentValue(args, "--lang");
+            if (!string.IsNullOrWhiteSpace(languageOverride))
+            {
+                settings.Language = AppLanguages.FromCode(languageOverride).ToCode();
+            }
+
+            LocalizationManager.Instance.SetLanguage(settings.Language);
             TryCreateDownloadDirectory(settings.DownloadDirectory);
 
             _viewModel = _services.GetRequiredService<MainViewModel>();
@@ -82,6 +90,7 @@ public partial class App : Application
             {
                 _tray = BuildTray();
                 _viewModel.NotificationRequested += OnNotificationRequested;
+                LocalizationManager.Instance.LanguageChanged += (_, _) => _tray?.RefreshLanguage();
             }
 
             var startHidden = !isDemo && !isScreenshot &&
@@ -118,7 +127,8 @@ public partial class App : Application
         {
             _logger?.LogCritical(ex, "Fatal startup error.");
             MessageBox.Show(
-                $"VibeTorrent не удалось запустить.\n\n{ex.Message}\n\nЖурнал: {AppPaths.CreateDefault().LogsDirectory}",
+                L.F("VibeTorrent could not start.\n\n{0}\n\nLog: {1}", ex.Message,
+                    AppPaths.CreateDefault().LogsDirectory),
                 "VibeTorrent",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
@@ -405,7 +415,7 @@ public partial class App : Application
             }
 
             MessageBox.Show(
-                $"Произошла непредвиденная ошибка.\n\n{e.Exception.Message}\n\nПодробности сохранены в журнале.",
+                L.F("An unexpected error occurred.\n\n{0}\n\nDetails were saved to the log.", e.Exception.Message),
                 "VibeTorrent",
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);

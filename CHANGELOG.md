@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0 — 2026-10-27
+
+### Added
+
+- English, Russian and Korean interface localization; English is the default.
+- Live language switcher in Settings.
+- Per-user Windows installer and a self-contained portable build.
+- Localized README (EN/RU/KO), localized screenshots and download buttons.
+- Explicit FastResume cache documentation (`cache\fastresume`) and restart notes.
+
+### Changed
+
+- All UI, engine errors and formatting strings now use the localization layer.
+- Repository version bumped to 1.1.0; release assets use stable installer/portable names.
+
 ## 1.0.0 — 2026-10-27
 
 First public release.

@@ -68,8 +68,10 @@
   Это исключает «лживый» fast resume после ручного удаления данных.
 - Приоритеты файлов сопоставляются по индексу `TorrentManager.Files` ↔ `Torrent.Files`;
   для magnet они переприменяются, когда приходят метаданные.
-- Fast resume включён (`FastResumeMode.Accurate`); metadata cache и fastresume лежат
-  внутри `CacheDirectory` приложения.
+- Fast resume включён (`AutoSaveLoadFastResume`, `FastResumeMode.Accurate`); metadata
+  cache и fastresume лежат внутри `CacheDirectory` приложения, а именно
+  `%LOCALAPPDATA%\VibeTorrent\cache\fastresume`. `StopAllAsync` при обычном выходе
+  сохраняет битфилд; после жёсткого падения Accurate-режим намеренно делает hash check.
 
 ## 6. Персистентность
 

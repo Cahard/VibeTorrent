@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VibeTorrent.App.Services;
 using VibeTorrent.Core.Configuration;
+using VibeTorrent.Core.Localization;
 
 namespace VibeTorrent.App.ViewModels;
 
@@ -22,6 +23,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         _dialogs = dialogs;
         _close = close;
         _uiState = settings.Clone();
+        LanguageCode = AppLanguages.FromCode(settings.Language).ToCode();
 
         DownloadDirectory = settings.DownloadDirectory;
         ListenPortText = settings.ListenPort.ToString(CultureInfo.InvariantCulture);
@@ -45,6 +47,9 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     private readonly int _originalPort;
     private readonly AppSettings _uiState;
+
+    [ObservableProperty]
+    private string _languageCode = "en";
 
     [ObservableProperty]
     private string _downloadDirectory;
@@ -105,6 +110,23 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     public string DataDirectory => _paths.RootDirectory;
     public string LogsDirectory => _paths.LogsDirectory;
+
+    public bool IsEnglish => LanguageCode == "en";
+    public bool IsRussian => LanguageCode == "ru";
+    public bool IsKorean => LanguageCode == "ko";
+
+    partial void OnLanguageCodeChanged(string value)
+    {
+        OnPropertyChanged(nameof(IsEnglish));
+        OnPropertyChanged(nameof(IsRussian));
+        OnPropertyChanged(nameof(IsKorean));
+    }
+
+    [RelayCommand]
+    private void SetLanguage(string? code)
+    {
+        LanguageCode = AppLanguages.FromCode(code).ToCode();
+    }
     public bool PortRestartHintVisible =>
         int.TryParse(ListenPortText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var port) &&
         port != _originalPort;
@@ -171,12 +193,13 @@ public sealed partial class SettingsViewModel : ObservableObject
         settings = new AppSettings
         {
             DownloadDirectory = DownloadDirectory.Trim(),
-            ListenPort = ParseInt(ListenPortText, "Порт", list),
-            MaxDownloadKbps = ParseInt(MaxDownloadText, "Лимит скачивания", list, allowEmpty: true),
-            MaxUploadKbps = ParseInt(MaxUploadText, "Лимит отдачи", list, allowEmpty: true),
-            MaxConnections = ParseInt(MaxConnectionsText, "Соединения", list),
-            MaxUploadSlots = ParseInt(UploadSlotsText, "Слоты отдачи", list),
-            DiskCacheMb = ParseInt(DiskCacheText, "Кэш диска", list),
+            Language = AppLanguages.FromCode(LanguageCode).ToCode(),
+            ListenPort = ParseInt(ListenPortText, L.T("Port"), list),
+            MaxDownloadKbps = ParseInt(MaxDownloadText, L.T("Download limit"), list, allowEmpty: true),
+            MaxUploadKbps = ParseInt(MaxUploadText, L.T("Upload limit"), list, allowEmpty: true),
+            MaxConnections = ParseInt(MaxConnectionsText, L.T("Connections"), list),
+            MaxUploadSlots = ParseInt(UploadSlotsText, L.T("Upload slots"), list),
+            DiskCacheMb = ParseInt(DiskCacheText, L.T("Disk cache"), list),
             EnableDht = EnableDht,
             EnablePex = EnablePex,
             EnableLsd = EnableLsd,
@@ -199,7 +222,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         if (!string.IsNullOrWhiteSpace(DownloadDirectory) &&
             !Path.IsPathFullyQualified(DownloadDirectory))
         {
-            list.Add("Папка загрузок должна иметь абсолютный путь.");
+            list.Add(L.T("The download folder must be an absolute path."));
         }
 
         list.AddRange(settings.Validate(_paths));
@@ -217,19 +240,19 @@ public sealed partial class SettingsViewModel : ObservableObject
                 return 0;
             }
 
-            errors.Add($"Поле «{field}» обязательно.");
+            errors.Add(L.F("Field \"{0}\" is required.", field));
             return 0;
         }
 
         if (!int.TryParse(text.Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var value))
         {
-            errors.Add($"Поле «{field}» должно быть целым числом.");
+            errors.Add(L.F("Field \"{0}\" must be an integer.", field));
             return 0;
         }
 
         if (value < 0)
         {
-            errors.Add($"Поле «{field}» не может быть отрицательным.");
+            errors.Add(L.F("Field \"{0}\" cannot be negative.", field));
             return 0;
         }
 

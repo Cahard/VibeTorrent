@@ -1,3 +1,5 @@
+using VibeTorrent.Core.Localization;
+
 namespace VibeTorrent.Core.Models;
 
 public enum TorrentStatus
@@ -69,7 +71,7 @@ public sealed record TrackerSnapshot
     public required string Url { get; init; }
     public int Tier { get; init; }
     public string Status { get; init; } = "unknown";
-    public string StatusText { get; init; } = "Ожидание";
+    public string StatusText { get; init; } = L.T("Waiting");
     public string? Message { get; init; }
     public TimeSpan? TimeSinceAnnounce { get; init; }
     public bool Succeeded { get; init; }
@@ -78,7 +80,7 @@ public sealed record TrackerSnapshot
 public sealed record PeerSnapshot
 {
     public required string Address { get; init; }
-    public string Client { get; init; } = "Неизвестный клиент";
+    public string Client { get; init; } = L.T("Unknown client");
     public string Direction { get; init; } = "—";
     public bool IsSeeder { get; init; }
     public double Progress { get; init; }
@@ -114,7 +116,7 @@ public sealed record SessionStatsSnapshot
     public int ErrorTorrents { get; init; }
     public bool IsEngineRunning { get; init; }
     public bool DhtEnabled { get; init; }
-    public string DhtState { get; init; } = "Выключен";
+    public string DhtState { get; init; } = L.T("Off");
     public int DhtNodes { get; init; }
     public int ListenPort { get; init; }
     public TimeSpan Uptime { get; init; }

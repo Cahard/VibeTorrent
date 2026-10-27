@@ -6,7 +6,7 @@
              xmlns:controls="clr-namespace:VibeTorrent.App.Controls"
              mc:Ignorable="d"
              d:DesignHeight="820" d:DesignWidth="384"
-             Width="384">
+             Width="384" xmlns:loc="clr-namespace:VibeTorrent.App.Localization">
     <UserControl.Resources>
         <Style x:Key="DetailStatCard" TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="10" />
@@ -42,7 +42,7 @@
             <!-- panel header -->
             <Grid Grid.Row="0" Margin="18,0,12,0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="ДЕТАЛИ" Style="{StaticResource MicroCaption}"
+                    <TextBlock Text="{loc:T 'DETAILS'}" Style="{StaticResource MicroCaption}"
                                Foreground="{StaticResource TextMutedBrush}" />
                     <Border Width="1" Height="11" Background="#22FFFFFF" Margin="10,0" />
                     <TextBlock Text="{Binding Details.Summary.Status, Converter={StaticResource StatusText}}"
@@ -51,7 +51,7 @@
                 </StackPanel>
                 <Button Style="{StaticResource IconButton}" Width="30" Height="30"
                         HorizontalAlignment="Right" Command="{Binding ToggleDetailsPaneCommand}"
-                        ToolTip="Скрыть панель">
+                        ToolTip="{loc:T 'Hide panel'}">
                     <TextBlock Text="&#xE711;" Style="{StaticResource IconGlyph}" FontSize="10" />
                 </Button>
             </Grid>
@@ -89,7 +89,7 @@
                             <Border Background="#66000000" BorderBrush="#30FFFFFF" BorderThickness="1"
                                     CornerRadius="7" Padding="7,3" Margin="5,0,0,0"
                                     Visibility="{Binding Details.Summary.IsPrivate, Converter={StaticResource BoolToVisibility}}">
-                                <TextBlock Text="PRIVATE" FontSize="8" FontFamily="{StaticResource MonoFont}"
+                                <TextBlock Text="{loc:T 'PRIVATE'}" FontSize="8" FontFamily="{StaticResource MonoFont}"
                                            Foreground="#F5F3FF" />
                             </Border>
                         </StackPanel>
@@ -145,7 +145,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE769;" FontFamily="{StaticResource IconFont}" FontSize="10"
                                            VerticalAlignment="Center" Margin="0,0,6,0" />
-                                <TextBlock Text="Пауза" FontSize="11.5" />
+                                <TextBlock Text="{loc:T 'Pause'}" FontSize="11.5" />
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource PrimaryButton}" Padding="12,8" Height="34"
@@ -154,19 +154,19 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE768;" FontFamily="{StaticResource IconFont}" FontSize="10"
                                            VerticalAlignment="Center" Margin="0,0,6,0" />
-                                <TextBlock Text="Продолжить" FontSize="11.5" />
+                                <TextBlock Text="{loc:T 'Resume'}" FontSize="11.5" />
                             </StackPanel>
                         </Button>
                     </Grid>
                     <Button Grid.Column="1" Style="{StaticResource SecondaryButton}" Width="34" Height="34"
                             Padding="0" Margin="6,0,0,0" Command="{Binding OpenDetailsFolderCommand}"
-                            ToolTip="Открыть папку">
+                            ToolTip="{loc:T 'Open folder'}">
                         <TextBlock Text="&#xE8B7;" Style="{StaticResource IconGlyph}" FontSize="12" />
                     </Button>
                     <Button Grid.Column="2" Style="{StaticResource SecondaryButton}" Width="34" Height="34"
                             Padding="0" Margin="6,0,0,0"
                             Command="{Binding RequestRemoveCommand}" CommandParameter="{Binding SelectedTorrent}"
-                            ToolTip="Удалить торрент">
+                            ToolTip="{loc:T 'Delete torrent'}">
                         <TextBlock Text="&#xE74D;" Style="{StaticResource IconGlyph}" FontSize="12"
                                    Foreground="{StaticResource DangerBrush}" />
                     </Button>
@@ -177,11 +177,11 @@
             <TabControl Grid.Row="4" Margin="12,10,12,10" Style="{StaticResource DetailsTabControl}"
                         SelectedIndex="{Binding Details.SelectedTabIndex, Mode=TwoWay}"
                         Visibility="{Binding Details, Converter={StaticResource NullToVisibility}}">
-                <TabItem Style="{StaticResource DetailsTabItem}" Header="Обзор">
+                <TabItem Style="{StaticResource DetailsTabItem}" Header="{loc:T 'Overview'}">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                                   Padding="0,0,4,0">
                         <StackPanel Margin="6,4,2,8">
-                            <TextBlock Text="ПЕРЕДАЧА" Style="{StaticResource MicroCaption}" Margin="2,0,0,7" />
+                            <TextBlock Text="{loc:T 'TRANSFER'}" Style="{StaticResource MicroCaption}" Margin="2,0,0,7" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -189,14 +189,14 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Style="{StaticResource DetailStatCard}">
                                     <StackPanel>
-                                        <TextBlock Text="РАЗМЕР" Style="{StaticResource DetailStatLabel}" />
+                                        <TextBlock Text="{loc:T 'SIZE'}" Style="{StaticResource DetailStatLabel}" />
                                         <TextBlock Text="{Binding Details.Summary.TotalSize, Converter={StaticResource Bytes}}"
                                                    Style="{StaticResource DetailStatValue}" />
                                     </StackPanel>
                                 </Border>
                                 <Border Grid.Column="1" Style="{StaticResource DetailStatCard}" Margin="0,0,0,6">
                                     <StackPanel>
-                                        <TextBlock Text="ЗАГРУЖЕНО" Style="{StaticResource DetailStatLabel}" />
+                                        <TextBlock Text="{loc:T 'DOWNLOADED'}" Style="{StaticResource DetailStatLabel}" />
                                         <TextBlock Text="{Binding Details.Summary.DownloadedBytes, Converter={StaticResource Bytes}}"
                                                    Style="{StaticResource DetailStatValue}" />
                                     </StackPanel>
@@ -209,14 +209,14 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Style="{StaticResource DetailStatCard}">
                                     <StackPanel>
-                                        <TextBlock Text="ОТДАНО" Style="{StaticResource DetailStatLabel}" />
+                                        <TextBlock Text="{loc:T 'UPLOADED'}" Style="{StaticResource DetailStatLabel}" />
                                         <TextBlock Text="{Binding Details.Summary.UploadedBytes, Converter={StaticResource Bytes}}"
                                                    Style="{StaticResource DetailStatValue}" />
                                     </StackPanel>
                                 </Border>
                                 <Border Grid.Column="1" Style="{StaticResource DetailStatCard}" Margin="0,0,0,6">
                                     <StackPanel>
-                                        <TextBlock Text="РЕЙТИНГ" Style="{StaticResource DetailStatLabel}" />
+                                        <TextBlock Text="{loc:T 'RATIO'}" Style="{StaticResource DetailStatLabel}" />
                                         <TextBlock Text="{Binding Details.Summary.Ratio, Converter={StaticResource Ratio}}"
                                                    Style="{StaticResource DetailStatValue}" />
                                     </StackPanel>
@@ -229,13 +229,13 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Style="{StaticResource DetailStatCard}">
                                     <StackPanel>
-                                        <TextBlock Text="ПИРЫ" Style="{StaticResource DetailStatLabel}" />
+                                        <TextBlock Text="{loc:T 'PEERS'}" Style="{StaticResource DetailStatLabel}" />
                                         <TextBlock Text="{Binding Details.Summary.PeerCount}" Style="{StaticResource DetailStatValue}" />
                                     </StackPanel>
                                 </Border>
                                 <Border Grid.Column="1" Style="{StaticResource DetailStatCard}" Margin="0,0,0,6">
                                     <StackPanel>
-                                        <TextBlock Text="СИДЫ" Style="{StaticResource DetailStatLabel}" />
+                                        <TextBlock Text="{loc:T 'SEEDS'}" Style="{StaticResource DetailStatLabel}" />
                                         <TextBlock Text="{Binding Details.Summary.SeedCount}" Style="{StaticResource DetailStatValue}" />
                                     </StackPanel>
                                 </Border>
@@ -247,20 +247,20 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Style="{StaticResource DetailStatCard}">
                                     <StackPanel>
-                                        <TextBlock Text="ФАЙЛЫ" Style="{StaticResource DetailStatLabel}" />
+                                        <TextBlock Text="{loc:T 'FILES'}" Style="{StaticResource DetailStatLabel}" />
                                         <TextBlock Text="{Binding Details.Summary.FileCount}" Style="{StaticResource DetailStatValue}" />
                                     </StackPanel>
                                 </Border>
                                 <Border Grid.Column="1" Style="{StaticResource DetailStatCard}" Margin="0,0,0,6">
                                     <StackPanel>
-                                        <TextBlock Text="ДОБАВЛЕН" Style="{StaticResource DetailStatLabel}" />
+                                        <TextBlock Text="{loc:T 'ADDED'}" Style="{StaticResource DetailStatLabel}" />
                                         <TextBlock Text="{Binding Details.Summary.AddedAt, Converter={StaticResource DateTime}, ConverterParameter=short}"
                                                    Style="{StaticResource DetailStatValue}" />
                                     </StackPanel>
                                 </Border>
                             </Grid>
 
-                            <TextBlock Text="РАСПОЛОЖЕНИЕ" Style="{StaticResource MicroCaption}" Margin="2,9,0,6" />
+                            <TextBlock Text="{loc:T 'LOCATION'}" Style="{StaticResource MicroCaption}" Margin="2,9,0,6" />
                             <Border CornerRadius="10" Background="#0BFFFFFF" BorderBrush="#12FFFFFF"
                                     BorderThickness="1" Padding="10,8">
                                 <Grid>
@@ -272,11 +272,11 @@
                                         <TextBlock Text="{Binding Details.Summary.SavePath}" FontSize="10"
                                                    Foreground="{StaticResource TextSecondaryBrush}"
                                                    TextTrimming="CharacterEllipsis" ToolTip="{Binding Details.Summary.SavePath}" />
-                                        <TextBlock Text="{Binding Details.Summary.SelectedSize, Converter={StaticResource Bytes}, StringFormat='Выбрано: {0}'}"
+                                        <TextBlock Text="{Binding Details.SelectedSizeLabel}"
                                                    FontSize="9" Foreground="{StaticResource TextMutedBrush}" Margin="0,3,0,0" />
                                     </StackPanel>
                                     <Button Grid.Column="1" Style="{StaticResource IconButton}" Width="27" Height="27"
-                                            Command="{Binding CopySavePathCommand}" ToolTip="Скопировать путь">
+                                            Command="{Binding CopySavePathCommand}" ToolTip="{loc:T 'Copy path'}">
                                         <TextBlock Text="&#xE8C8;" Style="{StaticResource IconGlyph}" FontSize="10" />
                                     </Button>
                                 </Grid>
@@ -286,7 +286,7 @@
                                     CornerRadius="10" Padding="10,8" Margin="0,8,0,0"
                                     Visibility="{Binding Details.Comment, Converter={StaticResource StringToVisibility}}">
                                 <StackPanel>
-                                    <TextBlock Text="КОММЕНТАРИЙ" Style="{StaticResource MicroCaption}" />
+                                    <TextBlock Text="{loc:T 'COMMENT'}" Style="{StaticResource MicroCaption}" />
                                     <TextBlock Text="{Binding Details.Comment}" FontSize="10"
                                                Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap"
                                                Margin="0,3,0,0" />
@@ -295,13 +295,13 @@
 
                             <Grid Margin="2,9,0,0">
                                 <StackPanel>
-                                    <TextBlock Text="ИНФО-ХЕШ" Style="{StaticResource MicroCaption}" />
+                                    <TextBlock Text="{loc:T 'INFO HASH'}" Style="{StaticResource MicroCaption}" />
                                     <TextBlock Text="{Binding Details.Summary.InfoHash}" FontFamily="{StaticResource MonoFont}"
                                                FontSize="9" Foreground="{StaticResource TextMutedBrush}" Margin="0,3,0,0" />
                                 </StackPanel>
                                 <Button Style="{StaticResource IconButton}" Width="27" Height="27"
                                         HorizontalAlignment="Right" Command="{Binding CopyInfoHashCommand}"
-                                        CommandParameter="{Binding SelectedTorrent}" ToolTip="Скопировать info hash">
+                                        CommandParameter="{Binding SelectedTorrent}" ToolTip="{loc:T 'Copy info hash'}">
                                     <TextBlock Text="&#xE8C8;" Style="{StaticResource IconGlyph}" FontSize="10" />
                                 </Button>
                             </Grid>
@@ -312,7 +312,7 @@
                 <TabItem Style="{StaticResource DetailsTabItem}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Файлы" />
+                            <TextBlock Text="{loc:T 'Files'}" />
                             <TextBlock Text="{Binding Details.FileCount}" Margin="4,0,0,0" Opacity="0.55" />
                         </StackPanel>
                     </TabItem.Header>
@@ -322,7 +322,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid Margin="5,0,3,6">
-                            <TextBlock Text="{Binding Details.SelectedFilesText, StringFormat='Выбрано {0}'}"
+                            <TextBlock Text="{Binding Details.SelectedFilesLabel}"
                                        Style="{StaticResource MicroCaption}" />
                             <TextBlock Text="{Binding Details.SelectedFilesSizeText}" Style="{StaticResource MicroCaption}"
                                        HorizontalAlignment="Right" Foreground="{StaticResource TextSecondaryBrush}" />
@@ -378,7 +378,7 @@
                 <TabItem Style="{StaticResource DetailsTabItem}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Трекеры" />
+                            <TextBlock Text="{loc:T 'Trackers'}" />
                             <TextBlock Text="{Binding Details.TrackerCount}" Margin="4,0,0,0" Opacity="0.55" />
                         </StackPanel>
                     </TabItem.Header>
@@ -431,7 +431,7 @@
                 <TabItem Style="{StaticResource DetailsTabItem}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Пиры" />
+                            <TextBlock Text="{loc:T 'Peers'}" />
                             <TextBlock Text="{Binding Details.PeerCount}" Margin="4,0,0,0" Opacity="0.55" />
                         </StackPanel>
                     </TabItem.Header>
@@ -478,9 +478,9 @@
                         <TextBlock Text="&#xE946;" Style="{StaticResource IconGlyph}" FontSize="23"
                                    Foreground="{StaticResource TextMutedBrush}" />
                     </Border>
-                    <TextBlock Text="Выберите загрузку" Style="{StaticResource H3}" HorizontalAlignment="Center"
+                    <TextBlock Text="{loc:T 'Select a torrent'}" Style="{StaticResource H3}" HorizontalAlignment="Center"
                                Margin="0,14,0,0" />
-                    <TextBlock Text="Здесь появятся файлы, трекеры, пиры и подробная статистика."
+                    <TextBlock Text="{loc:T 'Files, trackers, peers and detailed stats will appear here'}"
                                Style="{StaticResource Caption}" TextAlignment="Center" TextWrapping="Wrap"
                                Margin="0,5,0,0" />
                 </StackPanel>

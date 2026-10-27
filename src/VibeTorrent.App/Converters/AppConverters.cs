@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using VibeTorrent.Core.Localization;
 using VibeTorrent.Core.Models;
 using VibeTorrent.Core.Utilities;
 
@@ -200,23 +201,23 @@ public sealed class StatusTextConverter : IValueConverter
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
         value is TorrentStatus status
             ? StatusText(status)
-            : "Ожидание";
+            : L.T("Waiting");
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
         Binding.DoNothing;
 
     public static string StatusText(TorrentStatus status) => status switch
     {
-        TorrentStatus.Metadata => "Метаданные",
-        TorrentStatus.Queued => "Подключение",
-        TorrentStatus.Checking => "Проверка",
-        TorrentStatus.Downloading => "Загрузка",
-        TorrentStatus.Seeding => "Раздача",
-        TorrentStatus.Completed => "Завершено",
-        TorrentStatus.Paused => "Пауза",
-        TorrentStatus.Stopped => "Остановлен",
-        TorrentStatus.Error => "Ошибка",
-        _ => "Ожидание"
+        TorrentStatus.Metadata => L.T("Metadata"),
+        TorrentStatus.Queued => L.T("Connecting"),
+        TorrentStatus.Checking => L.T("Checking"),
+        TorrentStatus.Downloading => L.T("Downloading"),
+        TorrentStatus.Seeding => L.T("Seeding"),
+        TorrentStatus.Completed => L.T("Completed"),
+        TorrentStatus.Paused => L.T("Paused"),
+        TorrentStatus.Stopped => L.T("Stopped"),
+        TorrentStatus.Error => L.T("Error"),
+        _ => L.T("Waiting")
     };
 }
 
@@ -363,13 +364,13 @@ public sealed class FilePriorityTextConverter : IValueConverter
         value is FilePriority priority
             ? priority switch
             {
-                FilePriority.DoNotDownload => "Не скачивать",
-                FilePriority.Low => "Низкий",
-                FilePriority.High => "Высокий",
-                FilePriority.Maximum => "Максимальный",
-                _ => "Обычный"
+                FilePriority.DoNotDownload => L.T("Do not download"),
+                FilePriority.Low => L.T("Low"),
+                FilePriority.High => L.T("High"),
+                FilePriority.Maximum => L.T("Maximum"),
+                _ => L.T("Normal")
             }
-            : "Обычный";
+            : L.T("Normal");
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
         Binding.DoNothing;

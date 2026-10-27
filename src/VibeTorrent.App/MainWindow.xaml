@@ -19,7 +19,7 @@
         PreviewDragEnter="Window_PreviewDragOver"
         PreviewDragOver="Window_PreviewDragOver"
         PreviewDragLeave="Window_PreviewDragLeave"
-        PreviewDrop="Window_PreviewDrop">
+        PreviewDrop="Window_PreviewDrop" xmlns:loc="clr-namespace:VibeTorrent.App.Localization">
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="6" GlassFrameThickness="0"
@@ -166,19 +166,19 @@
                                         </LinearGradientBrush>
                                     </TextBlock.Foreground>
                                 </TextBlock>
-                                <TextBlock Text="native torrent client" FontSize="8"
+                                <TextBlock Text="{loc:T 'native torrent client'}" FontSize="8"
                                            Foreground="{StaticResource TextDisabledBrush}" Margin="1,0,0,0" />
                             </StackPanel>
                             <Border Grid.Column="2" CornerRadius="5" Background="#14A855F7" BorderBrush="#35A855F7"
                                     BorderThickness="1" Padding="5,2" VerticalAlignment="Center">
-                                <TextBlock Text="1.0" FontSize="7.5" Foreground="#E9D5FF" FontWeight="SemiBold" />
+                                <TextBlock Text="1.1" FontSize="7.5" Foreground="#E9D5FF" FontWeight="SemiBold" />
                             </Border>
                         </Grid>
 
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled" Margin="0,8,0,0">
                             <StackPanel Margin="14,0,14,0">
-                                <TextBlock Text="БИБЛИОТЕКА" Style="{StaticResource SidebarLabel}" />
+                                <TextBlock Text="{loc:T 'LIBRARY'}" Style="{StaticResource SidebarLabel}" />
 
                                 <ToggleButton Style="{StaticResource NavToggle}"
                                               IsChecked="{Binding IsFilterAll, Mode=OneWay}"
@@ -191,7 +191,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="&#xE8FD;" Style="{StaticResource IconGlyph}" FontSize="14"
                                                    HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Column="1" Text="Все загрузки" Margin="9,0,4,0"
+                                        <TextBlock Grid.Column="1" Text="{loc:T 'All downloads'}" Margin="9,0,4,0"
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding AllCount}" FontSize="9"
@@ -212,7 +212,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" FontSize="14"
                                                    HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Column="1" Text="Активные" Margin="9,0,4,0"
+                                        <TextBlock Grid.Column="1" Text="{loc:T 'Active'}" Margin="9,0,4,0"
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding ActiveCount}" FontSize="9"
@@ -233,7 +233,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="&#xE73E;" Style="{StaticResource IconGlyph}" FontSize="13"
                                                    HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Column="1" Text="Завершённые" Margin="9,0,4,0"
+                                        <TextBlock Grid.Column="1" Text="{loc:T 'Completed'}" Margin="9,0,4,0"
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding CompletedCount}" FontSize="9"
@@ -254,7 +254,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="&#xE769;" Style="{StaticResource IconGlyph}" FontSize="12"
                                                    HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Column="1" Text="На паузе" Margin="9,0,4,0"
+                                        <TextBlock Grid.Column="1" Text="{loc:T 'Paused'}" Margin="9,0,4,0"
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding PausedCount}" FontSize="9"
@@ -275,7 +275,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="&#xE7BA;" Style="{StaticResource IconGlyph}" FontSize="13"
                                                    HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Column="1" Text="С ошибкой" Margin="9,0,4,0"
+                                        <TextBlock Grid.Column="1" Text="{loc:T 'Error'}" Margin="9,0,4,0"
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding ErrorCount}" FontSize="9"
@@ -286,7 +286,7 @@
                                 </ToggleButton>
 
                                 <Border Height="1" Background="{StaticResource DividerGradient}" Margin="12,15,12,14" />
-                                <TextBlock Text="ИНСТРУМЕНТЫ" Style="{StaticResource SidebarLabel}" />
+                                <TextBlock Text="{loc:T 'TOOLS'}" Style="{StaticResource SidebarLabel}" />
 
                                 <Button Style="{StaticResource GhostButton}" Height="38" Padding="12,0"
                                         HorizontalContentAlignment="Left" Command="{Binding OpenMagnetCommand}"
@@ -294,7 +294,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="&#xE71B;" Style="{StaticResource IconGlyph}" FontSize="13"
                                                    Margin="0,0,10,0" />
-                                        <TextBlock Text="Добавить по ссылке" FontSize="12" VerticalAlignment="Center" />
+                                        <TextBlock Text="{loc:T 'Add by link'}" FontSize="12" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </Button>
 
@@ -308,7 +308,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="&#xE713;" Style="{StaticResource IconGlyph}" FontSize="13"
                                                    HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Column="1" Text="Настройки" Margin="9,0,0,0"
+                                        <TextBlock Grid.Column="1" Text="{loc:T 'Settings'}" Margin="9,0,0,0"
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                     </Grid>
                                 </ToggleButton>
@@ -325,7 +325,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Ellipse Style="{StaticResource StatusDot}" Margin="0,0,7,0" />
                                         <StackPanel Grid.Column="1">
-                                            <TextBlock Text="Сеть" FontSize="10" FontWeight="SemiBold" />
+                                            <TextBlock Text="{loc:T 'Network'}" FontSize="10" FontWeight="SemiBold" />
                                             <TextBlock Text="{Binding DhtStatusText}" FontSize="8.5"
                                                        Foreground="{StaticResource TextMutedBrush}" Margin="0,2,0,0" />
                                         </StackPanel>
@@ -344,7 +344,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="&#xE8B7;" Style="{StaticResource IconGlyph}" FontSize="11"
                                                        Foreground="{StaticResource TextMutedBrush}" Margin="0,0,6,0" />
-                                            <TextBlock Text="ХРАНИЛИЩЕ" Style="{StaticResource MicroCaption}" FontSize="8.5" />
+                                            <TextBlock Text="{loc:T 'STORAGE'}" Style="{StaticResource MicroCaption}" FontSize="8.5" />
                                         </StackPanel>
                                         <TextBlock Text="{Binding StorageFreeText}" FontSize="9"
                                                    HorizontalAlignment="Right" Foreground="{StaticResource TextSecondaryBrush}" />
@@ -401,15 +401,15 @@
                             </StackPanel>
                         </Border>
                         <Button Style="{StaticResource WindowControlButton}" Click="MinimizeButton_OnClick"
-                                ToolTip="Свернуть">
+                                ToolTip="{loc:T 'Collapse'}">
                             <TextBlock Text="&#xE921;" FontFamily="{StaticResource IconFont}" FontSize="10" />
                         </Button>
                         <Button Style="{StaticResource WindowControlButton}" Click="MaximizeButton_OnClick"
-                                ToolTip="Развернуть">
+                                ToolTip="{loc:T 'Expand'}">
                             <TextBlock x:Name="MaximizeGlyph" Text="&#xE922;" FontFamily="{StaticResource IconFont}" FontSize="10" />
                         </Button>
                         <Button Style="{StaticResource CloseWindowButton}" Click="CloseButton_OnClick"
-                                ToolTip="Закрыть">
+                                ToolTip="{loc:T 'Close'}">
                             <TextBlock Text="&#xE711;" FontFamily="{StaticResource IconFont}" FontSize="10" />
                         </Button>
                     </StackPanel>
@@ -444,16 +444,16 @@
                             <TextBlock Text="{Binding DhtStatusText}" FontSize="9"
                                        Foreground="{StaticResource TextDisabledBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{StaticResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="{Binding UptimeText, StringFormat='аптайм {0}'}" FontSize="9"
+                            <TextBlock Text="{Binding UptimeLabel}" FontSize="9"
                                        Foreground="{StaticResource TextDisabledBrush}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <TextBlock Text="&#xE72E;" FontFamily="{StaticResource IconFont}" FontSize="8"
                                        Foreground="{StaticResource TextDisabledBrush}" Margin="0,0,4,0" />
-                            <TextBlock Text="Только локальные данные" FontSize="8.5"
+                            <TextBlock Text="{loc:T 'Local data only'}" FontSize="8.5"
                                        Foreground="{StaticResource TextDisabledBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{StaticResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="VibeTorrent 1.0" FontSize="8.5" Foreground="{StaticResource TextDisabledBrush}" />
+                            <TextBlock Text="VibeTorrent 1.1.0" FontSize="8.5" Foreground="{StaticResource TextDisabledBrush}" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -574,9 +574,9 @@
                         <TextBlock Text="&#xE896;" FontFamily="{StaticResource IconFont}" FontSize="30"
                                    Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
-                    <TextBlock Text="Отпустите, чтобы добавить" Style="{StaticResource H1}" FontSize="24"
+                    <TextBlock Text="{loc:T 'Drop to add'}" Style="{StaticResource H1}" FontSize="24"
                                HorizontalAlignment="Center" Margin="0,18,0,0" />
-                    <TextBlock Text=".torrent файл или magnet-ссылка" Style="{StaticResource Caption}"
+                    <TextBlock Text="{loc:T '.torrent file or magnet link'}" Style="{StaticResource Caption}"
                                HorizontalAlignment="Center" Margin="0,5,0,0" />
                 </StackPanel>
             </Border>
