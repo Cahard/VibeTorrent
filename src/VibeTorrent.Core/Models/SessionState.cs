@@ -16,6 +16,9 @@ public sealed class PersistedTorrent
     public bool StartPaused { get; set; }
     public DateTime AddedAt { get; set; }
     public long KnownSize { get; set; }
+    public TorrentPriority Priority { get; set; } = TorrentPriority.Normal;
+    public int DownloadLimitKbps { get; set; }
+    public int UploadLimitKbps { get; set; }
     public Dictionary<string, FilePriority> FilePriorities { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     public double LastKnownProgress { get; set; }
 }

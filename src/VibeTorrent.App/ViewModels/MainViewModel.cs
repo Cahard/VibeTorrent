@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
@@ -40,8 +41,16 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     private AppSettings _settings = AppSettings.Default;
     private CancellationTokenSource? _detailsCts;
     private bool _suppressNotifications;
+    private bool _completionActionArmed;
+    private bool _completionActionRaised;
     private bool _hasSeenSnapshot;
     private bool _disposed;
+
+    public event Action<string>? AllDownloadsCompleted;
+
+    public int ActiveDownloadCount => _torrents.Count(t =>
+        t.Status is TorrentStatus.Metadata or TorrentStatus.Checking
+            or TorrentStatus.Downloading or TorrentStatus.Queued);
 
     public MainViewModel(
         ITorrentEngineService engine,
@@ -134,6 +143,12 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     [ObservableProperty]
     private bool _isDetailsPaneOpen = true;
+
+    [ObservableProperty]
+    private string _selectedDownloadLimitText = "0";
+
+    [ObservableProperty]
+    private string _selectedUploadLimitText = "0";
 
     [ObservableProperty]
     private SessionStatsSnapshot _stats = new();
@@ -767,11 +782,96 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     }
 
     [RelayCommand]
+    private async Task SetTorrentPriorityAsync(string? value)
+    {
+        if (SelectedTorrent is null || IsDemoMode ||
+            !Enum.TryParse<TorrentPriority>(value, ignoreCase: true, out var priority))
+        {
+            return;
+        }
+
+        try
+        {
+            var snapshot = await _engine.SetTorrentPriorityAsync(SelectedTorrent.Id, priority);
+            SelectedTorrent.Update(snapshot);
+            await RefreshDetailsAsync(SelectedTorrent.Id);
+        }
+        catch (Exception ex)
+        {
+            ShowToast(L.T("Could not change the torrent priority"), ex.Message, ToastKind.Error);
+        }
+    }
+
+    [RelayCommand]
+    private async Task ApplyTorrentLimitsAsync()
+    {
+        if (SelectedTorrent is null || IsDemoMode)
+        {
+            return;
+        }
+
+        if (!int.TryParse(SelectedDownloadLimitText, NumberStyles.Integer,
+                CultureInfo.InvariantCulture, out var download) ||
+            !int.TryParse(SelectedUploadLimitText, NumberStyles.Integer,
+                CultureInfo.InvariantCulture, out var upload) ||
+            download is < 0 or > 10_000_000 ||
+            upload is < 0 or > 10_000_000)
+        {
+            ShowToast(L.T("Invalid speed limit"),
+                L.T("Use 0 for unlimited or a value between 1 and 10,000,000 KB/s."),
+                ToastKind.Warning);
+            return;
+        }
+
+        try
+        {
+            var snapshot = await _engine.SetTorrentLimitsAsync(SelectedTorrent.Id, download, upload);
+            SelectedTorrent.Update(snapshot);
+            await RefreshDetailsAsync(SelectedTorrent.Id);
+            ShowToast(L.T("Speed limits updated"), SelectedTorrent.Name, ToastKind.Success);
+        }
+        catch (Exception ex)
+        {
+            ShowToast(L.T("Could not update speed limits"), ex.Message, ToastKind.Error);
+        }
+    }
+
+    [RelayCommand]
     private void OpenDetailsFolder()
     {
         if (SelectedTorrent is not null)
         {
             _dialogs.OpenFolder(SelectedTorrent.SavePath);
+        }
+    }
+
+    [RelayCommand]
+    private async Task MoveDownloadFolderAsync()
+    {
+        var item = SelectedTorrent;
+        if (item is null || IsDemoMode)
+        {
+            return;
+        }
+
+        var target = _dialogs.PickFolder(item.SavePath);
+        if (string.IsNullOrWhiteSpace(target) ||
+            string.Equals(Path.GetFullPath(target), Path.GetFullPath(item.SavePath),
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        try
+        {
+            var snapshot = await _engine.MoveDownloadFolderAsync(item.Id, target);
+            item.Update(snapshot);
+            await RefreshDetailsAsync(item.Id);
+            ShowToast(L.T("Download folder moved"), target, ToastKind.Success);
+        }
+        catch (Exception ex)
+        {
+            ShowToast(L.T("Could not move the download folder"), ex.Message, ToastKind.Error);
         }
     }
 
@@ -912,6 +1012,11 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     private async Task OpenAddDialogForFileAsync(string path)
     {
+        if (AddDialog?.IsBusy == true)
+        {
+            return;
+        }
+
         OpenAddDialog(AddMode.File);
         if (AddDialog is not null)
         {
@@ -1002,6 +1107,9 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     private async Task ProcessStartupArgumentsAsync(IReadOnlyList<string> args, CancellationToken cancellationToken)
     {
+        // A .torrent opened from Explorer should behave exactly like the
+        // "Choose .torrent" button: show the add dialog so the user can pick the
+        // download folder, files and start mode. Silent addition bypassed that.
         foreach (var argument in args)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -1012,11 +1120,19 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
             if (argument.StartsWith("magnet:", StringComparison.OrdinalIgnoreCase))
             {
-                await AddTorrentDirectlyAsync(string.Empty, argument);
+                OpenAddDialog(AddMode.Magnet);
+                if (AddDialog is not null)
+                {
+                    AddDialog.MagnetText = argument;
+                }
+
+                return;
             }
-            else if (argument.EndsWith(".torrent", StringComparison.OrdinalIgnoreCase) && File.Exists(argument))
+
+            if (argument.EndsWith(".torrent", StringComparison.OrdinalIgnoreCase) && File.Exists(argument))
             {
-                await AddTorrentDirectlyAsync(argument, null);
+                await OpenAddDialogForFileAsync(argument);
+                return;
             }
         }
     }
@@ -1114,6 +1230,47 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         {
             SelectedTorrent = _torrents[0];
         }
+
+        EvaluateCompletionAction();
+    }
+
+    private void EvaluateCompletionAction()
+    {
+        var active = ActiveDownloadCount;
+        if (active > 0)
+        {
+            _completionActionArmed = true;
+            _completionActionRaised = false;
+            return;
+        }
+
+        if (!_completionActionArmed || _completionActionRaised || _torrents.Count == 0)
+        {
+            return;
+        }
+
+        // Only fire after a real download phase, never when the user paused or
+        // an error left the queue incomplete.
+        if (_torrents.Any(t => !t.IsComplete || t.IsError))
+        {
+            return;
+        }
+
+        var action = _settings.AfterDownloadsComplete;
+        if (string.IsNullOrWhiteSpace(action) || action == "none")
+        {
+            _completionActionArmed = false;
+            return;
+        }
+
+        _completionActionRaised = true;
+        _completionActionArmed = false;
+        AllDownloadsCompleted?.Invoke(action);
+    }
+
+    public void NotifyPowerActionFailed(string message)
+    {
+        ShowToast(L.T("Power action failed"), message, ToastKind.Error);
     }
 
     private void PushHistory(SessionStatsSnapshot stats)
@@ -1499,6 +1656,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         }
 
         Details = new TorrentDetailsViewModel();
+        SelectedDownloadLimitText = value.DownloadLimitKbps.ToString(CultureInfo.InvariantCulture);
+        SelectedUploadLimitText = value.UploadLimitKbps.ToString(CultureInfo.InvariantCulture);
         StartDetailsLoop(value.Id);
     }
 

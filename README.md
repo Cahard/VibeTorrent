@@ -59,6 +59,9 @@ Everything is local: the library, files, trackers, peers and settings live in on
 - **MonoTorrent 3.0.2** engine with DHT, PEX, LSD, UPnP/NAT-PMP and MSE/PE encryption.
 - Private torrents are excluded from DHT and PEX.
 - Global download/upload limits, connection limit and upload slots.
+- Per-torrent download/upload limits (0 = no per-torrent cap).
+- Manual High/Normal/Low download queue with a visible Queued state.
+- Move the download folder while a torrent is downloading; files are moved and the download resumes.
 - Session persistence, fast resume and recovery after a normal restart.
 - Optional autostart, tray mode, completion/error notifications and single-instance forwarding.
 
@@ -69,6 +72,10 @@ Everything is local: the library, files, trackers, peers and settings live in on
 - The details rail collapses at narrow widths and yields to the user's manual choice.
 - Custom chrome, Windows 11 rounded corners, dark titlebar, tray integration and native file dialogs.
 - Keyboard support: `Ctrl+O`, `Ctrl+F`, `Space`, `Delete`, `Esc`.
+
+### Automation
+
+- Optional post-completion action for the PC: shut down, sleep, hibernate or restart when all downloads finish.
 
 ### Data
 
@@ -205,7 +212,7 @@ See [SECURITY.md](SECURITY.md) for responsible disclosure.
 
 ## Tests
 
-**24 xUnit tests** cover:
+**32 xUnit tests** cover:
 
 - path traversal, UNC/ADS and reserved-name validation;
 - settings validation and atomic persistence;
@@ -230,7 +237,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### Is VibeTorrent an ad-supported client?
 
-No. It is open source under GPL-3.0, with no ads, telemetry or paid tier in v1.1.
+No. It is open source under GPL-3.0, with no ads, telemetry or paid tier in v1.2.
 
 ### Does it work on Windows 10?
 
@@ -250,7 +257,7 @@ Yes, including BTIH and multi-hash links. Metadata is fetched from the swarm and
 
 ### Is there a scheduler or per-torrent limit?
 
-Not in v1.1. The current release supports global speed/connection limits.
+v1.2 supports global and per-torrent speed limits plus the High/Normal/Low queue. A time-based scheduler is not included.
 
 ### Is the interface only in English?
 

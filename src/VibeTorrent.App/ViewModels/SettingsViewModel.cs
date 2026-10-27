@@ -24,6 +24,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         _close = close;
         _uiState = settings.Clone();
         LanguageCode = AppLanguages.FromCode(settings.Language).ToCode();
+        AfterDownloadsComplete = settings.AfterDownloadsComplete;
 
         DownloadDirectory = settings.DownloadDirectory;
         ListenPortText = settings.ListenPort.ToString(CultureInfo.InvariantCulture);
@@ -50,6 +51,9 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     [ObservableProperty]
     private string _languageCode = "en";
+
+    [ObservableProperty]
+    private string _afterDownloadsComplete = "none";
 
     [ObservableProperty]
     private string _downloadDirectory;
@@ -114,6 +118,20 @@ public sealed partial class SettingsViewModel : ObservableObject
     public bool IsEnglish => LanguageCode == "en";
     public bool IsRussian => LanguageCode == "ru";
     public bool IsKorean => LanguageCode == "ko";
+    public bool IsAfterNone => AfterDownloadsComplete == "none";
+    public bool IsAfterShutdown => AfterDownloadsComplete == "shutdown";
+    public bool IsAfterSleep => AfterDownloadsComplete == "sleep";
+    public bool IsAfterHibernate => AfterDownloadsComplete == "hibernate";
+    public bool IsAfterRestart => AfterDownloadsComplete == "restart";
+
+    partial void OnAfterDownloadsCompleteChanged(string value)
+    {
+        OnPropertyChanged(nameof(IsAfterNone));
+        OnPropertyChanged(nameof(IsAfterShutdown));
+        OnPropertyChanged(nameof(IsAfterSleep));
+        OnPropertyChanged(nameof(IsAfterHibernate));
+        OnPropertyChanged(nameof(IsAfterRestart));
+    }
 
     partial void OnLanguageCodeChanged(string value)
     {
@@ -126,6 +144,15 @@ public sealed partial class SettingsViewModel : ObservableObject
     private void SetLanguage(string? code)
     {
         LanguageCode = AppLanguages.FromCode(code).ToCode();
+    }
+
+    [RelayCommand]
+    private void SetAfterDownloadsComplete(string? code)
+    {
+        var normalized = code?.Trim().ToLowerInvariant();
+        AfterDownloadsComplete = normalized is "shutdown" or "sleep" or "hibernate" or "restart"
+            ? normalized
+            : "none";
     }
     public bool PortRestartHintVisible =>
         int.TryParse(ListenPortText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var port) &&
@@ -157,6 +184,8 @@ public sealed partial class SettingsViewModel : ObservableObject
     private void Reset()
     {
         var defaults = AppSettings.Default;
+        LanguageCode = "en";
+        AfterDownloadsComplete = "none";
         DownloadDirectory = _paths.DownloadsDirectory;
         ListenPortText = defaults.ListenPort.ToString(CultureInfo.InvariantCulture);
         MaxDownloadText = "0";
@@ -194,6 +223,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         {
             DownloadDirectory = DownloadDirectory.Trim(),
             Language = AppLanguages.FromCode(LanguageCode).ToCode(),
+            AfterDownloadsComplete = AfterDownloadsComplete.Trim().ToLowerInvariant(),
             ListenPort = ParseInt(ListenPortText, L.T("Port"), list),
             MaxDownloadKbps = ParseInt(MaxDownloadText, L.T("Download limit"), list, allowEmpty: true),
             MaxUploadKbps = ParseInt(MaxUploadText, L.T("Upload limit"), list, allowEmpty: true),

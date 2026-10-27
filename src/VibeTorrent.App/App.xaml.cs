@@ -16,6 +16,7 @@ public partial class App : Application
     private SingleInstanceCoordinator? _singleInstance;
     private TrayIconService? _tray;
     private MainWindow? _mainWindow;
+    private IPowerService? _powerService;
     private MainViewModel? _viewModel;
     private ILogger<App>? _logger;
     private bool _isExiting;
@@ -81,9 +82,11 @@ public partial class App : Application
             TryCreateDownloadDirectory(settings.DownloadDirectory);
 
             _viewModel = _services.GetRequiredService<MainViewModel>();
+            _powerService = _services.GetRequiredService<IPowerService>();
             _mainWindow = _services.GetRequiredService<MainWindow>();
             _mainWindow.ExitRequested = ShutdownAsync;
             _mainWindow.HiddenToTray += OnHiddenToTray;
+            _viewModel.AllDownloadsCompleted += OnAllDownloadsCompleted;
             SessionEnding += OnSessionEnding;
 
             if (!isDemo)
@@ -93,7 +96,10 @@ public partial class App : Application
                 LocalizationManager.Instance.LanguageChanged += (_, _) => _tray?.RefreshLanguage();
             }
 
-            var startHidden = !isDemo && !isScreenshot &&
+            var hasOpenRequest = args.Any(argument =>
+                argument.EndsWith(".torrent", StringComparison.OrdinalIgnoreCase) ||
+                argument.StartsWith("magnet:", StringComparison.OrdinalIgnoreCase));
+            var startHidden = !isDemo && !isScreenshot && !hasOpenRequest &&
                               (settings.StartMinimized ||
                                args.Contains("--minimized", StringComparer.OrdinalIgnoreCase));
 
@@ -192,6 +198,7 @@ public partial class App : Application
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IUiDispatcher, WpfUiDispatcher>();
         services.AddSingleton<IStartupService, StartupService>();
+        services.AddSingleton<IPowerService, PowerService>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
         return services.BuildServiceProvider();
@@ -234,6 +241,33 @@ public partial class App : Application
                 await _viewModel.ProcessExternalArgumentsAsync(args);
             }
         });
+    }
+
+    private async void OnAllDownloadsCompleted(string action)
+    {
+        var viewModel = _viewModel;
+        if (viewModel is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await viewModel.PersistSessionForShutdownAsync();
+            _mainWindow?.PersistForSystemShutdown();
+            string? error = null;
+            if (_powerService is null ||
+                !_powerService.TryExecute(action, out error))
+            {
+                viewModel.NotifyPowerActionFailed(
+                    error ?? L.T("The power action could not be started."));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogError(ex, "Post-completion action failed.");
+            viewModel.NotifyPowerActionFailed(ex.Message);
+        }
     }
 
     private void OnHiddenToTray()

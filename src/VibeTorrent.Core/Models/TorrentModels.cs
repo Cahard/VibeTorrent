@@ -2,6 +2,13 @@ using VibeTorrent.Core.Localization;
 
 namespace VibeTorrent.Core.Models;
 
+public enum TorrentPriority
+{
+    Low = 0,
+    Normal = 1,
+    High = 2
+}
+
 public enum TorrentStatus
 {
     Metadata,
@@ -47,7 +54,11 @@ public sealed record TorrentSnapshot
     public bool IsPrivate { get; init; }
     public bool HasMetadata { get; init; }
     public bool IsPaused { get; init; }
+    public bool IsQueued { get; init; }
     public bool IsComplete { get; init; }
+    public TorrentPriority Priority { get; init; } = TorrentPriority.Normal;
+    public int DownloadLimitKbps { get; init; }
+    public int UploadLimitKbps { get; init; }
     public DateTime AddedAt { get; init; }
     public string? ErrorMessage { get; init; }
     public DateTime SampledAt { get; init; }

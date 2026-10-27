@@ -21,6 +21,13 @@ public sealed class TorrentDetailsViewModel : ObservableObject
     public string? Comment => _snapshot?.Comment;
     public string? CreatedBy => _snapshot?.CreatedBy;
     public DateTime? CreationDate => _snapshot?.CreationDate;
+    public TorrentPriority Priority => Summary?.Priority ?? TorrentPriority.Normal;
+    public bool IsHighPriority => Priority == TorrentPriority.High;
+    public bool IsNormalPriority => Priority == TorrentPriority.Normal;
+    public bool IsLowPriority => Priority == TorrentPriority.Low;
+    public bool IsQueued => Summary?.IsQueued == true;
+    public bool ShowPauseButton => !IsQueued && Summary?.IsPaused != true;
+    public bool ShowResumeButton => !IsQueued && Summary?.IsPaused == true;
 
     public int FileCount => Files.Count;
     public int TrackerCount => Trackers.Count;
@@ -86,6 +93,13 @@ public sealed class TorrentDetailsViewModel : ObservableObject
         OnPropertyChanged(nameof(Snapshot));
         OnPropertyChanged(nameof(Summary));
         OnPropertyChanged(nameof(Comment));
+        OnPropertyChanged(nameof(Priority));
+        OnPropertyChanged(nameof(IsHighPriority));
+        OnPropertyChanged(nameof(IsNormalPriority));
+        OnPropertyChanged(nameof(IsLowPriority));
+        OnPropertyChanged(nameof(IsQueued));
+        OnPropertyChanged(nameof(ShowPauseButton));
+        OnPropertyChanged(nameof(ShowResumeButton));
         OnPropertyChanged(nameof(CreatedBy));
         OnPropertyChanged(nameof(CreationDate));
         OnPropertyChanged(nameof(FileCount));

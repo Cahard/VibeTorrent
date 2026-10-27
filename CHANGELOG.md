@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.2.0 — 2026-10-27
+
+### Fixed
+
+- Progress is now normalized from MonoTorrent's 0–100 percentage to the UI's 0–1 fraction for torrents, files and peers.
+- Opening a `.torrent` from Explorer now opens the add dialog with folder/file selection instead of silently adding it.
+- Per-file move preserves the `<torrent name>` folder and survives a restart without re-downloading data.
+- Per-torrent `0` speed limit now means "no per-torrent cap" instead of inheriting the global limit.
+
+### Added
+
+- Manual High/Normal/Low torrent queue with Queued status.
+- Per-torrent download and upload speed limits.
+- Move download folder during an active download.
+- Post-completion PC action: Shut down, Sleep, Hibernate, Restart or Do nothing.
+- Rectangular language selector.
+
 ## 1.1.0 — 2026-10-27
 
 ### Added

@@ -37,6 +37,17 @@ public sealed class PathAndFormatTests
         Assert.False(PathSafety.IsUnderRoot(root, Path.Combine(root, "..", "outside.txt")));
     }
 
+    [Theory]
+    [InlineData(0, 0)]
+    [InlineData(12.5, 0.125)]
+    [InlineData(100, 1)]
+    [InlineData(150, 1)]
+    [InlineData(-4, 0)]
+    public void ProgressMath_ConvertsMonoTorrentPercentToFraction(double percent, double expected)
+    {
+        Assert.Equal(expected, ProgressMath.FromPercent(percent), 6);
+    }
+
     [Fact]
     public void Format_UsesBinaryEnglishUnitsByDefault()
     {

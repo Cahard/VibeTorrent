@@ -43,6 +43,22 @@ public interface ITorrentEngineService : IAsyncDisposable
 
     Task RemoveAsync(string id, bool deleteData, CancellationToken cancellationToken = default);
 
+    Task<TorrentSnapshot> MoveDownloadFolderAsync(
+        string id,
+        string newRoot,
+        CancellationToken cancellationToken = default);
+
+    Task<TorrentSnapshot> SetTorrentPriorityAsync(
+        string id,
+        TorrentPriority priority,
+        CancellationToken cancellationToken = default);
+
+    Task<TorrentSnapshot> SetTorrentLimitsAsync(
+        string id,
+        int downloadKbps,
+        int uploadKbps,
+        CancellationToken cancellationToken = default);
+
     Task SetFilePriorityAsync(
         string id,
         string relativePath,
@@ -430,6 +446,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             }
 
             managed.Record.StartPaused = true;
+            managed.AutoPaused = false;
             await PersistSessionLockedAsync(CancellationToken.None).ConfigureAwait(false);
         }
         finally
@@ -453,6 +470,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             }
 
             managed.Record.StartPaused = false;
+            managed.AutoPaused = false;
             await PersistSessionLockedAsync(CancellationToken.None).ConfigureAwait(false);
         }
         finally
@@ -479,6 +497,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
                     }
 
                     managed.Record.StartPaused = true;
+                    managed.AutoPaused = false;
                 }
                 catch (Exception ex)
                 {
@@ -510,6 +529,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
                     {
                         await managed.Manager.StartAsync().WaitAsync(cancellationToken).ConfigureAwait(false);
                         managed.Record.StartPaused = false;
+                        managed.AutoPaused = false;
                     }
                 }
                 catch (Exception ex)
@@ -592,6 +612,298 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         _logger.LogInformation("Torrent removed: {Id}. Data deleted: {DeleteData}", id, deleteData);
         await PublishSnapshotAsync(cancellationToken).ConfigureAwait(false);
     }
+
+    public async Task<TorrentSnapshot> SetTorrentPriorityAsync(
+        string id,
+        TorrentPriority priority,
+        CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            var managed = GetManagedOrThrow(id);
+            managed.Record.Priority = priority;
+            await ApplyPriorityScheduleLockedAsync().ConfigureAwait(false);
+            await PersistSessionLockedAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+        finally
+        {
+            _gate.Release();
+        }
+
+        await PublishSnapshotAsync(cancellationToken).ConfigureAwait(false);
+        return GetSnapshotOrThrow(id);
+    }
+
+    public async Task<TorrentSnapshot> SetTorrentLimitsAsync(
+        string id,
+        int downloadKbps,
+        int uploadKbps,
+        CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        downloadKbps = Math.Clamp(downloadKbps, 0, 10_000_000);
+        uploadKbps = Math.Clamp(uploadKbps, 0, 10_000_000);
+
+        await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            var managed = GetManagedOrThrow(id);
+            managed.Record.DownloadLimitKbps = downloadKbps;
+            managed.Record.UploadLimitKbps = uploadKbps;
+            var isPrivate = managed.Manager.HasMetadata && managed.Manager.Torrent!.IsPrivate;
+            await managed.Manager
+                .UpdateSettingsAsync(BuildTorrentSettings(_settings, isPrivate, managed.Record))
+                .WaitAsync(cancellationToken).ConfigureAwait(false);
+            await PersistSessionLockedAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+        finally
+        {
+            _gate.Release();
+        }
+
+        await PublishSnapshotAsync(cancellationToken).ConfigureAwait(false);
+        return GetSnapshotOrThrow(id);
+    }
+
+    public async Task<TorrentSnapshot> MoveDownloadFolderAsync(
+        string id,
+        string newRoot,
+        CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        if (string.IsNullOrWhiteSpace(newRoot))
+        {
+            throw new TorrentValidationException(L.T("Choose a new download folder."));
+        }
+
+        var target = PrepareSavePath(newRoot);
+        var shouldResume = false;
+        var canResume = false;
+        TorrentManager? resumeManager = null;
+
+        await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            var managed = GetManagedOrThrow(id);
+            if (!managed.Manager.HasMetadata || managed.Manager.Torrent is null)
+            {
+                throw new TorrentValidationException(
+                    L.T("Wait for torrent metadata before moving files."));
+            }
+
+            var oldRoot = managed.Record.SavePath;
+            var current = Path.TrimEndingDirectorySeparator(
+                Path.GetFullPath(managed.Record.SavePath));
+            target = Path.TrimEndingDirectorySeparator(Path.GetFullPath(target));
+
+            if (string.Equals(current, target, StringComparison.OrdinalIgnoreCase))
+            {
+                return BuildSnapshot(managed, DateTime.UtcNow);
+            }
+
+            if (PathSafety.IsUnderRoot(current, target) || PathSafety.IsUnderRoot(target, current))
+            {
+                throw new TorrentValidationException(
+                    L.T("The new download folder cannot be inside the current one (or contain it)."));
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // MonoTorrent's MoveFilesAsync flattens multi-file torrents into the
+            // new root and swallows per-file failures. Move each file explicitly
+            // instead, preserving <root>/<torrent name>/<relative path> and
+            // keeping exceptions observable.
+            var isMultiFile = managed.Manager.Torrent.Files.Count > 1;
+            var containingName = isMultiFile
+                ? Path.GetFileName(Path.TrimEndingDirectorySeparator(managed.Manager.ContainingDirectory))
+                : string.Empty;
+            var newContaining = isMultiFile
+                ? Path.Combine(target, containingName)
+                : target;
+
+            var moves = managed.Manager.Files
+                .Select(file =>
+                {
+                    var relative = PathSafety.ValidateRelativePath(file.Path);
+                    var targetPath = Path.GetFullPath(Path.Combine(newContaining, relative));
+                    if (!PathSafety.IsUnderRoot(newContaining, targetPath))
+                    {
+                        throw new TorrentValidationException(
+                            L.T("The torrent contains an invalid file path."));
+                    }
+
+                    return new FileMove(file, file.FullPath, targetPath);
+                })
+                .ToArray();
+
+            var existingFiles = moves.Where(move => File.Exists(move.OldPath)).ToArray();
+            var oldDrive = Path.GetPathRoot(current);
+            var targetDrive = Path.GetPathRoot(target);
+            if (!string.Equals(oldDrive, targetDrive, StringComparison.OrdinalIgnoreCase))
+            {
+                var required = existingFiles.Sum(move => new FileInfo(move.OldPath).Length);
+                try
+                {
+                    var free = new DriveInfo(targetDrive!).AvailableFreeSpace;
+                    if (free < required)
+                    {
+                        throw new TorrentValidationException(
+                            L.T("There is not enough free space in the new download folder."));
+                    }
+                }
+                catch (Exception ex) when (ex is ArgumentException or IOException)
+                {
+                    _logger.LogDebug(ex, "Could not check free space for {Target}.", target);
+                }
+            }
+
+            foreach (var move in moves)
+            {
+                if (File.Exists(move.TargetPath) &&
+                    !string.Equals(move.OldPath, move.TargetPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new TorrentValidationException(
+                        L.T("A file with the same name already exists in the new download folder."));
+                }
+            }
+
+            shouldResume = !managed.Record.StartPaused &&
+                           managed.Manager.State is TorrentState.Downloading
+                               or TorrentState.Seeding
+                               or TorrentState.Metadata
+                               or TorrentState.Starting
+                               or TorrentState.Hashing
+                               or TorrentState.HashingPaused
+                               or TorrentState.FetchingHashes;
+
+            var moved = new List<FileMove>();
+            try
+            {
+                if (managed.Manager.State is not TorrentState.Stopped)
+                {
+                    // Never cancel the stop/move/resume sequence halfway.
+                    await managed.Manager.StopAsync(TimeSpan.FromSeconds(8))
+                        .ConfigureAwait(false);
+                }
+
+                foreach (var move in moves)
+                {
+                    var directory = Path.GetDirectoryName(move.TargetPath);
+                    if (!string.IsNullOrWhiteSpace(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+
+                    await managed.Manager.MoveFileAsync(move.File, move.TargetPath)
+                        .ConfigureAwait(false);
+                    moved.Add(move);
+                }
+
+                var leftovers = existingFiles.Where(move => File.Exists(move.OldPath)).ToArray();
+                var missing = existingFiles.Where(move => !File.Exists(move.TargetPath)).ToArray();
+                if (leftovers.Length > 0 || missing.Length > 0)
+                {
+                    throw new TorrentValidationException(
+                        L.T("The files could not be moved completely. The original folder is still active."));
+                }
+
+                managed.Record.SavePath = target;
+                await PersistSessionLockedOrThrowAsync(CancellationToken.None).ConfigureAwait(false);
+                canResume = shouldResume;
+                resumeManager = managed.Manager;
+            }
+            catch (Exception moveError)
+            {
+                _logger.LogWarning(moveError,
+                    "Move failed for {Id}; rolling back {Count} moved files.", id, moved.Count);
+                managed.Record.SavePath = oldRoot;
+                try
+                {
+                    if (managed.Manager.State is TorrentState.Error)
+                    {
+                        await managed.Manager.StopAsync(TimeSpan.FromSeconds(8))
+                            .ConfigureAwait(false);
+                    }
+
+                    foreach (var move in moves)
+                    {
+                        var directory = Path.GetDirectoryName(move.OldPath);
+                        if (!string.IsNullOrWhiteSpace(directory))
+                        {
+                            Directory.CreateDirectory(directory);
+                        }
+
+                        try
+                        {
+                            // For a file which never existed this only updates the
+                            // manager path back to the old root.
+                            await managed.Manager.MoveFileAsync(move.File, move.OldPath)
+                                .ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // Filesystem rollback also covers the case where the
+                            // manager cannot move the file back itself. The next
+                            // MoveFileAsync (or restart) will resync its paths.
+                            if (File.Exists(move.TargetPath) && !File.Exists(move.OldPath))
+                            {
+                                File.Move(move.TargetPath, move.OldPath);
+                            }
+                        }
+                    }
+                }
+                catch (Exception rollbackEx)
+                {
+                    _logger.LogError(rollbackEx,
+                        "Could not roll back a failed move for {Id}; files may be split.", id);
+                }
+
+                var rollbackOk = existingFiles.All(move => File.Exists(move.OldPath)) &&
+                                 managed.Manager.Files.All(file =>
+                                     PathSafety.IsUnderRoot(oldRoot, file.FullPath));
+                if (rollbackOk && shouldResume)
+                {
+                    try
+                    {
+                        await managed.Manager.StartAsync().ConfigureAwait(false);
+                    }
+                    catch (Exception resumeEx)
+                    {
+                        _logger.LogWarning(resumeEx,
+                            "Could not resume {Id} after a failed move.", id);
+                    }
+                }
+
+                throw;
+            }
+        }
+        finally
+        {
+            _gate.Release();
+        }
+
+        if (canResume && resumeManager is not null)
+        {
+            try
+            {
+                await resumeManager.StartAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Could not resume {Id} after moving files.", id);
+            }
+        }
+
+        await PublishSnapshotAsync(cancellationToken).ConfigureAwait(false);
+        return GetSnapshotOrThrow(id);
+    }
+
+    private sealed record FileMove(
+        ITorrentManagerFile File,
+        string OldPath,
+        string TargetPath);
 
     public async Task SetFilePriorityAsync(
         string id,
@@ -739,7 +1051,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
                 {
                     var isPrivate = managed.Manager.HasMetadata && managed.Manager.Torrent!.IsPrivate;
                     await managed.Manager
-                        .UpdateSettingsAsync(BuildTorrentSettings(_settings, isPrivate))
+                        .UpdateSettingsAsync(BuildTorrentSettings(_settings, isPrivate, managed.Record))
                         .WaitAsync(cancellationToken).ConfigureAwait(false);
                     managed.MetadataSettingsApplied = managed.Manager.HasMetadata;
                 }
@@ -974,7 +1286,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             manager = await _engine!.AddAsync(
                     torrent,
                     record.SavePath,
-                    BuildTorrentSettings(_settings, torrent.IsPrivate))
+                    BuildTorrentSettings(_settings, torrent.IsPrivate, record))
                 .WaitAsync(cancellationToken).ConfigureAwait(false);
         }
         else if (!string.IsNullOrWhiteSpace(record.Magnet))
@@ -999,7 +1311,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             manager = await _engine!.AddAsync(
                     link,
                     record.SavePath,
-                    BuildTorrentSettings(_settings, isPrivate: false))
+                    BuildTorrentSettings(_settings, isPrivate: false, record))
                 .WaitAsync(cancellationToken).ConfigureAwait(false);
         }
         else
@@ -1162,7 +1474,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         managed.Record.KnownSize = managed.TotalBytes > 0
             ? managed.TotalBytes
             : managed.Manager.Torrent!.Size;
-        managed.Record.LastKnownProgress = managed.Manager.Progress;
+        managed.Record.LastKnownProgress = ProgressMath.FromPercent(managed.Manager.Progress);
     }
 
     private List<TorrentFileSnapshot> BuildFiles(ManagedTorrent managed)
@@ -1184,7 +1496,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
                 RelativePath = PathSafety.CanonicalRelativePath(torrentFile.Path),
                 FullPath = managerFile?.FullPath ?? string.Empty,
                 Length = torrentFile.Length,
-                Progress = Math.Clamp(progress, 0, 1),
+                Progress = ProgressMath.FromPercent(progress),
                 Priority = priority
             });
         }
@@ -1246,7 +1558,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
                         _ => "—"
                     },
                     IsSeeder = peer.IsSeeder,
-                    Progress = Math.Clamp(peer.BitField?.PercentComplete ?? 0, 0, 1),
+                    Progress = ProgressMath.FromPercent(peer.BitField?.PercentComplete ?? 0),
                     DownloadSpeed = peer.Monitor?.DownloadRate ?? 0,
                     UploadSpeed = peer.Monitor?.UploadRate ?? 0,
                     Encryption = peer.EncryptionType switch
@@ -1266,13 +1578,79 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         }
     }
 
+    /// <summary>
+    /// Manual queue priority. Only the highest priority tier may download;
+    /// lower tiers are paused by the scheduler (not by the user) and surface as
+    /// Queued. Seeding, user-paused and failed torrents never consume a slot.
+    /// </summary>
+    private async Task ApplyPriorityScheduleLockedAsync()
+    {
+        var candidates = _torrents.Values
+            .Where(t => !t.Record.StartPaused)
+            .Where(t => t.Manager.Error is null)
+            .Where(t => t.Manager.State is not (TorrentState.Seeding or TorrentState.Error))
+            .Where(t => t.Manager.PartialProgress < 99.999)
+            .ToArray();
+
+        if (candidates.Length == 0)
+        {
+            return;
+        }
+
+        var highest = candidates.Max(t => t.Record.Priority);
+        foreach (var managed in candidates)
+        {
+            var mayRun = managed.Record.Priority == highest;
+            if (mayRun)
+            {
+                if (!managed.AutoPaused)
+                {
+                    continue;
+                }
+
+                try
+                {
+                    await managed.Manager.StartAsync().ConfigureAwait(false);
+                    managed.AutoPaused = false;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Could not start queued torrent {Id}.", managed.Id);
+                }
+
+                continue;
+            }
+
+            if (managed.Manager.State is TorrentState.Downloading or TorrentState.Metadata
+                or TorrentState.Starting or TorrentState.Hashing or TorrentState.HashingPaused
+                or TorrentState.FetchingHashes)
+            {
+                try
+                {
+                    // PauseAsync is a no-op for Metadata/Starting and keeps the
+                    // listeners open. Stop to actually free the slot.
+                    await managed.Manager.StopAsync(TimeSpan.FromSeconds(4))
+                        .ConfigureAwait(false);
+                    managed.AutoPaused = true;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Could not queue lower-priority torrent {Id}.", managed.Id);
+                }
+            }
+        }
+    }
+
     private TorrentSnapshot BuildSnapshot(ManagedTorrent managed, DateTime now)
     {
         var manager = managed.Manager;
         // Progress counts every file, while MonoTorrent may enter Seeding once the
         // selected subset is complete. PartialProgress keeps the UI honest when
         // some files are marked DoNotDownload.
-        var progress = Math.Clamp(manager.PartialProgress, 0, 1);
+        // MonoTorrent exposes PartialProgress as a percentage (0..100), not a
+        // fraction. Clamping it directly to 0..1 made any torrent above ~1%
+        // render as 100% complete.
+        var progress = ProgressMath.FromPercent(manager.PartialProgress);
         var total = manager.HasMetadata && managed.TotalBytes > 0
             ? managed.TotalBytes
             : managed.Record.KnownSize;
@@ -1294,7 +1672,9 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             }
         }
 
-        var state = MapState(manager, managed.Record.StartPaused, isComplete);
+        var autoPaused = managed.AutoPaused &&
+                         manager.State is TorrentState.Paused or TorrentState.Stopping or TorrentState.Stopped;
+        var state = autoPaused ? TorrentStatus.Queued : MapState(manager, managed.Record.StartPaused, isComplete);
         var error = manager.Error?.Exception?.Message;
 
         return new TorrentSnapshot
@@ -1320,8 +1700,12 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             Ratio = Math.Clamp(ratio, 0, 9999),
             IsPrivate = manager.HasMetadata && manager.Torrent!.IsPrivate,
             HasMetadata = manager.HasMetadata,
-            IsPaused = managed.Record.StartPaused || manager.State is TorrentState.Paused,
+            IsPaused = managed.Record.StartPaused || (!autoPaused && manager.State is TorrentState.Paused),
+            IsQueued = autoPaused,
             IsComplete = isComplete,
+            Priority = managed.Record.Priority,
+            DownloadLimitKbps = managed.Record.DownloadLimitKbps,
+            UploadLimitKbps = managed.Record.UploadLimitKbps,
             AddedAt = managed.Record.AddedAt,
             ErrorMessage = string.IsNullOrWhiteSpace(error) ? null : error,
             SampledAt = now
@@ -1340,6 +1724,9 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         AddedAt = failed.Record.AddedAt,
         HasMetadata = false,
         IsPaused = true,
+        Priority = failed.Record.Priority,
+        DownloadLimitKbps = failed.Record.DownloadLimitKbps,
+        UploadLimitKbps = failed.Record.UploadLimitKbps,
         ErrorMessage = failed.Error,
         SampledAt = now
     };
@@ -1493,6 +1880,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         try
         {
             var changed = await ApplyPendingMetadataLockedAsync(cancellationToken).ConfigureAwait(false);
+            await ApplyPriorityScheduleLockedAsync().ConfigureAwait(false);
             snapshot = BuildSnapshotLocked();
             if (changed)
             {
@@ -1618,8 +2006,19 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         return builder.ToSettings();
     }
 
-    private static TorrentSettings BuildTorrentSettings(AppSettings settings, bool isPrivate)
+    private static TorrentSettings BuildTorrentSettings(
+        AppSettings settings,
+        bool isPrivate,
+        PersistedTorrent? record = null)
     {
+        // 0 means "no per-torrent cap"; the engine-wide global limit still applies.
+        var downloadKbps = record is null
+            ? settings.MaxDownloadKbps
+            : record.DownloadLimitKbps;
+        var uploadKbps = record is null
+            ? settings.MaxUploadKbps
+            : record.UploadLimitKbps;
+
         return new TorrentSettingsBuilder
         {
             AllowDht = settings.EnableDht && !isPrivate,
@@ -1627,8 +2026,8 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             AllowInitialSeeding = true,
             CreateContainingDirectory = true,
             MaximumConnections = settings.MaxConnections,
-            MaximumDownloadRate = ToBytesPerSecond(settings.MaxDownloadKbps),
-            MaximumUploadRate = ToBytesPerSecond(settings.MaxUploadKbps),
+            MaximumDownloadRate = ToBytesPerSecond(downloadKbps),
+            MaximumUploadRate = ToBytesPerSecond(uploadKbps),
             UploadSlots = settings.MaxUploadSlots,
             RequirePeerIdToMatch = false
         }.ToSettings();
@@ -1715,21 +2114,27 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         return index >= 0 ? text[(index + 3)..].TrimEnd('/') : text;
     }
 
+    private SessionState BuildSessionStateLocked() => new()
+    {
+        Torrents = _torrents.Values.Select(t => CloneRecord(t.Record))
+            .Concat(_failed.Values.Select(f => CloneRecord(f.Record)))
+            .OrderBy(r => r.AddedAt)
+            .ToList()
+    };
+
+    private async Task PersistSessionLockedOrThrowAsync(CancellationToken cancellationToken)
+    {
+        var state = BuildSessionStateLocked();
+        // Session persistence is a critical mutation; it must not be dropped
+        // just because the command that triggered it was cancelled.
+        await _sessionStore.SaveAsync(state, CancellationToken.None).ConfigureAwait(false);
+    }
+
     private async Task PersistSessionLockedAsync(CancellationToken cancellationToken)
     {
-        var state = new SessionState
-        {
-            Torrents = _torrents.Values.Select(t => CloneRecord(t.Record))
-                .Concat(_failed.Values.Select(f => CloneRecord(f.Record)))
-                .OrderBy(r => r.AddedAt)
-                .ToList()
-        };
-
         try
         {
-            // Session persistence is a critical mutation; it must not be dropped
-            // just because the command that triggered it was cancelled.
-            await _sessionStore.SaveAsync(state, CancellationToken.None).ConfigureAwait(false);
+            await PersistSessionLockedOrThrowAsync(CancellationToken.None).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -1747,6 +2152,9 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         StartPaused = record.StartPaused,
         AddedAt = record.AddedAt,
         KnownSize = record.KnownSize,
+        Priority = record.Priority,
+        DownloadLimitKbps = record.DownloadLimitKbps,
+        UploadLimitKbps = record.UploadLimitKbps,
         LastKnownProgress = record.LastKnownProgress,
         FilePriorities = new Dictionary<string, FilePriority>(
             record.FilePriorities, StringComparer.OrdinalIgnoreCase)
@@ -1822,6 +2230,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         public long TotalBytes { get; set; }
         public bool MetadataSettingsApplied { get; set; }
         public bool PrioritiesApplied { get; set; }
+        public bool AutoPaused { get; set; }
     }
 
     private sealed class FailedTorrent

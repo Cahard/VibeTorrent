@@ -59,6 +59,9 @@ VibeTorrent는 C# / .NET 10 / WPF와 **MonoTorrent 3.0.2**로 만든 Windows 11�
 - **MonoTorrent 3.0.2** 엔진, DHT, PEX, LSD, UPnP/NAT-PMP, MSE/PE 암호화.
 - 비공개 토렌트는 DHT/PEX에서 제외.
 - 전역 다운로드/업로드 제한, 연결 수, 업로드 슬롯.
+- 토렌트별 다운로드/업로드 속도 제한(0 = 개별 제한 없음).
+- High/Normal/Low 수동 다운로드 큐와 대기 상태 표시.
+- 다운로드 중 폴더 이동: 파일을 옮기고 다운로드를 자동 재개.
 - 세션 저장, **FastResume**, 일반 재시작 후 복구.
 - 자동 시작, 트레이 모드, 완료/오류 알림, named pipe 기반 single-instance.
 
@@ -69,6 +72,10 @@ VibeTorrent는 C# / .NET 10 / WPF와 **MonoTorrent 3.0.2**로 만든 Windows 11�
 - 좁은 창에서 세부 정보 패널이 접히며 사용자의 수동 선택을 존중.
 - 커스텀 크롬, Windows 11 둥근 모서리, 다크 타이틀바, 트레이, 네이티브 파일 대화상자.
 - 단축키: `Ctrl+O`, `Ctrl+F`, `Space`, `Delete`, `Esc`.
+
+### 자동화
+
+- 모든 다운로드 완료 후 PC 작업: 종료, 절전, 최대 절전, 다시 시작.
 
 ### 데이터
 
@@ -205,7 +212,7 @@ UI는 엔진을 차단하지 않습니다. 스냅샷은 1초에 한 번, 세부 
 
 ## 테스트
 
-**24개의 xUnit 테스트**가 다음을 검증합니다.
+**32개의 xUnit 테스트**가 다음을 검증합니다.
 
 - path traversal, UNC/ADS, 예약 이름;
 - 설정 검증과 원자적 저장;
@@ -230,7 +237,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### 광고가 있는 클라이언트인가요?
 
-아니요. GPL-3.0 오픈소스이며 v1.1에는 광고, 텔레메트리, 유료 기능이 없습니다.
+아니요. GPL-3.0 오픈소스이며 v1.2에는 광고, 텔레메트리, 유료 기능이 없습니다.
 
 ### Windows 10에서도 되나요?
 
@@ -250,7 +257,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### 스케줄러나 토렌트별 제한이 있나요?
 
-v1.1에는 없습니다. 전역 속도/연결/업로드 슬롯 제한을 제공합니다.
+v1.2에는 전역 및 토렌트별 속도 제한, High/Normal/Low 큐가 있습니다. 시간 예약 스케줄러는 없습니다.
 
 ### 인터페이스가 영어만 지원하나요?
 

@@ -137,11 +137,12 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid>
                         <Button Style="{StaticResource PrimaryButton}" Padding="12,8" Height="34"
                                 Command="{Binding TogglePauseSelectedCommand}"
-                                Visibility="{Binding Details.Summary.IsPaused, Converter={StaticResource InverseBoolToVisibility}}">
+                                Visibility="{Binding Details.ShowPauseButton, Converter={StaticResource BoolToVisibility}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE769;" FontFamily="{StaticResource IconFont}" FontSize="10"
                                            VerticalAlignment="Center" Margin="0,0,6,0" />
@@ -150,11 +151,20 @@
                         </Button>
                         <Button Style="{StaticResource PrimaryButton}" Padding="12,8" Height="34"
                                 Command="{Binding TogglePauseSelectedCommand}"
-                                Visibility="{Binding Details.Summary.IsPaused, Converter={StaticResource BoolToVisibility}}">
+                                Visibility="{Binding Details.ShowResumeButton, Converter={StaticResource BoolToVisibility}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE768;" FontFamily="{StaticResource IconFont}" FontSize="10"
                                            VerticalAlignment="Center" Margin="0,0,6,0" />
                                 <TextBlock Text="{loc:T 'Resume'}" FontSize="11.5" />
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource SecondaryButton}" Padding="12,8" Height="34"
+                                IsEnabled="False"
+                                Visibility="{Binding Details.IsQueued, Converter={StaticResource BoolToVisibility}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE823;" FontFamily="{StaticResource IconFont}" FontSize="10"
+                                           VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <TextBlock Text="{loc:T 'Queued'}" FontSize="11.5" />
                             </StackPanel>
                         </Button>
                     </Grid>
@@ -165,12 +175,35 @@
                     </Button>
                     <Button Grid.Column="2" Style="{StaticResource SecondaryButton}" Width="34" Height="34"
                             Padding="0" Margin="6,0,0,0"
+                            Command="{Binding MoveDownloadFolderCommand}"
+                            ToolTip="{loc:T 'Move download folder'}">
+                        <TextBlock Text="&#xE8DE;" Style="{StaticResource IconGlyph}" FontSize="12" />
+                    </Button>
+                    <Button Grid.Column="3" Style="{StaticResource SecondaryButton}" Width="34" Height="34"
+                            Padding="0" Margin="6,0,0,0"
                             Command="{Binding RequestRemoveCommand}" CommandParameter="{Binding SelectedTorrent}"
                             ToolTip="{loc:T 'Delete torrent'}">
                         <TextBlock Text="&#xE74D;" Style="{StaticResource IconGlyph}" FontSize="12"
                                    Foreground="{StaticResource DangerBrush}" />
                     </Button>
                 </Grid>
+
+                <StackPanel Orientation="Horizontal" Margin="0,9,0,0" VerticalAlignment="Center">
+                    <TextBlock Text="{loc:T 'Priority'}" FontSize="10" Foreground="{StaticResource TextMutedBrush}"
+                               VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <RadioButton Style="{StaticResource LanguageChip}" GroupName="TorrentPriority"
+                                 Content="{loc:T 'High'}" Padding="10,4" Margin="0,0,4,0"
+                                 IsChecked="{Binding Details.IsHighPriority, Mode=OneWay}"
+                                 Command="{Binding SetTorrentPriorityCommand}" CommandParameter="High" />
+                    <RadioButton Style="{StaticResource LanguageChip}" GroupName="TorrentPriority"
+                                 Content="{loc:T 'Normal'}" Padding="10,4" Margin="0,0,4,0"
+                                 IsChecked="{Binding Details.IsNormalPriority, Mode=OneWay}"
+                                 Command="{Binding SetTorrentPriorityCommand}" CommandParameter="Normal" />
+                    <RadioButton Style="{StaticResource LanguageChip}" GroupName="TorrentPriority"
+                                 Content="{loc:T 'Low'}" Padding="10,4"
+                                 IsChecked="{Binding Details.IsLowPriority, Mode=OneWay}"
+                                 Command="{Binding SetTorrentPriorityCommand}" CommandParameter="Low" />
+                </StackPanel>
             </StackPanel>
 
             <!-- tabs -->
@@ -259,6 +292,52 @@
                                     </StackPanel>
                                 </Border>
                             </Grid>
+
+                            <TextBlock Text="{loc:T 'SPEED LIMITS'}" Style="{StaticResource MicroCaption}" Margin="2,9,0,6" />
+                            <Border CornerRadius="10" Background="#0BFFFFFF" BorderBrush="#12FFFFFF"
+                                    BorderThickness="1" Padding="10,8">
+                                <StackPanel>
+                                    <Grid Margin="0,0,0,6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{loc:T 'Download limit'}" FontSize="10"
+                                                   Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                                        <TextBox Grid.Column="1" Style="{StaticResource DarkTextBox}" Width="70"
+                                                 Padding="7,4" TextAlignment="Right"
+                                                 Text="{Binding SelectedDownloadLimitText, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBlock Grid.Column="2" Text="{loc:T 'KB/s'}" FontSize="9"
+                                                   Foreground="{StaticResource TextMutedBrush}" Margin="6,0,0,0"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{loc:T 'Upload limit'}" FontSize="10"
+                                                   Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                                        <TextBox Grid.Column="1" Style="{StaticResource DarkTextBox}" Width="70"
+                                                 Padding="7,4" TextAlignment="Right"
+                                                 Text="{Binding SelectedUploadLimitText, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBlock Grid.Column="2" Text="{loc:T 'KB/s'}" FontSize="9"
+                                                   Foreground="{StaticResource TextMutedBrush}" Margin="6,0,0,0"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,7,0,0">
+                                        <TextBlock Text="{loc:T '0 = unlimited'}" FontSize="9"
+                                                   Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center"
+                                                   Margin="0,0,8,0" />
+                                        <Button Style="{StaticResource SecondaryButton}" Padding="9,4"
+                                                Command="{Binding ApplyTorrentLimitsCommand}">
+                                            <TextBlock Text="{loc:T 'Apply'}" FontSize="10" />
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
                             <TextBlock Text="{loc:T 'LOCATION'}" Style="{StaticResource MicroCaption}" Margin="2,9,0,6" />
                             <Border CornerRadius="10" Background="#0BFFFFFF" BorderBrush="#12FFFFFF"

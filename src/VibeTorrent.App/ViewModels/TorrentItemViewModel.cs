@@ -51,6 +51,19 @@ public sealed class TorrentItemViewModel : ObservableObject
     public double Ratio => _snapshot.Ratio;
     public string RatioText => DisplayFormat.Ratio(_snapshot.Ratio);
     public string RatioLabel => L.F("Ratio {0}", RatioText);
+    public TorrentPriority Priority => _snapshot.Priority;
+    public string PriorityText => Priority switch
+    {
+        TorrentPriority.High => L.T("High"),
+        TorrentPriority.Low => L.T("Low"),
+        _ => L.T("Normal")
+    };
+    public bool IsHighPriority => Priority == TorrentPriority.High;
+    public bool IsNormalPriority => Priority == TorrentPriority.Normal;
+    public bool IsLowPriority => Priority == TorrentPriority.Low;
+    public bool IsQueued => _snapshot.IsQueued;
+    public int DownloadLimitKbps => _snapshot.DownloadLimitKbps;
+    public int UploadLimitKbps => _snapshot.UploadLimitKbps;
     public bool IsPrivate => _snapshot.IsPrivate;
     public bool HasMetadata => _snapshot.HasMetadata;
     public bool IsPaused => _snapshot.IsPaused || _snapshot.Status == TorrentStatus.Paused;
@@ -59,7 +72,7 @@ public sealed class TorrentItemViewModel : ObservableObject
     public bool IsDownloading => _snapshot.Status is TorrentStatus.Downloading or TorrentStatus.Metadata or TorrentStatus.Checking;
     public bool IsSeeding => _snapshot.Status == TorrentStatus.Seeding;
     public bool IsActive => _snapshot.Status is TorrentStatus.Downloading or TorrentStatus.Seeding
-        or TorrentStatus.Metadata or TorrentStatus.Checking or TorrentStatus.Queued;
+        or TorrentStatus.Metadata or TorrentStatus.Checking;
     public DateTime AddedAt => _snapshot.AddedAt;
     public string AddedText => DisplayFormat.Date(_snapshot.AddedAt);
     public string? ErrorMessage => _snapshot.ErrorMessage;

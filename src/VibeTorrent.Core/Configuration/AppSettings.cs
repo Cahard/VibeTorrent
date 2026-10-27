@@ -14,6 +14,7 @@ public sealed class AppSettings
 
     public string DownloadDirectory { get; set; } = string.Empty;
     public string Language { get; set; } = "en";
+    public string AfterDownloadsComplete { get; set; } = "none";
     public int ListenPort { get; set; } = 55123;
     public int MaxDownloadKbps { get; set; }
     public int MaxUploadKbps { get; set; }
@@ -44,6 +45,7 @@ public sealed class AppSettings
     {
         DownloadDirectory = DownloadDirectory,
         Language = Language,
+        AfterDownloadsComplete = AfterDownloadsComplete,
         ListenPort = ListenPort,
         MaxDownloadKbps = MaxDownloadKbps,
         MaxUploadKbps = MaxUploadKbps,
@@ -215,6 +217,18 @@ public sealed class AppSettings
         else if (Language != normalizedLanguage)
         {
             Language = normalizedLanguage;
+            changed = true;
+        }
+
+        var normalizedAction = AfterDownloadsComplete?.Trim().ToLowerInvariant();
+        if (normalizedAction is not ("none" or "shutdown" or "sleep" or "hibernate" or "restart"))
+        {
+            AfterDownloadsComplete = "none";
+            changed = true;
+        }
+        else if (AfterDownloadsComplete != normalizedAction)
+        {
+            AfterDownloadsComplete = normalizedAction;
             changed = true;
         }
 

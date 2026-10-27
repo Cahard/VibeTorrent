@@ -209,7 +209,7 @@ public sealed class StatusTextConverter : IValueConverter
     public static string StatusText(TorrentStatus status) => status switch
     {
         TorrentStatus.Metadata => L.T("Metadata"),
-        TorrentStatus.Queued => L.T("Connecting"),
+        TorrentStatus.Queued => L.T("Queued"),
         TorrentStatus.Checking => L.T("Checking"),
         TorrentStatus.Downloading => L.T("Downloading"),
         TorrentStatus.Seeding => L.T("Seeding"),

@@ -76,6 +76,13 @@ public sealed class SessionStore : ISessionStore
                 torrent.FilePriorities = new Dictionary<string, FilePriority>(
                     torrent.FilePriorities ?? new Dictionary<string, FilePriority>(),
                     StringComparer.OrdinalIgnoreCase);
+                if (!Enum.IsDefined(torrent.Priority))
+                {
+                    torrent.Priority = TorrentPriority.Normal;
+                }
+
+                torrent.DownloadLimitKbps = Math.Clamp(torrent.DownloadLimitKbps, 0, 10_000_000);
+                torrent.UploadLimitKbps = Math.Clamp(torrent.UploadLimitKbps, 0, 10_000_000);
                 valid.Add(torrent);
             }
 
