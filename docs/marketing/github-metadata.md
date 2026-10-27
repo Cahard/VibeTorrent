@@ -4,7 +4,7 @@
 
 ## 0. Статус публикации
 
-Исходники, CI, README, `.github/workflows/release.yml` и лицензия GPL-3.0 подготовлены. Публичная ветка `main` содержит полный проект; после добавления deploy key остаётся запушить её, создать тег `v1.0.0` и дать GitHub Actions собрать релиз. Description и Topics задаются в Settings репозитория (Deploy key не даёт прав на изменение метаданных репозитория).
+Исходники, README, лицензия GPL-3.0, `.github/workflows/ci.yml` и `.github/workflows/release.yml` опубликованы в `main`. Осталось: description, topics и social preview в Settings, тег `v1.0.0` и релиз. Deploy key не даёт прав на изменение метаданных репозитория, поэтому Description и Topics задаются вручную.
 
 ## 1. Имя репозитория
 
@@ -20,7 +20,7 @@
 VibeTorrent — нативный open-source торрент-клиент для Windows 11 на C# / .NET 10 / WPF. BitTorrent-движок MonoTorrent 3.0.2, magnet-ссылки, DHT/PEX/LSD, шифрование MSE/PE и тёмный градиентный интерфейс. Всё локально, без телеметрии. GPL-3.0.
 ```
 
-Длина: **237 / 350** символов.
+Длина: **241 / 350** символов.
 
 Почему так:
 
@@ -34,7 +34,7 @@ EN-вариант (если понадобится международная а
 VibeTorrent is a native open-source BitTorrent client for Windows 11, built with C# / .NET 10 / WPF and MonoTorrent 3.0.2. Dark gradient UI, magnet links, DHT/PEX/LSD, MSE/PE encryption, local-only data, no telemetry. GPL-3.0.
 ```
 
-Длина: **222 / 350** символов.
+Длина: **226 / 350** символов.
 
 ## 3. Topics — ровно 20
 
@@ -89,7 +89,7 @@ VibeTorrent — нативный торрент-клиент для Windows 11
 Open-source BitTorrent-клиент на C# / .NET 10 / WPF: MonoTorrent 3.0.2, magnet-ссылки, DHT/PEX/LSD, тёмный UI. Локальные данные, без телеметрии. GPL-3.0.
 ```
 
-Длина: **149 / 200** символов.
+Длина: **153 / 200** символов.
 
 **Картинка:**
 
@@ -196,22 +196,25 @@ GPL-3.0. MonoTorrent — MIT. См. `LICENSE` и `THIRD-PARTY-NOTICES.md`.
 
 ### Блокеры
 
-- [ ] Определить лицензию: GPL-3.0 (`LICENSE`) или GPL-3.0 (сейчас на GitHub). Привести файл, README, бейдж и GitHub-детект к одному варианту.
-- [ ] Запушить полный исходный код; сейчас в публичном `main` только лицензия и README-заглушка.
-- [ ] Добавить `.github/workflows/ci.yml` с `dotnet restore`, `dotnet build`, `dotnet test` на `windows-latest` и .NET 10.
 - [ ] Создать тег `v1.0.0` и Release с ассетами из раздела 5.
+
+### Уже сделано
+
+- [x] Лицензия GPL-3.0 подтверждена: локальные `LICENSE` и README совпадают с GitHub.
+- [x] Полный исходный код опубликован в `main`.
+- [x] `.github/workflows/ci.yml` и `.github/workflows/release.yml` добавлены.
 
 ### Метаданные
 
-- [ ] Вставить description из раздела 2 (237 символов).
+- [ ] Вставить description из раздела 2 (241 символ).
 - [ ] Добавить 20 topics из раздела 3.
 - [ ] Загрузить social preview 1280×640, < 1 МБ.
-- [ ] Проверить, что GitHub показывает язык `C#` и лицензию GPL-3.0.
+- [x] Проверить, что GitHub показывает язык `C#` и лицензию GPL-3.0.
 - [ ] Заполнить поле Website, если появится лендинг; сейчас его нет — не оставлять фиктивный URL.
 
 ### README
 
-- [ ] Заменить корневой README на версию из `github-readme-seo.md` (делает владелец; агент корневой README не менял).
+- [x] Корневой README обновлён на версию из `github-readme-seo.md`.
 - [ ] Проверить, что все 7 изображений открываются по путям `docs/assets/...`.
 - [ ] Проверить якоря оглавления на GitHub (особенно `#почему-vibetorrent`, `#участие-в-разработке`).
 - [ ] Проверить ссылки `docs/ARCHITECTURE.md`, `docs/testing/test-plan.md`, `LICENSE`, `THIRD-PARTY-NOTICES.md`.
@@ -236,7 +239,7 @@ GPL-3.0. MonoTorrent — MIT. См. `LICENSE` и `THIRD-PARTY-NOTICES.md`.
 2. **Winget.** После `v1.0.0` — манифест в `microsoft/winget-pkgs`. Для Windows-аудитории это одновременно дистрибуция и сильный сигнал.
 3. **Сообщества разработчиков.** `r/dotnet`, `r/csharp`, `r/Windows11`, `r/opensource`, Habr, vc.ru, `dev.to`. Формат — разбор архитектуры WPF + MonoTorrent, а не «посмотрите мой клиент». Соблюдать правила самопродвижения каждого сообщества.
 4. **Show HN / Product Hunt / Lobsters.** Только после стабильного релиза и с честным описанием ограничений. Не просить голоса и не создавать фейковые аккаунты.
-5. **AlternativeTo.** Карточка продукта с категорией «BitTorrent Client» и ссылкой на GitHub. Заполнить платформу Windows 11, лицензию MIT, признаки open source / no telemetry.
+5. **AlternativeTo.** Карточка продукта с категорией «BitTorrent Client» и ссылкой на GitHub. Заполнить платформу Windows 11, лицензию GPL-3.0, признаки open source / no telemetry.
 6. **Статьи с технической ценностью.** «Как устроен WPF-клиент на MonoTorrent 3.0.2», «Path safety в торрент-клиенте», «Почему мы не взяли Electron». В каждой — ссылка на репозиторий и на конкретный файл/документ.
 
 **Чего избегать:**
@@ -256,9 +259,9 @@ GPL-3.0. MonoTorrent — MIT. См. `LICENSE` и `THIRD-PARTY-NOTICES.md`.
 | Версия 1.0.0 | `Directory.Build.props` | Подтверждено |
 | .NET 10 / WPF / C# | `VibeTorrent.App.csproj`, `net10.0-windows` | Подтверждено |
 | MonoTorrent 3.0.2 | `VibeTorrent.Core.csproj` | Подтверждено |
-| 24 теста | 12 `[Fact]` + 12 `[InlineData]` в `tests/VibeTorrent.Tests` | Подтверждено |
+| 24 теста | README/CI | Заявлено 24; локальный прогон после удаления `UnitTest1.cs` даёт 23 — восстановить 24-й тест или синхронизировать число до релиза |
 | GPL-3.0 | `LICENSE` | Подтверждено локально и в GitHub |
 | 7 скриншотов 1440×900 | `docs/assets` | Подтверждено |
 | Русский UI в v1 | `docs/design/ux-spec.md` | Подтверждено |
 | Windows 10/11 x64 в требованиях | корневой `README.md` | Подтверждено; основной сценарий — Windows 11 |
-| CI и релизы | GitHub API | Отсутствуют; бейджи оживут после добавления |
+| CI и релизы | GitHub API | CI- и release-workflow есть; релизов пока нет — бейджи оживут после тега |

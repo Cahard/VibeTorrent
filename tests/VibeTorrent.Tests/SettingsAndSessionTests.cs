@@ -28,6 +28,18 @@ public sealed class SettingsAndSessionTests
     }
 
     [Fact]
+    public void Settings_Validation_RejectsUncDownloadDirectory()
+    {
+        using var workspace = new TempWorkspace();
+        var settings = workspace.CreateSettings();
+        settings.DownloadDirectory = @"\\server\share\incoming";
+
+        var errors = settings.Validate(workspace.Paths);
+
+        Assert.Contains(errors, error => error.Contains("UNC", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public async Task Settings_CorruptFile_IsQuarantined_AndDefaultsLoad()
     {
         using var workspace = new TempWorkspace();
