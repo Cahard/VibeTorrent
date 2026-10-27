@@ -1,4 +1,4 @@
-# VibeTorrent — README и SEO-пакет
+﻿# VibeTorrent — README и SEO-пакет
 
 > Дата: 2026-10-27. Источники: локальные `README.md`, `docs/ARCHITECTURE.md`, `docs/testing/test-plan.md`, `*.csproj`, тесты и `LICENSE`; публичный GitHub API. Оценки приоритета — качественные, без выдуманных объёмов поиска. Корневой README и исходники не изменялись.
 
@@ -79,7 +79,7 @@ GitHub не публикует полную формулу ранжирован�
 
 [![CI](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/Cahard/VibeTorrent?display_name=tag&sort=semver)](https://github.com/Cahard/VibeTorrent/releases)
-[![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f)](LICENSE)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
 [![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)](https://dotnet.microsoft.com/)
 [![Windows 11 x64](https://img.shields.io/badge/Windows-11%20x64-0078D4)](https://www.microsoft.com/windows/windows-11)
 
@@ -87,7 +87,7 @@ GitHub не публикует полную формулу ранжирован�
 
 VibeTorrent — нативный **торрент-клиент для Windows 11** на C# / .NET 10 / WPF. Это open-source BitTorrent-клиент без браузера и Electron: движок MonoTorrent 3.0.2, magnet-ссылки, DHT/PEX/LSD, шифрование MSE/PE и тёмный интерфейс с живыми градиентами.
 
-Всё работает локально: библиотека, файлы, трекеры, пиры и настройки — в одном окне. Ни телеметрии, ни облачных сервисов: данные лежат в `%LOCALAPPDATA%\VibeTorrent`.
+Данные и управление — локально: библиотека, файлы, трекеры, пиры и настройки в одном окне. Ни телеметрии, ни облачных сервисов: данные лежат в `%LOCALAPPDATA%\VibeTorrent`.
 
 *In English: VibeTorrent is a native open-source BitTorrent client for Windows 11, built with C# / WPF on .NET 10 and MonoTorrent 3.0.2.*
 
@@ -307,15 +307,15 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj
 
 ### VibeTorrent — бесплатный торрент-клиент?
 
-Да. Код распространяется под MIT, без подписок и платных функций.
+Да. Код распространяется под MIT, без подписок и платных функций в v1.0.
 
 ### Есть ли реклама и телеметрия?
 
-Телеметрии и облачных сервисов нет. Сеть используется только для BitTorrent, DHT, трекеров и UPnP.
+Телеметрии и облачных сервисов нет. Рекламных модулей в коде нет. Сеть используется только для BitTorrent, DHT, трекеров и UPnP.
 
 ### Поддерживается ли Windows 10?
 
-Основная платформа — Windows 11 x64. В требованиях проекта указаны Windows 10/11 x64; сборка targeting — `net10.0-windows`.
+Основная платформа — Windows 11 x64. В требованиях проекта указаны Windows 10/11 x64; целевая платформа — `net10.0-windows`.
 
 ### Где хранятся данные?
 
@@ -355,7 +355,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj
 
 ## Лицензия
 
-MIT. См. [LICENSE](LICENSE). MonoTorrent распространяется под MIT; другие зависимости перечислены в [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+GPL-3.0. См. [LICENSE](LICENSE). MonoTorrent распространяется под MIT; другие зависимости перечислены в [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 ````
 
 ## 3. Пять SEO-решений
