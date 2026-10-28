@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.1 — 2026-10-28
+
+### Fixed
+
+- The Network label in the sidebar now follows the theme: white in the dark theme and light green in the green theme.
+- Torrent names and other plain labels use the theme text color again; they are white in dark and light green in green.
+
 ## 1.5.0 — 2026-10-28
 
 ### Added

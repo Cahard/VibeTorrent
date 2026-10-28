@@ -318,7 +318,8 @@
                                         </Grid.ColumnDefinitions>
                                         <Ellipse Style="{StaticResource StatusDot}" Margin="0,0,7,0" />
                                         <StackPanel Grid.Column="1">
-                                            <TextBlock Text="{loc:T 'Network'}" FontSize="10" FontWeight="SemiBold" />
+                                            <TextBlock Text="{loc:T 'Network'}" FontSize="10" FontWeight="SemiBold"
+                                                       Foreground="{DynamicResource SidebarStatusBrush}" />
                                             <TextBlock Text="{Binding DhtStatusText}" FontSize="8.5"
                                                        Foreground="{DynamicResource TextMutedBrush}" Margin="0,2,0,0" />
                                         </StackPanel>
@@ -464,7 +465,7 @@
                             <TextBlock Text="{loc:T 'Local data only'}" FontSize="8.5"
                                        Foreground="{DynamicResource TextMutedBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="VibeTorrent 1.5.0" FontSize="8.5" Foreground="{DynamicResource TextMutedBrush}" />
+                            <TextBlock Text="VibeTorrent 1.5.1" FontSize="8.5" Foreground="{DynamicResource TextMutedBrush}" />
                         </StackPanel>
                     </Grid>
                 </Border>
