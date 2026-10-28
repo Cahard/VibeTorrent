@@ -54,11 +54,18 @@ public sealed class PathAndFormatTests
     {
         var settings = AppSettings.Default;
         settings.Theme = "green";
-        Assert.Equal("green", settings.Clone().Theme);
+        settings.AutoCheckUpdates = false;
+        settings.UpdateCheckIntervalHours = 12;
+        var clone = settings.Clone();
+        Assert.Equal("green", clone.Theme);
+        Assert.False(clone.AutoCheckUpdates);
+        Assert.Equal(12, clone.UpdateCheckIntervalHours);
 
         settings.Theme = "not-a-theme";
+        settings.UpdateCheckIntervalHours = 0;
         Assert.True(settings.Normalize());
         Assert.Equal("dark", settings.Theme);
+        Assert.Equal(1, settings.UpdateCheckIntervalHours);
     }
 
     [Fact]

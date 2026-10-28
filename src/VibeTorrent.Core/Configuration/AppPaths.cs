@@ -16,6 +16,7 @@ public sealed class AppPaths
     public required string CacheDirectory { get; init; }
     public required string LogsDirectory { get; init; }
     public required string DownloadsDirectory { get; init; }
+    public required string UpdatesDirectory { get; init; }
     public required string EngineStateFile { get; init; }
 
     public static AppPaths CreateDefault()
@@ -55,7 +56,8 @@ public sealed class AppPaths
             MetadataDirectory = Path.Combine(absoluteRoot, "metadata"),
             CacheDirectory = cacheDirectory,
             LogsDirectory = Path.Combine(absoluteRoot, "logs"),
-            DownloadsDirectory = Path.GetFullPath(downloads)
+            DownloadsDirectory = Path.GetFullPath(downloads),
+            UpdatesDirectory = Path.Combine(absoluteRoot, "updates")
         };
     }
 
@@ -64,7 +66,7 @@ public sealed class AppPaths
         foreach (var directory in new[]
                  {
                      RootDirectory, TorrentsDirectory, FastResumeDirectory, MetadataDirectory,
-                     CacheDirectory, LogsDirectory
+                     CacheDirectory, LogsDirectory, UpdatesDirectory
                  })
         {
             Directory.CreateDirectory(directory);

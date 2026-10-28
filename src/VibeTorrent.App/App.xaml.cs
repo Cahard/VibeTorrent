@@ -210,6 +210,7 @@ public partial class App : Application
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IUiDispatcher, WpfUiDispatcher>();
         services.AddSingleton<IStartupService, StartupService>();
+        services.AddSingleton<IUpdateService, UpdateService>();
         services.AddSingleton<IPowerService, PowerService>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();

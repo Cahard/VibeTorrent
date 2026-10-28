@@ -25,6 +25,9 @@ public sealed partial class SettingsViewModel : ObservableObject
         _uiState = settings.Clone();
         LanguageCode = AppLanguages.FromCode(settings.Language).ToCode();
         ThemeCode = settings.Theme;
+        AutoCheckUpdates = settings.AutoCheckUpdates;
+        AutoInstallUpdates = settings.AutoInstallUpdates;
+        UpdateIntervalText = settings.UpdateCheckIntervalHours.ToString(CultureInfo.InvariantCulture);
         AfterDownloadsComplete = settings.AfterDownloadsComplete;
 
         DownloadDirectory = settings.DownloadDirectory;
@@ -59,6 +62,15 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     [ObservableProperty]
     private string _themeCode = "dark";
+
+    [ObservableProperty]
+    private bool _autoCheckUpdates = true;
+
+    [ObservableProperty]
+    private bool _autoInstallUpdates = true;
+
+    [ObservableProperty]
+    private string _updateIntervalText = "24";
 
     [ObservableProperty]
     private string _afterDownloadsComplete = "none";
@@ -226,6 +238,9 @@ public sealed partial class SettingsViewModel : ObservableObject
         var defaults = AppSettings.Default;
         LanguageCode = "en";
         ThemeCode = "dark";
+        AutoCheckUpdates = true;
+        AutoInstallUpdates = true;
+        UpdateIntervalText = "24";
         AfterDownloadsComplete = "none";
         DownloadDirectory = _paths.DownloadsDirectory;
         ListenPortText = defaults.ListenPort.ToString(CultureInfo.InvariantCulture);
@@ -265,6 +280,9 @@ public sealed partial class SettingsViewModel : ObservableObject
             DownloadDirectory = DownloadDirectory.Trim(),
             Language = AppLanguages.FromCode(LanguageCode).ToCode(),
             Theme = ThemeCode,
+            AutoCheckUpdates = AutoCheckUpdates,
+            AutoInstallUpdates = AutoInstallUpdates,
+            UpdateCheckIntervalHours = ParseInt(UpdateIntervalText, L.T("Update interval"), list),
             AfterDownloadsComplete = AfterDownloadsComplete.Trim().ToLowerInvariant(),
             ListenPort = ParseInt(ListenPortText, L.T("Port"), list),
             MaxDownloadKbps = ParseInt(MaxDownloadText, L.T("Download limit"), list, allowEmpty: true),

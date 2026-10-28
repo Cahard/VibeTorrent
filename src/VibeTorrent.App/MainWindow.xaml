@@ -159,12 +159,10 @@
                                 <TextBlock Text="VibeTorrent" FontFamily="{StaticResource DisplayFont}"
                                            FontSize="15.5" FontWeight="SemiBold"
                                            Foreground="{DynamicResource TextPrimaryBrush}" />
-                                <TextBlock Text="{loc:T 'native torrent client'}" FontSize="8"
-                                           Foreground="{DynamicResource TextDisabledBrush}" Margin="1,0,0,0" />
                             </StackPanel>
                             <Border Grid.Column="2" CornerRadius="5" Background="{DynamicResource B_14A855F7}" BorderBrush="{DynamicResource B_35A855F7}"
                                     BorderThickness="1" Padding="5,2" VerticalAlignment="Center">
-                                <TextBlock Text="1.3" FontSize="7.5" Foreground="{DynamicResource B_E9D5FF}" FontWeight="SemiBold" />
+                                <TextBlock Text="1.4" FontSize="7.5" Foreground="{DynamicResource B_E9D5FF}" FontWeight="SemiBold" />
                             </Border>
                         </Grid>
 
@@ -281,14 +279,38 @@
                                 <Border Height="1" Background="{DynamicResource DividerGradient}" Margin="12,15,12,14" />
                                 <TextBlock Text="{loc:T 'TOOLS'}" Style="{StaticResource SidebarLabel}" />
 
-                                <Button Style="{StaticResource GhostButton}" Height="38" Padding="12,0"
-                                        HorizontalContentAlignment="Left" Command="{Binding OpenMagnetCommand}"
+                                <Button Style="{StaticResource GhostButton}" Height="42" Padding="12,0"
+                                        HorizontalContentAlignment="Stretch" Command="{Binding OpenMagnetCommand}"
                                         Margin="0,0,0,2">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="&#xE71B;" Style="{StaticResource IconGlyph}" FontSize="13"
-                                                   Margin="0,0,10,0" />
-                                        <TextBlock Text="{loc:T 'Add by link'}" FontSize="12" VerticalAlignment="Center" />
-                                    </StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="&#xE71B;" Style="{StaticResource IconGlyph}" FontSize="14"
+                                                   HorizontalAlignment="Left" />
+                                        <TextBlock Grid.Column="1" Text="{loc:T 'Add by link'}" FontSize="12.5"
+                                                   Margin="9,0,4,0" VerticalAlignment="Center" />
+                                    </Grid>
+                                </Button>
+
+                                <Button Style="{StaticResource GhostButton}" Height="42" Padding="12,0"
+                                        HorizontalContentAlignment="Stretch"
+                                        Command="{Binding CheckForUpdatesCommand}"
+                                        IsEnabled="{Binding IsInitialized}"
+                                        ToolTip="{Binding UpdateStatusText}" Margin="0,0,0,2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="&#xE895;" Style="{StaticResource IconGlyph}" FontSize="14"
+                                                   HorizontalAlignment="Left"
+                                                   Foreground="{DynamicResource DownloadBrush}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding UpdateButtonText}" FontSize="12.5"
+                                                   Margin="9,0,4,0" VerticalAlignment="Center"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </Grid>
                                 </Button>
 
                                 <ToggleButton Style="{StaticResource NavToggle}"
@@ -384,10 +406,10 @@
                                 Padding="9,5" Margin="0,0,10,0">
                             <TextBlock FontSize="9.5" VerticalAlignment="Center"
                                        Foreground="{DynamicResource TextSecondaryBrush}">
-                                <Run Text="&#x2193;" Foreground="{DynamicResource CyanBrush}" />
+                                <Run Text="&#x2193;" Foreground="{DynamicResource DownloadBrush}" />
                                 <Run Text="{Binding DownloadSpeedText, Mode=OneWay}" />
                                 <Run Text="   " />
-                                <Run Text="&#x2191;" Foreground="{DynamicResource PinkBrush}" />
+                                <Run Text="&#x2191;" Foreground="{DynamicResource UploadBrush}" />
                                 <Run Text="{Binding UploadSpeedText, Mode=OneWay}" />
                             </TextBlock>
                         </Border>
@@ -444,7 +466,7 @@
                             <TextBlock Text="{loc:T 'Local data only'}" FontSize="8.5"
                                        Foreground="{DynamicResource TextDisabledBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="VibeTorrent 1.3.0" FontSize="8.5" Foreground="{DynamicResource TextDisabledBrush}" />
+                            <TextBlock Text="VibeTorrent 1.4.0" FontSize="8.5" Foreground="{DynamicResource TextDisabledBrush}" />
                         </StackPanel>
                     </Grid>
                 </Border>

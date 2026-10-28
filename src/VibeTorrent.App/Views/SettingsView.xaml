@@ -370,6 +370,66 @@
                     </StackPanel>
                 </Border>
 
+                <!-- updates -->
+                <Border Style="{StaticResource SettingsSection}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+                            <Border Style="{StaticResource SectionIcon}" Background="{DynamicResource B_1622D3EE}"
+                                    BorderBrush="{DynamicResource B_3022D3EE}">
+                                <TextBlock Text="&#xE895;" Style="{StaticResource IconGlyph}" FontSize="15"
+                                           Foreground="{DynamicResource DownloadBrush}" />
+                            </Border>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="{loc:T 'Updates'}" Style="{StaticResource H3}" />
+                                <TextBlock Text="{loc:T 'Check and install new versions'}"
+                                           Style="{StaticResource SettingHint}" Margin="0,1,0,0" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SettingRow}">
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="{loc:T 'Check for updates automatically'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Uses the public GitHub Releases feed'}" Style="{StaticResource SettingHint}" />
+                                </StackPanel>
+                                <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
+                                              IsChecked="{Binding AutoCheckUpdates}" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingRow}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{loc:T 'Check interval'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'How often to look for a new release'}" Style="{StaticResource SettingHint}" />
+                                </StackPanel>
+                                <TextBox Grid.Column="1" Style="{StaticResource NumberBox}" Width="80"
+                                         IsEnabled="{Binding AutoCheckUpdates}"
+                                         Text="{Binding UpdateIntervalText, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Grid.Column="2" Text="{loc:T 'hours'}" Margin="8,0,0,0"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingRow}" BorderThickness="0" Padding="0,12,0,0">
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="{loc:T 'Install updates automatically'}" Style="{StaticResource SettingLabel}" />
+                                    <TextBlock Text="{loc:T 'Downloads, installs and restarts VibeTorrent. When off, updates are only checked.'}"
+                                               Style="{StaticResource SettingHint}" />
+                                </StackPanel>
+                                <ToggleButton Style="{StaticResource ToggleSwitch}" HorizontalAlignment="Right"
+                                              IsChecked="{Binding AutoInstallUpdates}" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
                 <!-- speed -->
                 <Border Style="{StaticResource SettingsSection}">
                     <StackPanel>
@@ -503,7 +563,7 @@
                     <Button Style="{StaticResource GhostButton}" Command="{Binding ResetCommand}">
                         <TextBlock Text="{loc:T 'Reset to defaults'}" />
                     </Button>
-                    <TextBlock Text="VibeTorrent 1.3.0 · MonoTorrent 3.0.2" Style="{StaticResource MicroCaption}"
+                    <TextBlock Text="VibeTorrent 1.4.0 · MonoTorrent 3.0.2" Style="{StaticResource MicroCaption}"
                                VerticalAlignment="Center" Margin="14,0,0,0" Foreground="{DynamicResource TextDisabledBrush}" />
                 </StackPanel>
             </StackPanel>

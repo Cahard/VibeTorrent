@@ -83,7 +83,7 @@
     <!-- ============================== buttons ============================== -->
 
     <Style x:Key="PrimaryButton" TargetType="{x:Type Button}">
-        <Setter Property="Foreground" Value="{DynamicResource B_FFFFFF}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnAccentBrush}" />
         <Setter Property="FontFamily" Value="{StaticResource TextFont}" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="FontWeight" Value="SemiBold" />
@@ -98,15 +98,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid x:Name="Root" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True">
-                        <Border CornerRadius="11" BorderThickness="1" BorderBrush="{DynamicResource B_4DFFFFFF}">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="{DynamicResource C_06B6D4}" Offset="0" />
-                                    <GradientStop Color="{DynamicResource C_7C3AED}" Offset="0.52" />
-                                    <GradientStop Color="{DynamicResource C_DB2777}" Offset="1" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                        </Border>
+                        <Border CornerRadius="11" BorderThickness="1"
+                                BorderBrush="{DynamicResource B_4DFFFFFF}"
+                                Background="{DynamicResource PrimaryButtonGradient}" />
                         <Border CornerRadius="11" BorderThickness="1" BorderBrush="{DynamicResource B_33FFFFFF}"
                                 Margin="1" IsHitTestVisible="False">
                             <Border.Background>
@@ -377,9 +371,9 @@
                             <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="Bg" Property="Background" Value="{DynamicResource B_1F7C3AED}" />
-                            <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource B_667C3AED}" />
-                            <Setter Property="Foreground" Value="{DynamicResource B_F5F3FF}" />
+                            <Setter TargetName="Bg" Property="Background" Value="{DynamicResource SelectedChipBrush}" />
+                            <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource SelectedChipBorderBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource SelectedChipForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -410,9 +404,9 @@
                             <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="Bg" Property="Background" Value="{DynamicResource B_337C3AED}" />
-                            <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource B_8B5CF6}" />
-                            <Setter Property="Foreground" Value="{DynamicResource B_F5F3FF}" />
+                            <Setter TargetName="Bg" Property="Background" Value="{DynamicResource SelectedChipBrush}" />
+                            <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource SelectedChipBorderBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource SelectedChipForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -845,7 +839,7 @@
                             <Setter TargetName="Glow" Property="Opacity" Value="1" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Card" Property="BorderBrush" Value="{DynamicResource B_667C3AED}" />
+                            <Setter TargetName="Card" Property="BorderBrush" Value="{DynamicResource SelectedChipBorderBrush}" />
                             <Setter TargetName="Card" Property="Background" Value="{DynamicResource B_191D33}" />
                             <Setter TargetName="SelectionLine" Property="Opacity" Value="1" />
                         </Trigger>

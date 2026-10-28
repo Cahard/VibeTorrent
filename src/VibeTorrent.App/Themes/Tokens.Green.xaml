@@ -130,4 +130,23 @@
         <GradientStop Color="#166534" Offset="1" />
     </LinearGradientBrush>
 
+
+    <!-- Semantic traffic and primary-action colours: the same keys in every theme. -->
+    <SolidColorBrush x:Key="DownloadBrush" Color="#34D399" />
+    <SolidColorBrush x:Key="UploadBrush" Color="#FB7185" />
+    <SolidColorBrush x:Key="OnAccentBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="SelectedChipBrush" Color="#3348ED8A" />
+    <SolidColorBrush x:Key="SelectedChipBorderBrush" Color="#68F6A1" />
+    <SolidColorBrush x:Key="SelectedChipForeground" Color="#ECFDF5" />
+    <LinearGradientBrush x:Key="DownloadAreaBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#5534D399" Offset="0" />
+        <GradientStop Color="#0034D399" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="UploadAreaBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#55FB7185" Offset="0" />
+        <GradientStop Color="#00FB7185" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PrimaryButtonGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#047857" Offset="0" /><GradientStop Color="#059669" Offset="0.52" /><GradientStop Color="#065F46" Offset="1" />
+    </LinearGradientBrush>
 </ResourceDictionary>

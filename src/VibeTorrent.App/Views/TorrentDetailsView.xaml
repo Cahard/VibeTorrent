@@ -305,28 +305,16 @@
                                         <TextBlock Text="{loc:T 'Download'}" FontSize="9"
                                                    Foreground="{DynamicResource TextMutedBrush}" Margin="2,0,0,2" />
                                         <controls:Sparkline Values="{Binding SelectedTorrent.DownloadHistory}"
-                                                            Stroke="{DynamicResource CyanBrush}" Height="42"
+                                                            Stroke="{DynamicResource DownloadBrush}" Fill="{DynamicResource DownloadAreaBrush}" Height="42"
                                                             StrokeThickness="1.5">
-                                            <controls:Sparkline.Fill>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                    <GradientStop Color="{DynamicResource C_4422D3EE}" Offset="0" />
-                                                    <GradientStop Color="{DynamicResource C_0022D3EE}" Offset="1" />
-                                                </LinearGradientBrush>
-                                            </controls:Sparkline.Fill>
                                         </controls:Sparkline>
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Margin="8,0,0,0">
                                         <TextBlock Text="{loc:T 'Upload'}" FontSize="9"
                                                    Foreground="{DynamicResource TextMutedBrush}" Margin="2,0,0,2" />
                                         <controls:Sparkline Values="{Binding SelectedTorrent.UploadHistory}"
-                                                            Stroke="{DynamicResource PinkBrush}" Height="42"
+                                                            Stroke="{DynamicResource UploadBrush}" Fill="{DynamicResource UploadAreaBrush}" Height="42"
                                                             StrokeThickness="1.5">
-                                            <controls:Sparkline.Fill>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                    <GradientStop Color="{DynamicResource C_44F472B6}" Offset="0" />
-                                                    <GradientStop Color="{DynamicResource C_00F472B6}" Offset="1" />
-                                                </LinearGradientBrush>
-                                            </controls:Sparkline.Fill>
                                         </controls:Sparkline>
                                     </StackPanel>
                                 </Grid>
@@ -415,7 +403,7 @@
                                 <StackPanel>
                                     <TextBlock Text="{loc:T 'INFO HASH'}" Style="{StaticResource MicroCaption}" />
                                     <TextBlock Text="{Binding Details.Summary.InfoHash}" FontFamily="{StaticResource MonoFont}"
-                                               FontSize="9" Foreground="{DynamicResource TextMutedBrush}" Margin="0,3,0,0" />
+                                               FontSize="9.5" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,3,0,0" />
                                 </StackPanel>
                                 <Button Style="{StaticResource IconButton}" Width="27" Height="27"
                                         HorizontalAlignment="Right" Command="{Binding CopyInfoHashCommand}"
@@ -576,7 +564,7 @@
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                                         <TextBlock Text="{Binding DownloadSpeed, Converter={StaticResource Speed}, StringFormat='↓ {0}'}"
-                                                   FontSize="9" Foreground="{DynamicResource CyanBrush}" HorizontalAlignment="Right" />
+                                                   FontSize="9" Foreground="{DynamicResource DownloadBrush}" HorizontalAlignment="Right" />
                                         <TextBlock Text="{Binding Progress, Converter={StaticResource Percent}}"
                                                    FontSize="8.5" Foreground="{DynamicResource TextMutedBrush}"
                                                    HorizontalAlignment="Right" Margin="0,2,0,0" />

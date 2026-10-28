@@ -16,6 +16,10 @@ public sealed class AppSettings
     public string Language { get; set; } = "en";
     public string AfterDownloadsComplete { get; set; } = "none";
     public string Theme { get; set; } = "dark";
+    public bool AutoCheckUpdates { get; set; } = true;
+    public bool AutoInstallUpdates { get; set; } = true;
+    public int UpdateCheckIntervalHours { get; set; } = 24;
+    public DateTime? LastUpdateCheckUtc { get; set; }
     public int ListenPort { get; set; } = 55123;
     public int MaxDownloadKbps { get; set; }
     public int MaxUploadKbps { get; set; }
@@ -48,6 +52,10 @@ public sealed class AppSettings
         Language = Language,
         AfterDownloadsComplete = AfterDownloadsComplete,
         Theme = Theme,
+        AutoCheckUpdates = AutoCheckUpdates,
+        AutoInstallUpdates = AutoInstallUpdates,
+        UpdateCheckIntervalHours = UpdateCheckIntervalHours,
+        LastUpdateCheckUtc = LastUpdateCheckUtc,
         ListenPort = ListenPort,
         MaxDownloadKbps = MaxDownloadKbps,
         MaxUploadKbps = MaxUploadKbps,
@@ -128,6 +136,11 @@ public sealed class AppSettings
         if (DiskCacheMb is < 8 or > 1024)
         {
             errors.Add(L.T("The disk cache must be between 8 and 1,024 MB."));
+        }
+
+        if (UpdateCheckIntervalHours is < 1 or > 720)
+        {
+            errors.Add(L.T("The update check interval must be between 1 and 720 hours."));
         }
 
         if (paths.RootDirectory.Length > 200)
@@ -243,6 +256,13 @@ public sealed class AppSettings
         else if (Theme != normalizedTheme)
         {
             Theme = normalizedTheme;
+            changed = true;
+        }
+
+        var updateHours = Math.Clamp(UpdateCheckIntervalHours, 1, 720);
+        if (updateHours != UpdateCheckIntervalHours)
+        {
+            UpdateCheckIntervalHours = updateHours;
             changed = true;
         }
 

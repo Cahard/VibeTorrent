@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.4.0 — 2026-10-28
+
+### Added
+
+- Automatic update checks against GitHub Releases with a configurable interval.
+- Optional silent download, install and restart; when disabled, updates are checked and installed manually from the sidebar.
+- "Check for updates" action in the left sidebar.
+
+### Fixed
+
+- Download traffic is green and upload traffic red in the light theme; the same semantic colors are used in the green theme.
+- Upload chart stroke uses the same color family as the rest of the theme.
+- Pausing a torrent now reports zero speed immediately in the UI and clears the graph.
+- Light-theme primary buttons use a blue gradient with white text; selected chips are blue.
+- Info hash is readable in the light theme.
+- "Add by link" matches the other sidebar actions; the tiny brand subtitle was removed.
+
 ## 1.3.0 — 2026-10-28
 
 ### Added

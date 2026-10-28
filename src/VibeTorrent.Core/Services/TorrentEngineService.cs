@@ -1689,7 +1689,11 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         var ratio = manager.Monitor.DataBytesReceived > 0
             ? (double)upload / manager.Monitor.DataBytesReceived
             : 0;
-        var speed = Math.Max(0, manager.Monitor.DownloadRate);
+        var idle = managed.Record.StartPaused || managed.AutoPaused ||
+                   manager.State is TorrentState.Paused or TorrentState.Stopped
+                       or TorrentState.Stopping or TorrentState.Error;
+        var speed = idle ? 0 : Math.Max(0, manager.Monitor.DownloadRate);
+        var uploadSpeed = idle ? 0 : Math.Max(0, manager.Monitor.UploadRate);
         var isComplete = progress >= 0.9999;
         long? eta = null;
         if (!isComplete && speed > 0 && selected > downloaded)
@@ -1720,7 +1724,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
             DownloadedBytes = Math.Max(0, downloaded),
             UploadedBytes = Math.Max(0, upload),
             DownloadSpeed = speed,
-            UploadSpeed = Math.Max(0, manager.Monitor.UploadRate),
+            UploadSpeed = uploadSpeed,
             EtaSeconds = eta,
             PeerCount = Math.Max(manager.OpenConnections, manager.Peers.Available),
             SeedCount = manager.Peers.Seeds,
@@ -1800,8 +1804,10 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
 
         snapshots.Sort(static (a, b) => b.AddedAt.CompareTo(a.AddedAt));
 
-        var totalDownload = _torrents.Values.Sum(t => Math.Max(0, t.Manager.Monitor.DownloadRate));
-        var totalUpload = _torrents.Values.Sum(t => Math.Max(0, t.Manager.Monitor.UploadRate));
+        // Use the snapshots, not the raw monitors: paused/queued managers can
+        // retain a non-zero monitor rate for a few samples.
+        var totalDownload = snapshots.Sum(s => Math.Max(0, s.DownloadSpeed));
+        var totalUpload = snapshots.Sum(s => Math.Max(0, s.UploadSpeed));
         var totalDownloaded = _torrents.Values.Sum(t => Math.Max(0, t.Manager.Monitor.DataBytesReceived));
         var totalUploaded = _torrents.Values.Sum(t => Math.Max(0, t.Manager.Monitor.DataBytesSent));
         var dhtState = DhtState.NotReady;

@@ -25,7 +25,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel VerticalAlignment="Center">
                 <TextBlock Text="{Binding HeaderEyebrow}" Style="{StaticResource MicroCaption}"
-                           Foreground="{DynamicResource CyanBrush}" Margin="0,0,0,4" />
+                           Foreground="{DynamicResource DownloadBrush}" Margin="0,0,0,4" />
                 <TextBlock Text="{Binding HeaderTitle}" Style="{StaticResource DisplayTitle}" />
                 <TextBlock Text="{Binding HeaderSubtitle}" Style="{StaticResource Caption}" Margin="1,3,0,0" />
             </StackPanel>
@@ -80,7 +80,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Border Width="25" Height="25" CornerRadius="8" Background="{DynamicResource B_2222D3EE}" Margin="0,0,8,0">
                                 <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" FontSize="12"
-                                           Foreground="{DynamicResource CyanBrush}" />
+                                           Foreground="{DynamicResource DownloadBrush}" />
                             </Border>
                             <TextBlock Text="{loc:T 'DOWNLOAD'}" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
                         </StackPanel>
@@ -97,17 +97,11 @@
                             <TextBlock Text="{Binding DownloadSpeedText}" Style="{StaticResource H2}"
                                        FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource B_E9FDFF}" />
                             <TextBlock Text="{Binding ActiveCaption}" Style="{StaticResource MicroCaption}"
-                                       Foreground="{DynamicResource CyanBrush}" Margin="0,2,0,0" />
+                                       Foreground="{DynamicResource DownloadBrush}" Margin="0,2,0,0" />
                         </StackPanel>
                         <controls:Sparkline Grid.Column="1" Values="{Binding DownloadHistory}"
-                                            Stroke="{DynamicResource CyanBrush}" Height="36"
+                                            Stroke="{DynamicResource DownloadBrush}" Fill="{DynamicResource DownloadAreaBrush}" Height="36"
                                             VerticalAlignment="Center" Margin="4,4,0,0">
-                            <controls:Sparkline.Fill>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                    <GradientStop Color="{DynamicResource C_4422D3EE}" Offset="0" />
-                                    <GradientStop Color="{DynamicResource C_0022D3EE}" Offset="1" />
-                                </LinearGradientBrush>
-                            </controls:Sparkline.Fill>
                         </controls:Sparkline>
                     </Grid>
                 </Grid>
@@ -131,7 +125,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Border Width="25" Height="25" CornerRadius="8" Background="{DynamicResource B_26F472B6}" Margin="0,0,8,0">
                                 <TextBlock Text="&#xE898;" Style="{StaticResource IconGlyph}" FontSize="12"
-                                           Foreground="{DynamicResource PinkBrush}" />
+                                           Foreground="{DynamicResource UploadBrush}" />
                             </Border>
                             <TextBlock Text="{loc:T 'UPLOAD'}" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
                         </StackPanel>
@@ -148,17 +142,11 @@
                             <TextBlock Text="{Binding UploadSpeedText}" Style="{StaticResource H2}"
                                        FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource B_FFF1F8}" />
                             <TextBlock Text="{loc:T 'ratio and seeding'}" Style="{StaticResource MicroCaption}"
-                                       Foreground="{DynamicResource PinkBrush}" Margin="0,2,0,0" />
+                                       Foreground="{DynamicResource UploadBrush}" Margin="0,2,0,0" />
                         </StackPanel>
                         <controls:Sparkline Grid.Column="1" Values="{Binding UploadHistory}"
-                                            Stroke="{DynamicResource PinkBrush}" Height="36"
+                                            Stroke="{DynamicResource UploadBrush}" Fill="{DynamicResource UploadAreaBrush}" Height="36"
                                             VerticalAlignment="Center" Margin="4,4,0,0">
-                            <controls:Sparkline.Fill>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                    <GradientStop Color="{DynamicResource C_44F472B6}" Offset="0" />
-                                    <GradientStop Color="{DynamicResource C_00F472B6}" Offset="1" />
-                                </LinearGradientBrush>
-                            </controls:Sparkline.Fill>
                         </controls:Sparkline>
                     </Grid>
                 </Grid>
@@ -405,13 +393,13 @@
 
                             <StackPanel Grid.Column="2" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#x2193;" FontSize="11" Foreground="{DynamicResource CyanBrush}"
+                                    <TextBlock Text="&#x2193;" FontSize="11" Foreground="{DynamicResource DownloadBrush}"
                                                Margin="0,0,4,0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding DownloadSpeedText}" FontSize="11.3" FontWeight="SemiBold"
                                                Foreground="{DynamicResource B_DDFBFF}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                    <TextBlock Text="&#x2191;" FontSize="11" Foreground="{DynamicResource PinkBrush}"
+                                    <TextBlock Text="&#x2191;" FontSize="11" Foreground="{DynamicResource UploadBrush}"
                                                Margin="0,0,4,0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding UploadSpeedText}" FontSize="10.5"
                                                Foreground="{DynamicResource TextSecondaryBrush}" />

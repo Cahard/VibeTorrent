@@ -62,6 +62,8 @@ VibeTorrent는 C# / .NET 10 / WPF와 **MonoTorrent 3.0.2**로 만든 Windows 11�
 - 토렌트별 다운로드/업로드 속도 제한(0 = 개별 제한 없음).
 - 세부 정보의 선택한 토렌트 다운로드/업로드 그래프.
 - 설정은 자동 저장되며 라이브러리의 다른 보기로 이동하면 닫힙니다.
+- N시간마다 GitHub Releases에서 업데이트를 자동 확인하고 선택적으로 자동 설치/재시작합니다.
+- 사이드바의 수동 '업데이트 확인' 버튼.
 - 세 가지 테마: 미드나이트, 그린, 라이트.
 - High/Normal/Low 수동 다운로드 큐와 대기 상태 표시.
 - 다운로드 중 폴더 이동: 파일을 옮기고 다운로드를 자동 재개.
@@ -240,7 +242,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### 광고가 있는 클라이언트인가요?
 
-아니요. GPL-3.0 오픈소스이며 v1.3에는 광고, 텔레메트리, 유료 기능이 없습니다.
+아니요. GPL-3.0 오픈소스이며 v1.4에는 광고, 텔레메트리, 유료 기능이 없습니다.
 
 ### Windows 10에서도 되나요?
 
@@ -260,7 +262,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### 스케줄러나 토렌트별 제한이 있나요?
 
-v1.3에는 전역 및 토렌트별 속도 제한, High/Normal/Low 큐가 있습니다. 시간 예약 스케줄러는 없습니다.
+v1.4에는 전역 및 토렌트별 속도 제한, High/Normal/Low 큐가 있습니다. 시간 예약 스케줄러는 없습니다.
 
 ### 인터페이스가 영어만 지원하나요?
 

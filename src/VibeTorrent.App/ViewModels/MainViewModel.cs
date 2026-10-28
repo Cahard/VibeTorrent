@@ -27,6 +27,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     private readonly AppPaths _paths;
     private readonly IDialogService _dialogs;
     private readonly IStartupService _startupService;
+    private readonly IUpdateService _updates;
     private readonly IUiDispatcher _ui;
     private readonly ILogger<MainViewModel> _logger;
 
@@ -38,7 +39,11 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     private readonly Queue<double> _uploadSamplesQueue = new();
     private readonly DispatcherTimer _storageTimer;
     private readonly DispatcherTimer _settingsSaveTimer;
+    private readonly DispatcherTimer _updateTimer;
     private bool _settingsSaveInFlight;
+    private bool _updateCheckInFlight;
+    private bool _updateDownloadInFlight;
+    private UpdateInfo? _pendingUpdate;
 
     private AppSettings _settings = AppSettings.Default;
     private CancellationTokenSource? _detailsCts;
@@ -61,6 +66,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         AppPaths paths,
         IDialogService dialogs,
         IStartupService startupService,
+        IUpdateService updates,
         IUiDispatcher ui,
         ILogger<MainViewModel> logger)
     {
@@ -70,6 +76,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         _paths = paths;
         _dialogs = dialogs;
         _startupService = startupService;
+        _updates = updates;
         _ui = ui;
         _logger = logger;
 
@@ -95,6 +102,11 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
                 _ = SaveSettingsPageAsync(SettingsPage);
             }, Dispatcher.CurrentDispatcher);
         _settingsSaveTimer = settingsSaveTimer;
+        DispatcherTimer? updateTimer = null;
+        updateTimer = new DispatcherTimer(TimeSpan.FromHours(24), DispatcherPriority.Background,
+            (_, _) => _ = CheckForUpdatesAsync(automatic: true), Dispatcher.CurrentDispatcher);
+        _updateTimer = updateTimer;
+        UpdateButtonText = L.T("Check for updates");
         LocalizationManager.Instance.LanguageChanged += OnLanguageChanged;
     }
 
@@ -120,6 +132,13 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     [ObservableProperty]
     private TorrentItemViewModel? _selectedTorrent;
+
+    [ObservableProperty]
+    private string _updateButtonText = "Check for updates";
+
+    [ObservableProperty]
+    private string _updateStatusText = string.Empty;
+
 
     [ObservableProperty]
     private TorrentDetailsViewModel? _details;
@@ -308,6 +327,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         }
 
         IsInitialized = engineReady;
+        RestartUpdateTimer();
+        _ = RunInitialUpdateCheckAsync();
         if (!string.IsNullOrWhiteSpace(Stats.Warning))
         {
             ShowToast(L.T("Network"), Stats.Warning, ToastKind.Warning);
@@ -646,6 +667,163 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     }
 
     [RelayCommand]
+    private async Task CheckForUpdates()
+    {
+        if (_pendingUpdate is not null)
+        {
+            await InstallPendingUpdateAsync();
+            return;
+        }
+
+        await CheckForUpdatesAsync(automatic: false);
+    }
+
+    private async Task CheckForUpdatesAsync(bool automatic)
+    {
+        if (IsDemoMode || _updateCheckInFlight)
+        {
+            return;
+        }
+
+        _updateCheckInFlight = true;
+        UpdateButtonText = L.T("Checking for updates...");
+        UpdateStatusText = L.T("Checking for updates...");
+        try
+        {
+            var info = await _updates.CheckAsync();
+            _settings.LastUpdateCheckUtc = DateTime.UtcNow;
+            try
+            {
+                await _settingsService.SaveAsync(_settings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "Could not persist the last update check time.");
+            }
+
+            if (info is null)
+            {
+                _pendingUpdate = null;
+                UpdateButtonText = L.T("Check for updates");
+                UpdateStatusText = L.T("You are up to date");
+                OnPropertyChanged(nameof(UpdateButtonText));
+                if (!automatic)
+                {
+                    ShowToast(L.T("Updates"), L.T("You are up to date"), ToastKind.Success);
+                }
+
+                return;
+            }
+
+            _pendingUpdate = info;
+            UpdateButtonText = L.F("Update to {0}", info.Version.ToString(3));
+            UpdateStatusText = L.F("VibeTorrent {0} is available", info.Version.ToString(3));
+            OnPropertyChanged(nameof(UpdateButtonText));
+            ShowToast(
+                L.T("Update available"),
+                L.F("VibeTorrent {0} is available", info.Version.ToString(3)),
+                ToastKind.Info);
+
+            if (_settings.AutoInstallUpdates)
+            {
+                await InstallPendingUpdateAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Update check failed.");
+            UpdateButtonText = _pendingUpdate is null
+                ? L.T("Check for updates")
+                : L.F("Update to {0}", _pendingUpdate.Version.ToString(3));
+            UpdateStatusText = L.T("Could not check for updates");
+            if (!automatic)
+            {
+                ShowToast(L.T("Updates"), ex.Message, ToastKind.Warning);
+            }
+        }
+        finally
+        {
+            _updateCheckInFlight = false;
+        }
+    }
+
+    private async Task InstallPendingUpdateAsync()
+    {
+        if (_pendingUpdate is null || _updateDownloadInFlight)
+        {
+            return;
+        }
+
+        _updateDownloadInFlight = true;
+        try
+        {
+            UpdateStatusText = L.T("Downloading update...");
+            var installer = await _updates.DownloadAsync(_pendingUpdate);
+            if (!_updates.LaunchInstaller(installer))
+            {
+                throw new InvalidOperationException(L.T("Could not start the update installer."));
+            }
+
+            UpdateStatusText = L.T("Installing update...");
+            ShowToast(L.T("Installing update"), L.T("VibeTorrent will restart automatically."), ToastKind.Info);
+            await Task.Delay(350);
+            Application.Current.Shutdown();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Update installation failed.");
+            UpdateStatusText = L.T("Could not install the update");
+            ShowToast(L.T("Updates"), ex.Message, ToastKind.Error);
+        }
+        finally
+        {
+            _updateDownloadInFlight = false;
+        }
+    }
+
+    private void RestartUpdateTimer()
+    {
+        _updateTimer.Stop();
+        if (IsDemoMode || !_settings.AutoCheckUpdates)
+        {
+            return;
+        }
+
+        var hours = Math.Clamp(_settings.UpdateCheckIntervalHours, 1, 720);
+        _updateTimer.Interval = TimeSpan.FromHours(hours);
+        _updateTimer.Start();
+    }
+
+    private async Task RunInitialUpdateCheckAsync()
+    {
+        if (IsDemoMode || !_settings.AutoCheckUpdates)
+        {
+            return;
+        }
+
+        var due = _settings.LastUpdateCheckUtc is null ||
+                  DateTime.UtcNow - _settings.LastUpdateCheckUtc.Value >=
+                  TimeSpan.FromHours(Math.Clamp(_settings.UpdateCheckIntervalHours, 1, 720));
+        if (!due)
+        {
+            return;
+        }
+
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            if (!_disposed)
+            {
+                await CheckForUpdatesAsync(automatic: true);
+            }
+        }
+        catch (Exception)
+        {
+            // The app may be closing; an update check must never crash shutdown.
+        }
+    }
+
+    [RelayCommand]
     private void OpenSettings()
     {
         if (IsSettingsOpen && SettingsPage is not null)
@@ -735,6 +913,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             _settings = candidate.Clone();
             CurrentSettings = _settings;
             IsDetailsPaneOpen = _settings.IsDetailsPaneOpen;
+            RestartUpdateTimer();
             ThemeService.Apply(_settings.Theme);
             LocalizationManager.Instance.SetLanguage(_settings.Language);
 
@@ -785,6 +964,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             _settings = candidate.Clone();
             CurrentSettings = _settings;
             IsDetailsPaneOpen = _settings.IsDetailsPaneOpen;
+            RestartUpdateTimer();
             ThemeService.Apply(_settings.Theme);
             LocalizationManager.Instance.SetLanguage(_settings.Language);
 
@@ -1034,6 +1214,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
         _disposed = true;
         _storageTimer.Stop();
+        _updateTimer.Stop();
         _detailsCts?.Cancel();
         _detailsCts?.Dispose();
         _detailsCts = null;
@@ -1055,6 +1236,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         _storageTimer.Stop();
+        _updateTimer.Stop();
         _detailsCts?.Cancel();
         _detailsCts?.Dispose();
         _engine.SnapshotUpdated -= OnEngineSnapshot;
@@ -1068,6 +1250,9 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     public void RefreshLocalization()
     {
+        UpdateButtonText = _pendingUpdate is null
+            ? L.T("Check for updates")
+            : L.F("Update to {0}", _pendingUpdate.Version.ToString(3));
         OnPropertyChanged(string.Empty);
         foreach (var item in _torrents)
         {

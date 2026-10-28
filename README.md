@@ -62,6 +62,8 @@ Everything is local: the library, files, trackers, peers and settings live in on
 - Per-torrent download/upload limits (0 = no per-torrent cap).
 - Per-torrent download/upload traffic chart in the details pane.
 - Settings save automatically; close them by switching to any library view.
+- Automatic update checks from GitHub Releases every N hours, with optional silent install and restart.
+- Manual "Check for updates" action in the sidebar.
 - Three themes: Midnight, Green and Light.
 - Manual High/Normal/Low download queue with a visible Queued state.
 - Move the download folder while a torrent is downloading; files are moved and the download resumes.
@@ -248,7 +250,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### Is VibeTorrent an ad-supported client?
 
-No. It is open source under GPL-3.0, with no ads, telemetry or paid tier in v1.3.
+No. It is open source under GPL-3.0, with no ads, telemetry or paid tier in v1.4.
 
 ### Does it work on Windows 10?
 
@@ -268,7 +270,7 @@ Yes, including BTIH and multi-hash links. Metadata is fetched from the swarm and
 
 ### Is there a scheduler or per-torrent limit?
 
-v1.3 supports global and per-torrent speed limits plus the High/Normal/Low queue. A time-based scheduler is not included.
+v1.4 supports global and per-torrent speed limits plus the High/Normal/Low queue. A time-based scheduler is not included.
 
 ### Is the interface only in English?
 
