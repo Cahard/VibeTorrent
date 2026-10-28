@@ -250,7 +250,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### Is VibeTorrent an ad-supported client?
 
-No. It is open source under GPL-3.0, with no ads, telemetry or paid tier in v1.4.
+No. It is open source under GPL-3.0, with no ads, telemetry or paid tier in v1.5.
 
 ### Does it work on Windows 10?
 
@@ -270,7 +270,7 @@ Yes, including BTIH and multi-hash links. Metadata is fetched from the swarm and
 
 ### Is there a scheduler or per-torrent limit?
 
-v1.4 supports global and per-torrent speed limits plus the High/Normal/Low queue. A time-based scheduler is not included.
+v1.5 supports global and per-torrent speed limits plus the High/Normal/Low queue. A time-based scheduler is not included.
 
 ### Is the interface only in English?
 

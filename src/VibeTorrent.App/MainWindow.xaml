@@ -162,7 +162,7 @@
                             </StackPanel>
                             <Border Grid.Column="2" CornerRadius="5" Background="{DynamicResource B_14A855F7}" BorderBrush="{DynamicResource B_35A855F7}"
                                     BorderThickness="1" Padding="5,2" VerticalAlignment="Center">
-                                <TextBlock Text="1.4" FontSize="7.5" Foreground="{DynamicResource B_E9D5FF}" FontWeight="SemiBold" />
+                                <TextBlock Text="1.5" FontSize="7.5" Foreground="{DynamicResource B_E9D5FF}" FontWeight="SemiBold" />
                             </Border>
                         </Grid>
 
@@ -464,7 +464,7 @@
                             <TextBlock Text="{loc:T 'Local data only'}" FontSize="8.5"
                                        Foreground="{DynamicResource TextMutedBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="VibeTorrent 1.4.5" FontSize="8.5" Foreground="{DynamicResource TextMutedBrush}" />
+                            <TextBlock Text="VibeTorrent 1.5.0" FontSize="8.5" Foreground="{DynamicResource TextMutedBrush}" />
                         </StackPanel>
                     </Grid>
                 </Border>

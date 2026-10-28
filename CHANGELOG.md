@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.5.0 — 2026-10-28
+
+### Added
+
+- Compact torrent list view, switchable from the library toolbar and remembered between launches.
+
+### Fixed
+
+- Active navigation, detail tabs, torrent-type tabs, priority selectors, and primary buttons use white text in the light theme.
+- Light gradient and modal shadows are softer and correctly colored.
+- Status bar text is readable in the light theme.
+- Update checks prefer the GitHub release page, have a strict timeout, and no longer impose that timeout on downloads.
+- Session state is backed up and restored from `session.json.bak`.
+
 ## 1.4.5 — 2026-10-28
 
 ### Fixed

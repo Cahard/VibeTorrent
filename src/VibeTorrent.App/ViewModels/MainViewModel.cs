@@ -174,6 +174,9 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     private bool _isDetailsPaneOpen = true;
 
     [ObservableProperty]
+    private bool _isCompactView;
+
+    [ObservableProperty]
     private string _selectedDownloadLimitText = "0";
 
     [ObservableProperty]
@@ -259,6 +262,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public bool HasSearch => !string.IsNullOrWhiteSpace(SearchText);
     public bool IsSearchEmpty => HasSearch && FilteredCount == 0;
     public bool ShowDetailsPane => IsDetailsPaneOpen && SelectedTorrent is not null && !IsSettingsOpen;
+    public bool ShowCardList => ShowTorrentList && !IsCompactView;
+    public bool ShowCompactList => ShowTorrentList && IsCompactView;
     public string EmptyStateTitle => IsSearchEmpty ? L.T("No results") : L.T("Nothing here yet");
     public string EmptyStateDescription => IsSearchEmpty
         ? L.T("Try a different query or reset the filters.")
@@ -286,6 +291,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         CurrentSettings = _settings;
         IsDemoMode = demoMode;
         IsDetailsPaneOpen = settings.IsDetailsPaneOpen;
+        IsCompactView = settings.CompactList;
         SortMode = string.IsNullOrWhiteSpace(settings.SortMode) ? "added" : settings.SortMode;
         SelectedFilter = string.IsNullOrWhiteSpace(settings.LastFilter) ? "all" : settings.LastFilter;
         CurrentSettings = _settings;
@@ -469,6 +475,13 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     {
         SearchText = string.Empty;
         SelectedFilter = "all";
+    }
+
+    [RelayCommand]
+    private void ToggleCompactView()
+    {
+        IsCompactView = !IsCompactView;
+        PersistUiStateLater();
     }
 
     [RelayCommand]
@@ -902,6 +915,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         candidate.WindowHeight = _settings.WindowHeight;
         candidate.IsWindowMaximized = _settings.IsWindowMaximized;
         candidate.IsDetailsPaneOpen = IsDetailsPaneOpen;
+        candidate.CompactList = IsCompactView;
         candidate.SortMode = SortMode;
         candidate.LastFilter = SelectedFilter;
         candidate.LastUpdateCheckUtc = _settings.LastUpdateCheckUtc;
@@ -916,6 +930,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             _settings = candidate.Clone();
             CurrentSettings = _settings;
             IsDetailsPaneOpen = _settings.IsDetailsPaneOpen;
+            IsCompactView = _settings.CompactList;
             RestartUpdateTimer();
             ThemeService.Apply(_settings.Theme);
             LocalizationManager.Instance.SetLanguage(_settings.Language);
@@ -1221,6 +1236,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             _settings.WindowHeight = height;
             _settings.IsWindowMaximized = maximized;
             _settings.IsDetailsPaneOpen = IsDetailsPaneOpen;
+        _settings.CompactList = IsCompactView;
             _settings.SortMode = SortMode;
             _settings.LastFilter = SelectedFilter;
             await _settingsService.SaveAsync(_settings);
@@ -1577,6 +1593,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(IsFilterEmpty));
         OnPropertyChanged(nameof(IsSearchEmpty));
         OnPropertyChanged(nameof(ShowTorrentList));
+        OnPropertyChanged(nameof(ShowCardList));
+        OnPropertyChanged(nameof(ShowCompactList));
 
         if (SelectedFilter != "all" || SearchText.Length > 0)
         {
@@ -2030,6 +2048,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(FilteredCount));
         OnPropertyChanged(nameof(IsFilterEmpty));
         OnPropertyChanged(nameof(ShowTorrentList));
+        OnPropertyChanged(nameof(ShowCardList));
+        OnPropertyChanged(nameof(ShowCompactList));
         OnPropertyChanged(nameof(EmptyStateTitle));
         OnPropertyChanged(nameof(EmptyStateDescription));
         TorrentsView.Refresh();
@@ -2044,6 +2064,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(IsSearchEmpty));
         OnPropertyChanged(nameof(IsFilterEmpty));
         OnPropertyChanged(nameof(ShowTorrentList));
+        OnPropertyChanged(nameof(ShowCardList));
+        OnPropertyChanged(nameof(ShowCompactList));
         OnPropertyChanged(nameof(EmptyStateTitle));
         OnPropertyChanged(nameof(EmptyStateDescription));
     }
@@ -2052,6 +2074,12 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     {
         ApplySort();
         OnPropertyChanged(nameof(SortLabel));
+    }
+
+    partial void OnIsCompactViewChanged(bool value)
+    {
+        OnPropertyChanged(nameof(ShowCardList));
+        OnPropertyChanged(nameof(ShowCompactList));
     }
 
     partial void OnIsDetailsPaneOpenChanged(bool value)
@@ -2066,6 +2094,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     partial void OnIsLoadingChanged(bool value)
     {
         OnPropertyChanged(nameof(ShowTorrentList));
+        OnPropertyChanged(nameof(ShowCardList));
+        OnPropertyChanged(nameof(ShowCompactList));
         OnPropertyChanged(nameof(IsLibraryEmpty));
         OnPropertyChanged(nameof(IsFilterEmpty));
     }

@@ -242,7 +242,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### 광고가 있는 클라이언트인가요?
 
-아니요. GPL-3.0 오픈소스이며 v1.4에는 광고, 텔레메트리, 유료 기능이 없습니다.
+아니요. GPL-3.0 오픈소스이며 v1.5에는 광고, 텔레메트리, 유료 기능이 없습니다.
 
 ### Windows 10에서도 되나요?
 
@@ -262,7 +262,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### 스케줄러나 토렌트별 제한이 있나요?
 
-v1.4에는 전역 및 토렌트별 속도 제한, High/Normal/Low 큐가 있습니다. 시간 예약 스케줄러는 없습니다.
+v1.5에는 전역 및 토렌트별 속도 제한, High/Normal/Low 큐가 있습니다. 시간 예약 스케줄러는 없습니다.
 
 ### 인터페이스가 영어만 지원하나요?
 

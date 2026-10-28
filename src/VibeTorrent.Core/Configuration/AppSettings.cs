@@ -37,6 +37,7 @@ public sealed class AppSettings
     public bool StartWithWindows { get; set; }
     public bool ShowNotifications { get; set; } = true;
     public bool IsDetailsPaneOpen { get; set; } = true;
+    public bool CompactList { get; set; }
     public double WindowWidth { get; set; } = 1440;
     public double WindowHeight { get; set; } = 900;
     public bool IsWindowMaximized { get; set; }
@@ -73,6 +74,7 @@ public sealed class AppSettings
         StartWithWindows = StartWithWindows,
         ShowNotifications = ShowNotifications,
         IsDetailsPaneOpen = IsDetailsPaneOpen,
+        CompactList = CompactList,
         WindowWidth = WindowWidth,
         WindowHeight = WindowHeight,
         IsWindowMaximized = IsWindowMaximized,

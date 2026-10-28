@@ -582,7 +582,7 @@
                     <Button Style="{StaticResource GhostButton}" Command="{Binding ResetCommand}">
                         <TextBlock Text="{loc:T 'Reset to defaults'}" />
                     </Button>
-                    <TextBlock Text="VibeTorrent 1.4.5 · MonoTorrent 3.0.2" Style="{StaticResource MicroCaption}"
+                    <TextBlock Text="VibeTorrent 1.5.0 · MonoTorrent 3.0.2" Style="{StaticResource MicroCaption}"
                                VerticalAlignment="Center" Margin="14,0,0,0" Foreground="{DynamicResource TextDisabledBrush}" />
                     <TextBlock VerticalAlignment="Center" Margin="12,0,0,0">
                         <Hyperlink NavigateUri="https://github.com/Cahard/VibeTorrent"

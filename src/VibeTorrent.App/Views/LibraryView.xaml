@@ -254,6 +254,10 @@
 
                 <Border Style="{StaticResource ToolbarSeparator}" Margin="8,0" />
 
+                <Button Style="{StaticResource IconButton}" Command="{Binding ToggleCompactViewCommand}"
+                        ToolTip="{loc:T 'Compact list'}" Margin="0,0,4,0">
+                    <TextBlock Text="&#xE8FD;" Style="{StaticResource IconGlyph}" FontSize="14" />
+                </Button>
                 <Button Style="{StaticResource IconButton}" Command="{Binding ToggleDetailsPaneCommand}"
                         ToolTip="{loc:T 'Details panel'}">
                     <Viewbox Width="14" Height="14">
@@ -329,7 +333,8 @@
             <ListBox ItemsSource="{Binding TorrentsView}"
                      SelectedItem="{Binding SelectedTorrent, Mode=TwoWay}"
                      ItemContainerStyle="{StaticResource TorrentCardItem}"
-                     Visibility="{Binding ShowTorrentList, Converter={StaticResource BoolToVisibility}}"
+                     Background="Transparent"
+                     Visibility="{Binding ShowCardList, Converter={StaticResource BoolToVisibility}}"
                      Padding="0,0,8,0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -472,6 +477,111 @@
                                         </Button>
                                     </StackPanel>
                                 </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <ListBox ItemsSource="{Binding TorrentsView}"
+                     SelectedItem="{Binding SelectedTorrent, Mode=TwoWay}"
+                     ItemContainerStyle="{StaticResource TorrentCompactItem}"
+                     Background="Transparent"
+                     Visibility="{Binding ShowCompactList, Converter={StaticResource BoolToVisibility}}"
+                     Padding="0,0,8,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="44" Margin="12,0" ToolTip="{Binding StatusDetail}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="104" />
+                                <ColumnDefinition Width="112" />
+                                <ColumnDefinition Width="82" />
+                                <ColumnDefinition Width="84" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Width="24" Height="24" VerticalAlignment="Center">
+                                <controls:ProgressRing Value="{Binding Progress, Mode=OneWay}" Thickness="2"
+                                                       ProgressBrush="{Binding Status, Converter={StaticResource StatusBrush}}"
+                                                       TrackBrush="#16FFFFFF" />
+                                <TextBlock Text="{Binding Status, Converter={StaticResource StatusGlyph}}"
+                                           Style="{StaticResource IconGlyph}" FontSize="9"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Foreground="{Binding Status, Converter={StaticResource StatusBrush}}" />
+                            </Grid>
+                            <StackPanel Grid.Column="1" Margin="8,0,14,0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" FontSize="12.2" FontWeight="SemiBold"
+                                           TextTrimming="CharacterEllipsis" />
+                                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                    <TextBlock Text="{Binding StatusText}" FontSize="9.5"
+                                               Foreground="{Binding Status, Converter={StaticResource StatusBrush}}" />
+                                    <TextBlock Text="{Binding ProgressText}" FontSize="9.5" Margin="7,0,0,0"
+                                               Foreground="{DynamicResource TextMutedBrush}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,8,0">
+                                <controls:LinearProgress Value="{Binding Progress, Mode=OneWay}" Height="3"
+                                                         TrackBrush="#16FFFFFF"
+                                                         ProgressBrush="{Binding Status, Converter={StaticResource StatusBrush}}" />
+                                <TextBlock Text="{Binding ProgressText}" FontSize="8.5" Margin="0,3,0,0"
+                                           Foreground="{DynamicResource TextMutedBrush}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="3" VerticalAlignment="Center">
+                                <TextBlock FontSize="9.5" Foreground="{DynamicResource TextSecondaryBrush}">
+                                    <Run Text="&#x2193;" Foreground="{DynamicResource DownloadBrush}" />
+                                    <Run Text="{Binding DownloadSpeedText, Mode=OneWay}" />
+                                </TextBlock>
+                                <TextBlock FontSize="9.5" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0">
+                                    <Run Text="&#x2191;" Foreground="{DynamicResource UploadBrush}" />
+                                    <Run Text="{Binding UploadSpeedText, Mode=OneWay}" />
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Column="4" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding SizeText}" FontSize="10" FontWeight="SemiBold"
+                                           HorizontalAlignment="Right" Foreground="{DynamicResource TextSecondaryBrush}" />
+                                <TextBlock Text="{Binding DownloadedText}" FontSize="8.5"
+                                           HorizontalAlignment="Right" Foreground="{DynamicResource TextMutedBrush}" Margin="0,2,0,0" />
+                            </StackPanel>
+                            <Border Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                    Background="{DynamicResource B_F215192B}" BorderBrush="{DynamicResource B_2AFFFFFF}"
+                                    BorderThickness="1" CornerRadius="8" Padding="1">
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="Opacity" Value="0" />
+                                        <Setter Property="IsHitTestVisible" Value="False" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                <Setter Property="Opacity" Value="1" />
+                                                <Setter Property="IsHitTestVisible" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                <Setter Property="Opacity" Value="1" />
+                                                <Setter Property="IsHitTestVisible" Value="True" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource IconButton}" Width="24" Height="24"
+                                            Command="{Binding DataContext.PauseTorrentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            CommandParameter="{Binding}"
+                                            Visibility="{Binding IsPaused, Converter={StaticResource InverseBoolToVisibility}}"
+                                            ToolTip="{loc:T 'Pause'}">
+                                        <TextBlock Text="&#xE769;" FontFamily="{StaticResource IconFont}" FontSize="9" />
+                                    </Button>
+                                    <Button Style="{StaticResource IconButton}" Width="24" Height="24"
+                                            Command="{Binding DataContext.ResumeTorrentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            CommandParameter="{Binding}"
+                                            Visibility="{Binding IsPaused, Converter={StaticResource BoolToVisibility}}"
+                                            ToolTip="{loc:T 'Resume'}">
+                                        <TextBlock Text="&#xE768;" FontFamily="{StaticResource IconFont}" FontSize="9" />
+                                    </Button>
+                                    <Button Style="{StaticResource IconButton}" Width="24" Height="24"
+                                            Command="{Binding DataContext.RequestRemoveCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            CommandParameter="{Binding}" ToolTip="{loc:T 'Delete'}">
+                                        <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="9" />
+                                    </Button>
+                                </StackPanel>
+                            </Border>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
