@@ -18,7 +18,7 @@ if ([string]::IsNullOrWhiteSpace($Output)) {
     $Output = Join-Path $root 'artifacts\publish\win-x64'
 }
 
-$project = Join-Path $root 'src\VibeTorrent.App\VibeTorrent.App.csproj'
+$project = Join-Path $root 'src\ZTorrent.App\ZTorrent.App.csproj'
 $publishArgs = @(
     'publish', $project,
     '-c', 'Release',
@@ -35,7 +35,7 @@ if ($SelfContained) {
     $publishArgs += @('--self-contained', 'false')
 }
 
-Write-Host "Publishing VibeTorrent to $Output (self-contained=$SelfContained)" -ForegroundColor Cyan
+Write-Host "Publishing ZTorrent to $Output (self-contained=$SelfContained)" -ForegroundColor Cyan
 & $dotnet @publishArgs
 if ($LASTEXITCODE -ne 0) { throw 'Publish failed.' }
 

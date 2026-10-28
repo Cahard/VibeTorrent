@@ -7,20 +7,20 @@ $ErrorActionPreference = 'Stop'
 
 if ([string]::IsNullOrWhiteSpace($ExePath)) {
     $candidates = @(
-        (Join-Path $PSScriptRoot '..\artifacts\publish\win-x64\VibeTorrent.exe'),
-        (Join-Path $PSScriptRoot '..\src\VibeTorrent.App\bin\Release\net10.0-windows\VibeTorrent.exe'),
-        (Join-Path $PSScriptRoot '..\src\VibeTorrent.App\bin\Debug\net10.0-windows\VibeTorrent.exe')
+        (Join-Path $PSScriptRoot '..\artifacts\publish\win-x64\ZTorrent.exe'),
+        (Join-Path $PSScriptRoot '..\src\ZTorrent.App\bin\Release\net10.0-windows\ZTorrent.exe'),
+        (Join-Path $PSScriptRoot '..\src\ZTorrent.App\bin\Debug\net10.0-windows\ZTorrent.exe')
     )
     $ExePath = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
 }
 
 if ([string]::IsNullOrWhiteSpace($ExePath) -or -not (Test-Path $ExePath)) {
-    throw 'Не найден VibeTorrent.exe. Укажите -ExePath.'
+    throw 'Не найден ZTorrent.exe. Укажите -ExePath.'
 }
 
 $ExePath = (Resolve-Path $ExePath).Path
 $classes = 'HKCU:\Software\Classes'
-$torrentProgId = 'VibeTorrent.Torrent'
+$torrentProgId = 'ZTorrent.Torrent'
 
 New-Item -Path "$classes\.torrent" -Force | Out-Null
 Set-ItemProperty -Path "$classes\.torrent" -Name '(default)' -Value $torrentProgId

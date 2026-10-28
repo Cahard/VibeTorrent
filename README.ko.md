@@ -1,27 +1,27 @@
-# VibeTorrent — Windows 11용 오픈소스 토렌트 클라이언트 (C# / WPF)
+# ZTorrent — Windows 11용 오픈소스 토렌트 클라이언트 (C# / WPF)
 
 [English](README.md) · [Русский](README.ru.md) · **한국어**
 
-[![CI](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/Cahard/VibeTorrent?display_name=tag&sort=semver)](https://github.com/Cahard/VibeTorrent/releases)
+[![CI](https://github.com/Cahard/ZTorrent/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Cahard/ZTorrent/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Cahard/ZTorrent?display_name=tag&sort=semver)](https://github.com/Cahard/ZTorrent/releases)
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
 [![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)](https://dotnet.microsoft.com/)
 [![Windows 11 x64](https://img.shields.io/badge/Windows-11%20x64-0078D4)](https://www.microsoft.com/windows/windows-11)
 
 <p align="center">
-  <a href="https://github.com/Cahard/VibeTorrent/releases/latest/download/VibeTorrent-Setup.exe">
-    <img src="docs/assets/buttons/ko-installer.png" width="270" alt="Windows 11용 VibeTorrent 설치 프로그램 다운로드">
+  <a href="https://github.com/Cahard/ZTorrent/releases/latest/download/ZTorrent-Setup.exe">
+    <img src="docs/assets/buttons/ko-installer.png" width="270" alt="Windows 11용 ZTorrent 설치 프로그램 다운로드">
   </a>
-  <a href="https://github.com/Cahard/VibeTorrent/releases/latest/download/VibeTorrent-Portable.zip">
-    <img src="docs/assets/buttons/ko-portable.png" width="270" alt="VibeTorrent 포터블 버전 다운로드">
+  <a href="https://github.com/Cahard/ZTorrent/releases/latest/download/ZTorrent-Portable.zip">
+    <img src="docs/assets/buttons/ko-portable.png" width="270" alt="ZTorrent 포터블 버전 다운로드">
   </a>
 </p>
 
-VibeTorrent는 C# / .NET 10 / WPF와 **MonoTorrent 3.0.2**로 만든 Windows 11용 네이티브 **토렌트 클라이언트**입니다. Electron이나 내장 브라우저, 계정이 필요 없습니다. 마그넷 링크, DHT/PEX/LSD, MSE/PE 암호화, 어두운 그라데이션 인터페이스를 제공합니다.
+ZTorrent는 C# / .NET 10 / WPF와 **MonoTorrent 3.0.2**로 만든 Windows 11용 네이티브 **토렌트 클라이언트**입니다. Electron이나 내장 브라우저, 계정이 필요 없습니다. 마그넷 링크, DHT/PEX/LSD, MSE/PE 암호화, 어두운 그라데이션 인터페이스를 제공합니다.
 
-모든 데이터는 로컬에서 처리됩니다. 라이브러리, 파일, 트래커, 피어, 설정이 하나의 창에 있고 텔레메트리나 클라우드 서비스가 없습니다. 앱 데이터는 `%LOCALAPPDATA%\VibeTorrent`에 저장됩니다.
+모든 데이터는 로컬에서 처리됩니다. 라이브러리, 파일, 트래커, 피어, 설정이 하나의 창에 있고 텔레메트리나 클라우드 서비스가 없습니다. 앱 데이터는 `%LOCALAPPDATA%\ZTorrent`에 저장됩니다.
 
-![VibeTorrent 라이브러리: 다운로드 목록, 속도 카드, 필터, 세부 정보 패널](docs/assets/ko/01-library.png)
+![ZTorrent 라이브러리: 다운로드 목록, 속도 카드, 필터, 세부 정보 패널](docs/assets/ko/01-library.png)
 
 > [!NOTE]
 > 스크린샷은 데모 모드에서 촬영했습니다. 모든 토렌트 이름, 피어, 숫자는 가상의 데이터입니다.
@@ -29,7 +29,7 @@ VibeTorrent는 C# / .NET 10 / WPF와 **MonoTorrent 3.0.2**로 만든 Windows 11�
 ## 목차
 
 - [기능](#기능)
-- [VibeTorrent를 선택하는 이유](#vibetorrent를-선택하는-이유)
+- [ZTorrent를 선택하는 이유](#ztorrent를-선택하는-이유)
 - [다운로드 및 설치](#다운로드-및-설치)
 - [빠른 시작](#빠른-시작)
 - [스크린샷](#스크린샷)
@@ -85,10 +85,10 @@ VibeTorrent는 C# / .NET 10 / WPF와 **MonoTorrent 3.0.2**로 만든 Windows 11�
 ### 데이터
 
 - 설정, 세션, `.torrent` 사본, 메타데이터, 로그, 엔진 캐시는 로컬에 저장.
-- 엔진 캐시: `%LOCALAPPDATA%\VibeTorrent\cache`, FastResume: `%LOCALAPPDATA%\VibeTorrent\cache\fastresume`.
+- 엔진 캐시: `%LOCALAPPDATA%\ZTorrent\cache`, FastResume: `%LOCALAPPDATA%\ZTorrent\cache\fastresume`.
 - 원자적 JSON 저장, 손상된 상태 격리, 경로 안전 삭제.
 
-## VibeTorrent를 선택하는 이유
+## ZTorrent를 선택하는 이유
 
 | 원칙 | 의미 |
 |---|---|
@@ -104,10 +104,10 @@ VibeTorrent는 C# / .NET 10 / WPF와 **MonoTorrent 3.0.2**로 만든 Windows 11�
 
 | 빌드 | 용도 | 요구 사항 |
 |---|---|---|
-| `VibeTorrent-Setup.exe` | 시작 메뉴와 선택적 파일 연결이 포함된 일반 설치 | Windows 11 x64 |
-| `VibeTorrent-Portable.zip` | 폴더나 USB 드라이브에서 실행 | Windows 11 x64 |
+| `ZTorrent-Setup.exe` | 시작 메뉴와 선택적 파일 연결이 포함된 일반 설치 | Windows 11 x64 |
+| `ZTorrent-Portable.zip` | 폴더나 USB 드라이브에서 실행 | Windows 11 x64 |
 
-설치 프로그램은 기본적으로 사용자 폴더(`%LOCALAPPDATA%\Programs\VibeTorrent`)에 설치하며 관리자 권한이 필요 없습니다. 포터블 아카이브는 self-contained 빌드라 .NET을 설치할 필요가 없습니다.
+설치 프로그램은 기본적으로 사용자 폴더(`%LOCALAPPDATA%\Programs\ZTorrent`)에 설치하며 관리자 권한이 필요 없습니다. 포터블 아카이브는 self-contained 빌드라 .NET을 설치할 필요가 없습니다.
 
 > [!WARNING]
 > 바이너리에 아직 코드 서명이 없어 Windows SmartScreen 경고가 표시될 수 있습니다. 이 저장소의 Releases 페이지만 사용하고 게시된 SHA-256 체크섬을 확인하세요.
@@ -125,8 +125,8 @@ VibeTorrent는 C# / .NET 10 / WPF와 **MonoTorrent 3.0.2**로 만든 Windows 11�
 Windows 10/11 x64와 .NET 10 SDK가 필요합니다.
 
 ```powershell
-git clone https://github.com/Cahard/VibeTorrent.git
-cd VibeTorrent
+git clone https://github.com/Cahard/ZTorrent.git
+cd ZTorrent
 .\build.ps1
 .\run.ps1
 ```
@@ -134,9 +134,9 @@ cd VibeTorrent
 수동 빌드:
 
 ```powershell
-dotnet restore VibeTorrent.slnx
-dotnet build VibeTorrent.slnx -c Release
-dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
+dotnet restore ZTorrent.slnx
+dotnet build ZTorrent.slnx -c Release
+dotnet test tests\ZTorrent.Tests\ZTorrent.Tests.csproj -c Release
 ```
 
 게시:
@@ -151,7 +151,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 설치 프로그램에서 `.torrent`와 `magnet:` 연결을 선택할 수 있습니다. 포터블 빌드는 다음을 실행하세요.
 
 ```powershell
-pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 -ExePath .\VibeTorrent.exe
+pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 -ExePath .\ZTorrent.exe
 ```
 
 ## 스크린샷
@@ -170,9 +170,9 @@ pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 -Exe
 
 ## 언어
 
-VibeTorrent는 **영어(기본), 러시아어, 한국어**를 지원합니다. **설정 → 언어**에서 언제든 변경할 수 있고 즉시 적용되며 선택이 저장됩니다.
+ZTorrent는 **영어(기본), 러시아어, 한국어**를 지원합니다. **설정 → 언어**에서 언제든 변경할 수 있고 즉시 적용되며 선택이 저장됩니다.
 
-새 언어를 추가하려면 `src/VibeTorrent.Core/Localization/*.json`을 편집하고 `AppLanguage`에 코드를 추가한 뒤 다시 빌드하세요. 영어 키가 누락된 번역의 fallback입니다.
+새 언어를 추가하려면 `src/ZTorrent.Core/Localization/*.json`을 편집하고 `AppLanguage`에 코드를 추가한 뒤 다시 빌드하세요. 영어 키가 누락된 번역의 fallback입니다.
 
 ## FastResume과 재시작
 
@@ -180,7 +180,7 @@ FastResume은 엔진 설정에서 활성화되어 있습니다.
 
 - `AutoSaveLoadFastResume = true`
 - `FastResumeMode.Accurate`
-- 캐시 경로 `%LOCALAPPDATA%\VibeTorrent\cache` → MonoTorrent가 `cache\fastresume\<infohash>.fresume`에 기록
+- 캐시 경로 `%LOCALAPPDATA%\ZTorrent\cache` → MonoTorrent가 `cache\fastresume\<infohash>.fresume`에 기록
 - 정상 종료 시 `StopAllAsync`가 프로세스 종료 전에 FastResume을 저장
 
 일반 재시작에서는 비트필드를 불러오므로 **수 GB를 다시 해시하지 않습니다**. `Accurate` 모드에서 강제 종료나 비정상 중지는 의도적으로 전체 해시 체크로 돌아갑니다. 오래된 조각을 무조건 신뢰하는 대신 정확성을 우선하기 때문입니다. 데이터와 함께 삭제할 때는 `RemoveMode.CacheDataOnly`를 사용해 삭제한 토렌트가 나중에 "100%"로 되살아나지 않게 합니다.
@@ -188,19 +188,19 @@ FastResume은 엔진 설정에서 활성화되어 있습니다.
 ## 아키텍처
 
 ```text
-VibeTorrent.App (WPF, MVVM)
+ZTorrent.App (WPF, MVVM)
         │  스냅샷, 명령, 대화상자
         ▼
-VibeTorrent.Core (MonoTorrent 엔진, 저장, 경로 안전)
+ZTorrent.Core (MonoTorrent 엔진, 저장, 경로 안전)
         │
         ▼
-%LOCALAPPDATA%\VibeTorrent
+%LOCALAPPDATA%\ZTorrent
   settings.json  session.json  torrents\  cache\  logs\
 ```
 
-- `VibeTorrent.App` — 뷰, 뷰 모델, 커스텀 컨트롤, 트레이, single-instance IPC.
-- `VibeTorrent.Core` — 엔진 서비스, 세션/설정 저장소, 미리보기 검증, 경로 안전, 표시 형식.
-- `VibeTorrent.Tests` — 경로 안전, 설정/세션, 미리보기, 형식, 로컬 합성 토렌트 xUnit 테스트.
+- `ZTorrent.App` — 뷰, 뷰 모델, 커스텀 컨트롤, 트레이, single-instance IPC.
+- `ZTorrent.Core` — 엔진 서비스, 세션/설정 저장소, 미리보기 검증, 경로 안전, 표시 형식.
+- `ZTorrent.Tests` — 경로 안전, 설정/세션, 미리보기, 형식, 로컬 합성 토렌트 xUnit 테스트.
 - `docs/` — 아키텍처, 디자인 시스템, UX 명세, 리서치, 테스트 계획.
 
 UI는 엔진을 차단하지 않습니다. 스냅샷은 1초에 한 번, 세부 정보는 2초에 한 번 갱신되고 명령은 세마포어로 직렬화됩니다.
@@ -227,7 +227,7 @@ UI는 엔진을 차단하지 않습니다. 스냅샷은 1초에 한 번, 세부 
 - 로컬 합성 토렌트의 추가, 일시정지, 재개, 삭제, 데이터 삭제, 세션 복구.
 
 ```powershell
-dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
+dotnet test tests\ZTorrent.Tests\ZTorrent.Tests.csproj -c Release
 ```
 
 ## 로드맵
@@ -242,7 +242,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### 광고가 있는 클라이언트인가요?
 
-아니요. GPL-3.0 오픈소스이며 v1.5에는 광고, 텔레메트리, 유료 기능이 없습니다.
+아니요. GPL-3.0 오픈소스이며 v2.0에는 광고, 텔레메트리, 유료 기능이 없습니다.
 
 ### Windows 10에서도 되나요?
 
@@ -250,7 +250,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### 데이터는 어디에 저장되나요?
 
-`%LOCALAPPDATA%\VibeTorrent`의 `settings.json`, `session.json`, `torrents\`, `cache\`, `logs\`에 저장됩니다. 실제 파일은 선택한 다운로드 폴더에 있습니다.
+`%LOCALAPPDATA%\ZTorrent`의 `settings.json`, `session.json`, `torrents\`, `cache\`, `logs\`에 저장됩니다. 실제 파일은 선택한 다운로드 폴더에 있습니다.
 
 ### 파일과 우선순위를 선택할 수 있나요?
 
@@ -262,7 +262,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ### 스케줄러나 토렌트별 제한이 있나요?
 
-v1.5에는 전역 및 토렌트별 속도 제한, High/Normal/Low 큐가 있습니다. 시간 예약 스케줄러는 없습니다.
+v2.0에는 전역 및 토렌트별 속도 제한, High/Normal/Low 큐가 있습니다. 시간 예약 스케줄러는 없습니다.
 
 ### 인터페이스가 영어만 지원하나요?
 

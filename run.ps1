@@ -13,5 +13,5 @@ $dotnet = if (Test-Path $localDotnet) {
     (Get-Command dotnet -ErrorAction Stop).Source
 }
 
-$project = Join-Path $root 'src\VibeTorrent.App\VibeTorrent.App.csproj'
+$project = Join-Path $root 'src\ZTorrent.App\ZTorrent.App.csproj'
 & $dotnet run --project $project -c Debug -- @Arguments

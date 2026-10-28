@@ -1,30 +1,30 @@
-# Архитектура VibeTorrent
+# Архитектура ZTorrent
 
 ## 1. Слои
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
-│ VibeTorrent.App (net10.0-windows, WPF)                     │
+│ ZTorrent.App (net10.0-windows, WPF)                     │
 │  MainWindow / LibraryView / Details / Settings / Add       │
 │  MainViewModel + дочерние VM, UI-сервисы, tray, chrome     │
 └──────────────────────────┬─────────────────────────────────┘
                            │ DTO + события + команды
 ┌──────────────────────────▼─────────────────────────────────┐
-│ VibeTorrent.Core (net10.0)                                 │
+│ ZTorrent.Core (net10.0)                                 │
 │  TorrentEngineService  ── MonoTorrent 3.0.2 / ClientEngine │
 │  SettingsService, SessionStore, TorrentPreviewService     │
 │  AppPaths, AppSettings, PathSafety, SafeDataDeleter        │
 └────────────────────────────────────────────────────────────┘
 ```
 
-`VibeTorrent.Core` не ссылается на WPF и может тестироваться отдельно.
-`VibeTorrent.App` не работает с MonoTorrent напрямую.
+`ZTorrent.Core` не ссылается на WPF и может тестироваться отдельно.
+`ZTorrent.App` не работает с MonoTorrent напрямую.
 
 ## 2. Поток данных
 
 1. Пользователь добавляет `.torrent` или magnet.
 2. `TorrentPreviewService` валидирует и строит неизменяемый `TorrentPreview`.
-3. `TorrentEngineService` копирует `.torrent` в `%LOCALAPPDATA%\VibeTorrent\torrents`,
+3. `TorrentEngineService` копирует `.torrent` в `%LOCALAPPDATA%\ZTorrent\torrents`,
    добавляет торрент в `ClientEngine`, применяет приоритеты и стартует.
 4. `SessionStore` атомарно сохраняет запись (hash, magnet/копия, save path, paused,
    приоритеты файлов).
@@ -61,7 +61,7 @@
   `UpdateSettingsAsync`.
 - DHT в 3.0.2 включается наличием `DhtEndPoint`: при `EnableDht=false` передаётся `null`.
 - Порт/DHT нельзя безопасно менять на лету: `UpdateSettingsAsync` перезапускает
-  слушатели. VibeTorrent сохраняет настройку и применяет её при следующем запуске,
+  слушатели. ZTorrent сохраняет настройку и применяет её при следующем запуске,
   явно предупреждая пользователя.
 - Удаление с данными: сначала `RemoveMode.CacheDataOnly` (убирает fastresume/metadata),
   затем `SafeDataDeleter` удаляет только файлы, находящиеся под save path.
@@ -70,7 +70,7 @@
   для magnet они переприменяются, когда приходят метаданные.
 - Fast resume включён (`AutoSaveLoadFastResume`, `FastResumeMode.Accurate`); metadata
   cache и fastresume лежат внутри `CacheDirectory` приложения, а именно
-  `%LOCALAPPDATA%\VibeTorrent\cache\fastresume`. `StopAllAsync` при обычном выходе
+  `%LOCALAPPDATA%\ZTorrent\cache\fastresume`. `StopAllAsync` при обычном выходе
   сохраняет битфилд; после жёсткого падения Accurate-режим намеренно делает hash check.
 
 ## 6. Персистентность

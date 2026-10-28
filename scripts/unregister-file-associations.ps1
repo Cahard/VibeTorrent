@@ -6,7 +6,7 @@ $classes = 'HKCU:\Software\Classes'
 
 foreach ($key in @(
     "$classes\.torrent",
-    "$classes\VibeTorrent.Torrent",
+    "$classes\ZTorrent.Torrent",
     "$classes\magnet"
 )) {
     if (Test-Path $key) {
@@ -14,4 +14,4 @@ foreach ($key in @(
     }
 }
 
-Write-Host 'Ассоциации VibeTorrent удалены.' -ForegroundColor Green
+Write-Host 'Ассоциации ZTorrent удалены.' -ForegroundColor Green

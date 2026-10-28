@@ -1,6 +1,6 @@
-﻿# VibeTorrent — метаданные GitHub
+﻿# ZTorrent — метаданные GitHub
 
-> Готовые значения для Settings → General и первого релиза. Проверено по локальному репозиторию и публичному GitHub API 2026-10-27. Ничего не выдумано: версия `1.0.0` взята из `Directory.Build.props`, 24 теста — из `tests/VibeTorrent.Tests`, лицензия — из локального `LICENSE`.
+> Готовые значения для Settings → General и первого релиза. Проверено по локальному репозиторию и публичному GitHub API 2026-10-27. Ничего не выдумано: версия `1.0.0` взята из `Directory.Build.props`, 24 теста — из `tests/ZTorrent.Tests`, лицензия — из локального `LICENSE`.
 
 ## 0. Статус публикации
 
@@ -8,16 +8,16 @@
 
 ## 1. Имя репозитория
 
-Оставить: **`VibeTorrent`**.
+Оставить: **`ZTorrent`**.
 
-Причины: уникальный бренд, короткий URL, совпадает с названием приложения и AssemblyName. Добавление ключей в имя (`vibetorrent-windows-torrent-client`) ухудшает бренд и выглядит спамно; ключи уже закрыты description, topics и README. Переименование допустимо только при смене бренда, с обновлением всех ссылок.
+Причины: уникальный бренд, короткий URL, совпадает с названием приложения и AssemblyName. Добавление ключей в имя (`ztorrent-windows-torrent-client`) ухудшает бренд и выглядит спамно; ключи уже закрыты description, topics и README. Переименование допустимо только при смене бренда, с обновлением всех ссылок.
 
 ## 2. Description (до 350 символов)
 
 Точный текст для поля Description:
 
 ```text
-VibeTorrent — нативный open-source торрент-клиент для Windows 11 на C# / .NET 10 / WPF. BitTorrent-движок MonoTorrent 3.0.2, magnet-ссылки, DHT/PEX/LSD, шифрование MSE/PE и тёмный градиентный интерфейс. Всё локально, без телеметрии. GPL-3.0.
+ZTorrent — нативный open-source торрент-клиент для Windows 11 на C# / .NET 10 / WPF. BitTorrent-движок MonoTorrent 3.0.2, magnet-ссылки, DHT/PEX/LSD, шифрование MSE/PE и тёмный градиентный интерфейс. Всё локально, без телеметрии. GPL-3.0.
 ```
 
 Длина: **241 / 350** символов.
@@ -31,7 +31,7 @@ VibeTorrent — нативный open-source торрент-клиент для 
 EN-вариант (если понадобится международная аудитория; не использовать одновременно с RU в одном поле):
 
 ```text
-VibeTorrent is a native open-source BitTorrent client for Windows 11, built with C# / .NET 10 / WPF and MonoTorrent 3.0.2. Dark gradient UI, magnet links, DHT/PEX/LSD, MSE/PE encryption, local-only data, no telemetry. GPL-3.0.
+ZTorrent is a native open-source BitTorrent client for Windows 11, built with C# / .NET 10 / WPF and MonoTorrent 3.0.2. Dark gradient UI, magnet links, DHT/PEX/LSD, MSE/PE encryption, local-only data, no telemetry. GPL-3.0.
 ```
 
 Длина: **226 / 350** символов.
@@ -78,7 +78,7 @@ GitHub не даёт отдельных полей title/description для soci
 **Title:**
 
 ```text
-VibeTorrent — нативный торрент-клиент для Windows 11
+ZTorrent — нативный торрент-клиент для Windows 11
 ```
 
 Длина: **52 / 60** символов (в пределах типичного лимита соцсетей).
@@ -95,7 +95,7 @@ Open-source BitTorrent-клиент на C# / .NET 10 / WPF: MonoTorrent 3.0.2, 
 
 - PNG или JPG, 1280×640 px, меньше 1 МБ (рекомендация GitHub: минимум 640×320, лучше 1280×640).
 - Фон — сплошной тёмный или скриншот библиотеки с затемнением; без прозрачности, если нет уверенности в светлой теме соцсети.
-- Крупный заголовок `VibeTorrent`, подзаголовок `торрент-клиент для Windows 11`, мелкая строка `C# / .NET 10 / WPF · MonoTorrent 3.0.2`.
+- Крупный заголовок `ZTorrent`, подзаголовок `торрент-клиент для Windows 11`, мелкая строка `C# / .NET 10 / WPF · MonoTorrent 3.0.2`.
 - Без мелкого текста и без вымышленных цифр скорости/пользователей.
 
 ## 5. Релиз
@@ -104,15 +104,15 @@ Open-source BitTorrent-клиент на C# / .NET 10 / WPF: MonoTorrent 3.0.2, 
 **Release title:**
 
 ```text
-VibeTorrent 1.0.0 — нативный торрент-клиент для Windows 11
+ZTorrent 1.0.0 — нативный торрент-клиент для Windows 11
 ```
 
 **Release notes (готово к вставке):**
 
 ````markdown
-# VibeTorrent 1.0.0
+# ZTorrent 1.0.0
 
-Первый публичный релиз VibeTorrent — нативного open-source торрент-клиента для Windows 11 на C# / .NET 10 / WPF с движком MonoTorrent 3.0.2.
+Первый публичный релиз ZTorrent — нативного open-source торрент-клиента для Windows 11 на C# / .NET 10 / WPF с движком MonoTorrent 3.0.2.
 
 ## Что внутри
 
@@ -135,15 +135,15 @@ VibeTorrent 1.0.0 — нативный торрент-клиент для Window
 
 ## Установка
 
-1. Скачайте `VibeTorrent-1.0.0-win-x64.zip` (нужен .NET 10 Desktop Runtime) или `VibeTorrent-1.0.0-win-x64-selfcontained.zip`.
+1. Скачайте `ZTorrent-1.0.0-win-x64.zip` (нужен .NET 10 Desktop Runtime) или `ZTorrent-1.0.0-win-x64-selfcontained.zip`.
 2. Распакуйте в любую папку.
-3. Запустите `VibeTorrent.exe`.
+3. Запустите `ZTorrent.exe`.
 
 Ассоциации `.torrent` и `magnet:` регистрируются опционально:
 
 ```powershell
 pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 `
-    -ExePath .\VibeTorrent.exe
+    -ExePath .\ZTorrent.exe
 ```
 
 ## Проверено
@@ -168,10 +168,10 @@ GPL-3.0. MonoTorrent — MIT. См. `LICENSE` и `THIRD-PARTY-NOTICES.md`.
 
 | Файл | Содержимое |
 |---|---|
-| `VibeTorrent-1.0.0-win-x64.zip` | framework-dependent публикация, нужен .NET 10 Desktop Runtime |
-| `VibeTorrent-1.0.0-win-x64-selfcontained.zip` | self-contained, один файл |
-| `VibeTorrent-1.0.0-win-x64.zip.sha256` | контрольная сумма |
-| `VibeTorrent-1.0.0-win-x64-selfcontained.zip.sha256` | контрольная сумма |
+| `ZTorrent-1.0.0-win-x64.zip` | framework-dependent публикация, нужен .NET 10 Desktop Runtime |
+| `ZTorrent-1.0.0-win-x64-selfcontained.zip` | self-contained, один файл |
+| `ZTorrent-1.0.0-win-x64.zip.sha256` | контрольная сумма |
+| `ZTorrent-1.0.0-win-x64-selfcontained.zip.sha256` | контрольная сумма |
 
 Не добавлять в notes фразы «самый быстрый», «лучший», «тысячи пользователей» и непроверенные бенчмарки.
 
@@ -183,7 +183,7 @@ GPL-3.0. MonoTorrent — MIT. См. `LICENSE` и `THIRD-PARTY-NOTICES.md`.
 |---|---|---|---|---|---|
 | 1 | `torrent client Windows 11` | EN | Категория | P0 | description, H1, первый абзац, social preview |
 | 2 | `торрент-клиент для Windows 11` | RU | Категория | P0 | H1, первое предложение, description |
-| 3 | `open source torrent client` | EN | Доверие | P0 | первый абзац, topics, «Почему VibeTorrent» |
+| 3 | `open source torrent client` | EN | Доверие | P0 | первый абзац, topics, «Почему ZTorrent» |
 | 4 | `торрент клиент open source` | RU | Доверие | P1 | подзаголовок, FAQ |
 | 5 | `C# WPF torrent client` | EN | Технологии | P1 | «Архитектура», стек, topics |
 | 6 | `MonoTorrent client` | EN | Технологии | P1 | стек, FAQ, topics |
@@ -216,7 +216,7 @@ GPL-3.0. MonoTorrent — MIT. См. `LICENSE` и `THIRD-PARTY-NOTICES.md`.
 
 - [x] Корневой README обновлён на версию из `github-readme-seo.md`.
 - [ ] Проверить, что все 7 изображений открываются по путям `docs/assets/...`.
-- [ ] Проверить якоря оглавления на GitHub (особенно `#почему-vibetorrent`, `#участие-в-разработке`).
+- [ ] Проверить якоря оглавления на GitHub (особенно `#почему-ztorrent`, `#участие-в-разработке`).
 - [ ] Проверить ссылки `docs/ARCHITECTURE.md`, `docs/testing/test-plan.md`, `LICENSE`, `THIRD-PARTY-NOTICES.md`.
 - [ ] Открыть README в мобильном и десктопном рендере: таблицы скриншотов не должны ломаться.
 
@@ -225,13 +225,13 @@ GPL-3.0. MonoTorrent — MIT. См. `LICENSE` и `THIRD-PARTY-NOTICES.md`.
 - [ ] Собрать обе конфигурации: `.\publish.ps1` и `.\publish.ps1 -SelfContained`.
 - [ ] Переименовать ассеты по схеме из раздела 5 и приложить `.sha256`.
 - [ ] Вставить release notes, проверить список известных ограничений.
-- [ ] После публикации: проверить CI-бейдж, release-бейдж, поиск по `VibeTorrent` и по `торрент-клиент для Windows 11`.
+- [ ] После публикации: проверить CI-бейдж, release-бейдж, поиск по `ZTorrent` и по `торрент-клиент для Windows 11`.
 - [ ] Добавить пакет в `microsoft/winget-pkgs` после стабильного релиза (отдельный PR, не часть репозитория).
 - [ ] Смотреть GitHub Traffic → Referring sites и число скачиваний релиза; Google Search Console к `github.com` не применяется.
 
 ## 8. Внешние ссылки
 
-Цель — 5–10 качественных упоминаний, а не 100 каталогов. Ссылки должны вести на канонический `https://github.com/Cahard/VibeTorrent`, без UTM в постоянных статьях.
+Цель — 5–10 качественных упоминаний, а не 100 каталогов. Ссылки должны вести на канонический `https://github.com/Cahard/ZTorrent`, без UTM в постоянных статьях.
 
 **Что даёт эффект:**
 
@@ -250,15 +250,15 @@ GPL-3.0. MonoTorrent — MIT. См. `LICENSE` и `THIRD-PARTY-NOTICES.md`.
 - ссылки с UTM в каждом посте: это плодит дубликаты канонического URL;
 - упоминания в разделах, где self-promotion запрещён.
 
-**Как измерять:** GitHub → Insights → Traffic → Referring sites; скачивания релиза; переходы из статей. Для GitHub-страницы Google Search Console недоступен — ориентируйтесь на позиции по бренду и по точной фразе `VibeTorrent torrent client Windows 11`.
+**Как измерять:** GitHub → Insights → Traffic → Referring sites; скачивания релиза; переходы из статей. Для GitHub-страницы Google Search Console недоступен — ориентируйтесь на позиции по бренду и по точной фразе `ZTorrent torrent client Windows 11`.
 
 ## 9. Проверка фактов
 
 | Факт | Источник | Статус |
 |---|---|---|
 | Версия 1.0.0 | `Directory.Build.props` | Подтверждено |
-| .NET 10 / WPF / C# | `VibeTorrent.App.csproj`, `net10.0-windows` | Подтверждено |
-| MonoTorrent 3.0.2 | `VibeTorrent.Core.csproj` | Подтверждено |
+| .NET 10 / WPF / C# | `ZTorrent.App.csproj`, `net10.0-windows` | Подтверждено |
+| MonoTorrent 3.0.2 | `ZTorrent.Core.csproj` | Подтверждено |
 | 24 теста | README/CI | Заявлено 24; локальный прогон после удаления `UnitTest1.cs` даёт 23 — восстановить 24-й тест или синхронизировать число до релиза |
 | GPL-3.0 | `LICENSE` | Подтверждено локально и в GitHub |
 | 7 скриншотов 1440×900 | `docs/assets` | Подтверждено |

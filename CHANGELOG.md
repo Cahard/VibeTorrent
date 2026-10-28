@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.0.0 — 2026-10-28
+
+### Changed
+
+- Rebranded the application as **ZTorrent** with a new Z icon, repository links, installer, file associations, and data directory.
+- Existing settings and session data are migrated automatically from the previous data directory.
+- The search field now uses the same surface, border, and text palette as the other inputs in every theme.
+
+### Added
+
+- A dedicated update window with download percentage, transferred size, stage text, and a Cancel button.
+- Closing the window no longer hides or terminates ZTorrent while an update is being downloaded or installed.
+- Update failures stay in the app and are reported instead of leaving a silent exit.
+
 ## 1.5.1 — 2026-10-28
 
 ### Fixed

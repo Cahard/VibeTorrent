@@ -19,17 +19,17 @@ $dotnet = if (Test-Path $localDotnet) {
     $command.Source
 }
 
-Write-Host "VibeTorrent build ($Configuration)" -ForegroundColor Cyan
+Write-Host "ZTorrent build ($Configuration)" -ForegroundColor Cyan
 Write-Host "dotnet: $dotnet"
 
-& $dotnet restore (Join-Path $root 'VibeTorrent.slnx')
+& $dotnet restore (Join-Path $root 'ZTorrent.slnx')
 if ($LASTEXITCODE -ne 0) { throw 'Restore failed.' }
 
-& $dotnet build (Join-Path $root 'VibeTorrent.slnx') -c $Configuration --no-restore --nologo
+& $dotnet build (Join-Path $root 'ZTorrent.slnx') -c $Configuration --no-restore --nologo
 if ($LASTEXITCODE -ne 0) { throw 'Build failed.' }
 
 if (-not $SkipTests) {
-    & $dotnet test (Join-Path $root 'tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj') `
+    & $dotnet test (Join-Path $root 'tests\ZTorrent.Tests\ZTorrent.Tests.csproj') `
         -c $Configuration --no-build --nologo
     if ($LASTEXITCODE -ne 0) { throw 'Tests failed.' }
 }

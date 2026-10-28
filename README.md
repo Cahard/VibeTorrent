@@ -1,27 +1,27 @@
-# VibeTorrent — native open-source torrent client for Windows 11 (C# / WPF)
+# ZTorrent — native open-source torrent client for Windows 11 (C# / WPF)
 
 **English** · [Русский](README.ru.md) · [한국어](README.ko.md)
 
-[![CI](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/Cahard/VibeTorrent?display_name=tag&sort=semver)](https://github.com/Cahard/VibeTorrent/releases)
+[![CI](https://github.com/Cahard/ZTorrent/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Cahard/ZTorrent/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Cahard/ZTorrent?display_name=tag&sort=semver)](https://github.com/Cahard/ZTorrent/releases)
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
 [![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)](https://dotnet.microsoft.com/)
 [![Windows 11 x64](https://img.shields.io/badge/Windows-11%20x64-0078D4)](https://www.microsoft.com/windows/windows-11)
 
 <p align="center">
-  <a href="https://github.com/Cahard/VibeTorrent/releases/latest/download/VibeTorrent-Setup.exe">
-    <img src="docs/assets/buttons/en-installer.png" width="270" alt="Download the VibeTorrent installer for Windows 11">
+  <a href="https://github.com/Cahard/ZTorrent/releases/latest/download/ZTorrent-Setup.exe">
+    <img src="docs/assets/buttons/en-installer.png" width="270" alt="Download the ZTorrent installer for Windows 11">
   </a>
-  <a href="https://github.com/Cahard/VibeTorrent/releases/latest/download/VibeTorrent-Portable.zip">
-    <img src="docs/assets/buttons/en-portable.png" width="270" alt="Download the portable VibeTorrent build">
+  <a href="https://github.com/Cahard/ZTorrent/releases/latest/download/ZTorrent-Portable.zip">
+    <img src="docs/assets/buttons/en-portable.png" width="270" alt="Download the portable ZTorrent build">
   </a>
 </p>
 
-VibeTorrent is a native **BitTorrent client for Windows 11** built with C# / .NET 10 / WPF and **MonoTorrent 3.0.2**. No Electron, no embedded browser, no account: a fast desktop client with magnet links, DHT/PEX/LSD, MSE/PE encryption and a dark, gradient-rich interface.
+ZTorrent is a native **BitTorrent client for Windows 11** built with C# / .NET 10 / WPF and **MonoTorrent 3.0.2**. No Electron, no embedded browser, no account: a fast desktop client with magnet links, DHT/PEX/LSD, MSE/PE encryption and a dark, gradient-rich interface.
 
-Everything is local: the library, files, trackers, peers and settings live in one window. No telemetry, no cloud services; application data is stored in `%LOCALAPPDATA%\VibeTorrent`.
+Everything is local: the library, files, trackers, peers and settings live in one window. No telemetry, no cloud services; application data is stored in `%LOCALAPPDATA%\ZTorrent`.
 
-![VibeTorrent library with downloads, speed cards, filters and the details panel](docs/assets/en/01-library.png)
+![ZTorrent library with downloads, speed cards, filters and the details panel](docs/assets/en/01-library.png)
 
 > [!NOTE]
 > Screenshots are captured in demo mode. All torrent names, peers and numbers are fictional.
@@ -29,7 +29,7 @@ Everything is local: the library, files, trackers, peers and settings live in on
 ## Contents
 
 - [Features](#features)
-- [Why VibeTorrent](#why-vibetorrent)
+- [Why ZTorrent](#why-ztorrent)
 - [Download and install](#download-and-install)
 - [Quick start](#quick-start)
 - [Screenshots](#screenshots)
@@ -62,7 +62,8 @@ Everything is local: the library, files, trackers, peers and settings live in on
 - Per-torrent download/upload limits (0 = no per-torrent cap).
 - Per-torrent download/upload traffic chart in the details pane.
 - Settings save automatically; close them by switching to any library view.
-- Automatic update checks from GitHub Releases every N hours, with optional silent install and restart.
+- Automatic update checks from GitHub Releases every N hours, with optional install and restart.
+- Visible update progress with downloaded size, percentage and a Cancel button; the app stays open while it downloads and only closes after the installer starts.
 - Manual "Check for updates" action in the sidebar.
 - Three themes: Midnight, Green and Light.
 - Manual High/Normal/Low download queue with a visible Queued state.
@@ -93,10 +94,10 @@ Everything is local: the library, files, trackers, peers and settings live in on
 ### Data
 
 - Settings, session, `.torrent` copies, metadata, logs and engine cache are stored locally.
-- Engine cache: `%LOCALAPPDATA%\VibeTorrent\cache`; fast resume: `%LOCALAPPDATA%\VibeTorrent\cache\fastresume`.
+- Engine cache: `%LOCALAPPDATA%\ZTorrent\cache`; fast resume: `%LOCALAPPDATA%\ZTorrent\cache\fastresume`.
 - Atomic JSON writes, corrupt-state quarantine and path-safe deletion.
 
-## Why VibeTorrent
+## Why ZTorrent
 
 | Principle | What it means |
 |---|---|
@@ -112,10 +113,10 @@ The buttons above always point to the latest release:
 
 | Build | Best for | Requirements |
 |---|---|---|
-| `VibeTorrent-Setup.exe` | Normal installation with Start menu and optional file associations | Windows 11 x64 |
-| `VibeTorrent-Portable.zip` | Running from a folder or USB drive | Windows 11 x64 |
+| `ZTorrent-Setup.exe` | Normal installation with Start menu and optional file associations | Windows 11 x64 |
+| `ZTorrent-Portable.zip` | Running from a folder or USB drive | Windows 11 x64 |
 
-The installer is per-user by default (`%LOCALAPPDATA%\Programs\VibeTorrent`) and does not require administrator rights. The portable archive contains the self-contained build; no .NET installation is needed.
+The installer is per-user by default (`%LOCALAPPDATA%\Programs\ZTorrent`) and does not require administrator rights. The portable archive contains the self-contained build; no .NET installation is needed.
 
 > [!WARNING]
 > The binaries are not code-signed yet, so Windows SmartScreen may show a warning. Download only from this repository's Releases page and verify the published SHA-256 checksums.
@@ -133,8 +134,8 @@ The installer is per-user by default (`%LOCALAPPDATA%\Programs\VibeTorrent`) and
 Requirements: Windows 10/11 x64, .NET 10 SDK.
 
 ```powershell
-git clone https://github.com/Cahard/VibeTorrent.git
-cd VibeTorrent
+git clone https://github.com/Cahard/ZTorrent.git
+cd ZTorrent
 .\build.ps1
 .\run.ps1
 ```
@@ -142,9 +143,9 @@ cd VibeTorrent
 Manual build:
 
 ```powershell
-dotnet restore VibeTorrent.slnx
-dotnet build VibeTorrent.slnx -c Release
-dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
+dotnet restore ZTorrent.slnx
+dotnet build ZTorrent.slnx -c Release
+dotnet test tests\ZTorrent.Tests\ZTorrent.Tests.csproj -c Release
 ```
 
 Publish:
@@ -159,7 +160,7 @@ Publish:
 The installer can optionally register `.torrent` and `magnet:` links. For a portable build, run:
 
 ```powershell
-pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 -ExePath .\VibeTorrent.exe
+pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 -ExePath .\ZTorrent.exe
 ```
 
 ## Screenshots
@@ -178,9 +179,9 @@ pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 -Exe
 
 ## Localization
 
-VibeTorrent ships with **English (default), Russian and Korean**. Change the language at any time in **Settings → Language**; the interface updates immediately and the choice is persisted.
+ZTorrent ships with **English (default), Russian and Korean**. Change the language at any time in **Settings → Language**; the interface updates immediately and the choice is persisted.
 
-To add a language, edit `src/VibeTorrent.Core/Localization/*.json`, add the code to `AppLanguage`, and rebuild. English keys are also the fallback for missing translations.
+To add a language, edit `src/ZTorrent.Core/Localization/*.json`, add the code to `AppLanguage`, and rebuild. English keys are also the fallback for missing translations.
 
 ## Fast resume and restart behaviour
 
@@ -188,7 +189,7 @@ Fast resume is enabled in the engine settings:
 
 - `AutoSaveLoadFastResume = true`
 - `FastResumeMode.Accurate`
-- cache directory `%LOCALAPPDATA%\VibeTorrent\cache`, so MonoTorrent writes `cache\fastresume\<infohash>.fresume`
+- cache directory `%LOCALAPPDATA%\ZTorrent\cache`, so MonoTorrent writes `cache\fastresume\<infohash>.fresume`
 - `StopAllAsync` on normal exit flushes the fast-resume state before the process ends
 
 On a normal restart the bitfield is loaded and the client does **not** re-hash gigabytes of data. With `Accurate` mode, a hard crash or a non-clean stop intentionally falls back to a full hash check: the client prefers correctness over silently trusting stale pieces. Removing a torrent with data uses `RemoveMode.CacheDataOnly`, so a deleted download cannot later reappear as a "100%" torrent.
@@ -196,19 +197,19 @@ On a normal restart the bitfield is loaded and the client does **not** re-hash g
 ## Architecture
 
 ```text
-VibeTorrent.App (WPF, MVVM)
+ZTorrent.App (WPF, MVVM)
         │  snapshots, commands, dialogs
         ▼
-VibeTorrent.Core (MonoTorrent engine, persistence, path safety)
+ZTorrent.Core (MonoTorrent engine, persistence, path safety)
         │
         ▼
-%LOCALAPPDATA%\VibeTorrent
+%LOCALAPPDATA%\ZTorrent
   settings.json  session.json  torrents\  cache\  logs\
 ```
 
-- `VibeTorrent.App` — views, view models, custom controls, tray, single-instance IPC.
-- `VibeTorrent.Core` — engine service, session/settings stores, preview validation, path safety, display formatting.
-- `VibeTorrent.Tests` — xUnit tests for path safety, settings/session, preview parsing, formatting and a local synthetic torrent.
+- `ZTorrent.App` — views, view models, custom controls, tray, single-instance IPC.
+- `ZTorrent.Core` — engine service, session/settings stores, preview validation, path safety, display formatting.
+- `ZTorrent.Tests` — xUnit tests for path safety, settings/session, preview parsing, formatting and a local synthetic torrent.
 - `docs/` — architecture, design system, UX spec, research and test plan.
 
 The UI never blocks the engine: snapshots are sampled once per second, details twice per second, and all commands are serialized through a semaphore.
@@ -235,7 +236,7 @@ See [SECURITY.md](SECURITY.md) for responsible disclosure.
 - a local synthetic torrent: add, pause, resume, remove, delete data and restore session.
 
 ```powershell
-dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
+dotnet test tests\ZTorrent.Tests\ZTorrent.Tests.csproj -c Release
 ```
 
 ## Roadmap
@@ -248,9 +249,9 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
 
 ## FAQ
 
-### Is VibeTorrent an ad-supported client?
+### Is ZTorrent an ad-supported client?
 
-No. It is open source under GPL-3.0, with no ads, telemetry or paid tier in v1.5.
+No. It is open source under GPL-3.0, with no ads, telemetry or paid tier in v2.0.
 
 ### Does it work on Windows 10?
 
@@ -258,7 +259,7 @@ The supported target is Windows 11 x64. Windows 10 may work with the .NET 10 Des
 
 ### Where is my data stored?
 
-`%LOCALAPPDATA%\VibeTorrent`: `settings.json`, `session.json`, `torrents\`, `cache\`, `logs\`. Download payloads live in the folder you choose.
+`%LOCALAPPDATA%\ZTorrent`: `settings.json`, `session.json`, `torrents\`, `cache\`, `logs\`. Download payloads live in the folder you choose.
 
 ### Can I choose files and priorities?
 
@@ -270,7 +271,7 @@ Yes, including BTIH and multi-hash links. Metadata is fetched from the swarm and
 
 ### Is there a scheduler or per-torrent limit?
 
-v1.5 supports global and per-torrent speed limits plus the High/Normal/Low queue. A time-based scheduler is not included.
+v2.0 supports global and per-torrent speed limits plus the High/Normal/Low queue. A time-based scheduler is not included.
 
 ### Is the interface only in English?
 

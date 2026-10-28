@@ -1,4 +1,4 @@
-# Contributing to VibeTorrent
+# Contributing to ZTorrent
 
 Thanks for taking the time to improve a local-first torrent client.
 
@@ -19,9 +19,9 @@ Thanks for taking the time to improve a local-first torrent client.
 Or with the SDK already on `PATH`:
 
 ```powershell
-dotnet restore VibeTorrent.slnx
-dotnet build VibeTorrent.slnx -c Release
-dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release
+dotnet restore ZTorrent.slnx
+dotnet build ZTorrent.slnx -c Release
+dotnet test tests\ZTorrent.Tests\ZTorrent.Tests.csproj -c Release
 ```
 
 ## Pull requests

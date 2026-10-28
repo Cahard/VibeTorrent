@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ZTorrent.App/ZTorrent.App.csproj" />
+    <Project Path="src/ZTorrent.Core/ZTorrent.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ZTorrent.Tests/ZTorrent.Tests.csproj" />
+  </Folder>
+</Solution>

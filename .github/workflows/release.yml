@@ -28,12 +28,12 @@ jobs:
 
       - name: Restore and test
         run: |
-          dotnet restore VibeTorrent.slnx
-          dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release --nologo
+          dotnet restore ZTorrent.slnx
+          dotnet test tests\ZTorrent.Tests\ZTorrent.Tests.csproj -c Release --nologo
 
       - name: Publish self-contained build
         run: >
-          dotnet publish src\VibeTorrent.App\VibeTorrent.App.csproj
+          dotnet publish src\ZTorrent.App\ZTorrent.App.csproj
           -c Release
           -r win-x64
           --self-contained true
@@ -47,7 +47,7 @@ jobs:
         shell: pwsh
         run: |
           $version = $env:GITHUB_REF_NAME.TrimStart('v')
-          $portable = "VibeTorrent-Portable.zip"
+          $portable = "ZTorrent-Portable.zip"
           New-Item -ItemType Directory -Force dist-portable | Out-Null
           Copy-Item -Path dist-sc\* -Destination dist-portable -Recurse -Force
           Copy-Item README.md, README.ru.md, README.ko.md, LICENSE, THIRD-PARTY-NOTICES.md -Destination dist-portable
@@ -57,11 +57,11 @@ jobs:
             -Filter ISCC.exe -Recurse -ErrorAction SilentlyContinue |
             Select-Object -First 1 -ExpandProperty FullName
           if (-not $iscc) { throw "Inno Setup compiler (ISCC.exe) was not found" }
-          & $iscc "/DAppVersion=$version" "/DSourceDir=$PWD\dist-sc" "/DOutputDir=$PWD\artifacts\installer" "$PWD\installer\VibeTorrent.iss"
+          & $iscc "/DAppVersion=$version" "/DSourceDir=$PWD\dist-sc" "/DOutputDir=$PWD\artifacts\installer" "$PWD\installer\ZTorrent.iss"
           if ($LASTEXITCODE -ne 0) { throw "Inno Setup failed with exit code $LASTEXITCODE" }
-          Copy-Item "artifacts\installer\VibeTorrent-Setup-$version.exe" "VibeTorrent-Setup.exe"
+          Copy-Item "artifacts\installer\ZTorrent-Setup-$version.exe" "ZTorrent-Setup.exe"
 
-          foreach ($file in @("VibeTorrent-Setup.exe", $portable)) {
+          foreach ($file in @("ZTorrent-Setup.exe", $portable)) {
             $hash = (Get-FileHash $file -Algorithm SHA256).Hash.ToLowerInvariant()
             "$hash  $file" | Set-Content "$file.sha256" -Encoding ascii
             Get-Item -LiteralPath @($file, "$file.sha256") | Select-Object Name, Length
@@ -74,11 +74,11 @@ jobs:
         run: |
           $tag = $env:GITHUB_REF_NAME
           gh release create $tag `
-            "VibeTorrent-Setup.exe" `
-            "VibeTorrent-Setup.exe.sha256" `
-            "VibeTorrent-Portable.zip" `
-            "VibeTorrent-Portable.zip.sha256" `
+            "ZTorrent-Setup.exe" `
+            "ZTorrent-Setup.exe.sha256" `
+            "ZTorrent-Portable.zip" `
+            "ZTorrent-Portable.zip.sha256" `
             --repo $env:GITHUB_REPOSITORY `
-            --title "VibeTorrent $tag — Windows 11 torrent client" `
+            --title "ZTorrent $tag — Windows 11 torrent client" `
             --generate-notes `
             --latest

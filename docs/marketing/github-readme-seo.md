@@ -1,4 +1,4 @@
-# VibeTorrent — README и SEO-пакет
+# ZTorrent — README и SEO-пакет
 
 > Дата: 2026-10-27. Источники: локальные `README.md`, `docs/ARCHITECTURE.md`, `docs/testing/test-plan.md`, `*.csproj`, тесты и `LICENSE`; публичный GitHub API. Оценки приоритета — качественные, без выдуманных объёмов поиска. Корневой README и исходники этим агентом не изменялись.
 
@@ -10,10 +10,10 @@
 |---|---|---|
 | Категория | `торрент клиент для windows 11`, `torrent client windows 11`, `best torrent client windows` | H1, первые 2 абзаца, description |
 | Доверие и безопасность | `open source torrent client`, `торрент клиент без рекламы`, `torrent client no telemetry` | первые 2 абзаца, «Безопасность и приватность», FAQ |
-| Нативность и вес | `лёгкий торрент клиент`, `торрент клиент без electron`, `native torrent client` | «Почему VibeTorrent», архитектура; без слов «самый лёгкий» и без бенчмарков |
+| Нативность и вес | `лёгкий торрент клиент`, `торрент клиент без electron`, `native torrent client` | «Почему ZTorrent», архитектура; без слов «самый лёгкий» и без бенчмарков |
 | Технологии | `torrent client C#`, `WPF torrent client`, `MonoTorrent client`, `.NET torrent client` | стек, архитектура, topics |
 | Функции | `magnet link windows`, `торрент клиент с выбором файлов`, `DHT PEX client` | «Возможности», FAQ |
-| Бренд | `VibeTorrent`, `VibeTorrent github` | одинаковое имя в заголовке, релизах, описании и ссылках |
+| Бренд | `ZTorrent`, `ZTorrent github` | одинаковое имя в заголовке, релизах, описании и ссылках |
 
 Русскоязычные пользователи чаще добавляют «скачать», «бесплатно», «без рекламы», «для Windows 11». Англоязычные — `open source`, `lightweight`, `ad-free`, `native`. README не должен обещать «лучший», «самый быстрый» или «самый лёгкий»: это не подтверждено измерениями и снижает доверие.
 
@@ -25,13 +25,13 @@
 |---|---|---|---|
 | `torrent client Windows 11` | EN | P0 | H1 (русский эквивалент), первый абзац, description, social preview |
 | `торрент-клиент для Windows 11` | RU | P0 | H1, первое предложение, description |
-| `open source torrent client` | EN | P0 | первый абзац, topics, «Почему VibeTorrent» |
+| `open source torrent client` | EN | P0 | первый абзац, topics, «Почему ZTorrent» |
 | `торрент клиент open source` | RU | P1 | подзаголовок, FAQ |
 | `C# WPF torrent client` | EN | P1 | «Архитектура», стек, topics |
 | `MonoTorrent client` | EN | P1 | стек, FAQ, topics |
 | `magnet link Windows 11` | EN | P1 | «Возможности», FAQ, alt-текст |
 | `BitTorrent client Windows` | EN | P1 | первый абзац, topics |
-| `нативный торрент клиент` | RU | P2 | «Почему VibeTorrent», description |
+| `нативный торрент клиент` | RU | P2 | «Почему ZTorrent», description |
 | `торрент клиент без телеметрии` | RU | P2 | «Безопасность и приватность», FAQ |
 | `торрент клиент с выбором файлов` | RU | P2 | «Возможности», FAQ |
 | `DHT PEX LSD` | EN | P2 | функции сети, topics |
@@ -42,9 +42,9 @@
 
 GitHub не публикует полную формулу ранжирования. Ниже — сигналы, которые реально влияют на находимость и кликабельность; порядок — приоритет действий, а не официальные веса.
 
-| Фактор | Почему важен | Действие для VibeTorrent |
+| Фактор | Почему важен | Действие для ZTorrent |
 |---|---|---|
-| Имя репозитория | Формирует URL и бренд-запрос; ключи в имени часто выглядят спамно | Оставить `VibeTorrent`; ключи вынести в description, topics и README |
+| Имя репозитория | Формирует URL и бренд-запрос; ключи в имени часто выглядят спамно | Оставить `ZTorrent`; ключи вынести в description, topics и README |
 | Description (до 350 символов) | Мета-описание страницы, OG-текст, первый экран поиска | Заменить `AI-coded` на категорию + стек + приватность (готовый текст — в `github-metadata.md`) |
 | Topics (до 20) | Тематические страницы GitHub и тематический поиск | 20 тем: назначение, платформа, стек, формат; без бренда и нерелевантных трендов |
 | README H1 | Релевантность документа и понятность первого экрана | Один H1: бренд + `торрент-клиент для Windows 11` + `C# / WPF` |
@@ -75,23 +75,23 @@ GitHub не публикует полную формулу ранжирован�
 Скопировать в корень репозитория. Пути к изображениям и документации относительные — менять их не нужно.
 
 ````markdown
-# VibeTorrent — open-source торрент-клиент для Windows 11 на C# / WPF
+# ZTorrent — open-source торрент-клиент для Windows 11 на C# / WPF
 
-[![CI](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Cahard/VibeTorrent/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/Cahard/VibeTorrent?display_name=tag&sort=semver)](https://github.com/Cahard/VibeTorrent/releases)
+[![CI](https://github.com/Cahard/ZTorrent/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Cahard/ZTorrent/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Cahard/ZTorrent?display_name=tag&sort=semver)](https://github.com/Cahard/ZTorrent/releases)
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
 [![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)](https://dotnet.microsoft.com/)
 [![Windows 11 x64](https://img.shields.io/badge/Windows-11%20x64-0078D4)](https://www.microsoft.com/windows/windows-11)
 
 <!-- CI-бейдж оживает после первого запуска .github/workflows/ci.yml; release-бейдж — после тега v1.0.0. -->
 
-VibeTorrent — нативный **торрент-клиент для Windows 11** на C# / .NET 10 / WPF. Это open-source BitTorrent-клиент без браузера и Electron: движок MonoTorrent 3.0.2, magnet-ссылки, DHT/PEX/LSD, шифрование MSE/PE и тёмный интерфейс с живыми градиентами.
+ZTorrent — нативный **торрент-клиент для Windows 11** на C# / .NET 10 / WPF. Это open-source BitTorrent-клиент без браузера и Electron: движок MonoTorrent 3.0.2, magnet-ссылки, DHT/PEX/LSD, шифрование MSE/PE и тёмный интерфейс с живыми градиентами.
 
-Данные и управление — локально: библиотека, файлы, трекеры, пиры и настройки в одном окне. Ни телеметрии, ни облачных сервисов: данные лежат в `%LOCALAPPDATA%\VibeTorrent`.
+Данные и управление — локально: библиотека, файлы, трекеры, пиры и настройки в одном окне. Ни телеметрии, ни облачных сервисов: данные лежат в `%LOCALAPPDATA%\ZTorrent`.
 
 *In English: a native open source torrent client for Windows 11, built with C# / WPF on .NET 10 and MonoTorrent 3.0.2, with magnet link support.*
 
-![Библиотека VibeTorrent: список торрентов, суммарные скорости, фильтры и панель деталей](docs/assets/01-library.png)
+![Библиотека ZTorrent: список торрентов, суммарные скорости, фильтры и панель деталей](docs/assets/01-library.png)
 
 > [!NOTE]
 > Скриншоты сделаны в демонстрационном режиме. Все торренты, имена и цифры в них вымышлены.
@@ -99,7 +99,7 @@ VibeTorrent — нативный **торрент-клиент для Windows 11
 ## Содержание
 
 - [Возможности](#возможности)
-- [Почему VibeTorrent](#почему-vibetorrent)
+- [Почему ZTorrent](#почему-ztorrent)
 - [Быстрый старт](#быстрый-старт)
 - [Релизы и загрузка](#релизы-и-загрузка)
 - [Скриншоты](#скриншоты)
@@ -145,10 +145,10 @@ VibeTorrent — нативный **торрент-клиент для Windows 11
 
 ### Данные
 
-- Настройки, сессия, копии `.torrent`, fastresume, metadata и логи — в `%LOCALAPPDATA%\VibeTorrent`.
+- Настройки, сессия, копии `.torrent`, fastresume, metadata и логи — в `%LOCALAPPDATA%\ZTorrent`.
 - Телеметрии и облачных сервисов нет. Сеть используется только для BitTorrent, DHT, трекеров и UPnP.
 
-## Почему VibeTorrent
+## Почему ZTorrent
 
 | Принцип | Что это значит |
 |---|---|
@@ -170,8 +170,8 @@ VibeTorrent — нативный **торрент-клиент для Windows 11
 > Нужны Windows 11 x64 и [.NET 10 SDK](https://dotnet.microsoft.com/download) 10.0.100+. В требованиях проекта также указаны Windows 10/11 x64; основной сценарий — Windows 11.
 
 ```powershell
-git clone https://github.com/Cahard/VibeTorrent.git
-cd VibeTorrent
+git clone https://github.com/Cahard/ZTorrent.git
+cd ZTorrent
 
 .\build.ps1   # restore, build и 24 теста
 .\run.ps1     # запуск приложения
@@ -193,13 +193,13 @@ pwsh -ExecutionPolicy Bypass -File .\build.ps1
 .\publish.ps1 -SelfContained   # self-contained, один файл
 ```
 
-Результат: `artifacts\publish\win-x64\VibeTorrent.exe`.
+Результат: `artifacts\publish\win-x64\ZTorrent.exe`.
 
 ### Ассоциации файлов
 
 ```powershell
 pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 `
-    -ExePath .\artifacts\publish\win-x64\VibeTorrent.exe
+    -ExePath .\artifacts\publish\win-x64\ZTorrent.exe
 ```
 
 Отмена: `scripts\unregister-file-associations.ps1`.
@@ -218,12 +218,12 @@ pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 `
 
 ## Релизы и загрузка
 
-Готовые сборки для `win-x64` публикуются в [GitHub Releases](https://github.com/Cahard/VibeTorrent/releases). Если релизов ещё нет, соберите проект из исходников — это одна команда.
+Готовые сборки для `win-x64` публикуются в [GitHub Releases](https://github.com/Cahard/ZTorrent/releases). Если релизов ещё нет, соберите проект из исходников — это одна команда.
 
 | Вариант | Что получаете | Что нужно |
 |---|---|---|
-| Framework-dependent | `VibeTorrent-<версия>-win-x64.zip` | .NET 10 Desktop Runtime |
-| Self-contained | `VibeTorrent-<версия>-win-x64-selfcontained.zip` | ничего дополнительно |
+| Framework-dependent | `ZTorrent-<версия>-win-x64.zip` | .NET 10 Desktop Runtime |
+| Self-contained | `ZTorrent-<версия>-win-x64-selfcontained.zip` | ничего дополнительно |
 
 Рядом с архивами публикуются `.sha256`-контрольные суммы.
 
@@ -234,30 +234,30 @@ pwsh -ExecutionPolicy Bypass -File .\scripts\register-file-associations.ps1 `
 
 | Библиотека | Добавление по magnet |
 |---|---|
-| ![Библиотека VibeTorrent: список торрентов, суммарные скорости, фильтры и панель деталей](docs/assets/01-library.png) | ![Добавление magnet-ссылки в VibeTorrent: предпросмотр метаданных и выбор папки загрузки](docs/assets/02-add-torrent.png) |
+| ![Библиотека ZTorrent: список торрентов, суммарные скорости, фильтры и панель деталей](docs/assets/01-library.png) | ![Добавление magnet-ссылки в ZTorrent: предпросмотр метаданных и выбор папки загрузки](docs/assets/02-add-torrent.png) |
 
 | Настройки | Файлы торрента |
 |---|---|
-| ![Настройки VibeTorrent: папка загрузок, автозапуск, трей, порт и DHT](docs/assets/03-settings.png) | ![Вкладка «Файлы» в VibeTorrent: приоритеты и выбор файлов торрента](docs/assets/05-files-tab.png) |
+| ![Настройки ZTorrent: папка загрузок, автозапуск, трей, порт и DHT](docs/assets/03-settings.png) | ![Вкладка «Файлы» в ZTorrent: приоритеты и выбор файлов торрента](docs/assets/05-files-tab.png) |
 
 | Добавление `.torrent` | Удаление |
 |---|---|
-| ![Добавление .torrent в VibeTorrent: проверка содержимого и выбор файлов](docs/assets/04-add-file.png) | ![Подтверждение удаления торрента в VibeTorrent с опцией удаления данных](docs/assets/06-confirm-remove.png) |
+| ![Добавление .torrent в ZTorrent: проверка содержимого и выбор файлов](docs/assets/04-add-file.png) | ![Подтверждение удаления торрента в ZTorrent с опцией удаления данных](docs/assets/06-confirm-remove.png) |
 
 | Первый запуск |
 |---|
-| ![Пустая библиотека VibeTorrent: добавление первого торрента или magnet-ссылки](docs/assets/08-empty.png) |
+| ![Пустая библиотека ZTorrent: добавление первого торрента или magnet-ссылки](docs/assets/08-empty.png) |
 
 ## Архитектура
 
 ```text
-src/VibeTorrent.App     WPF UI, MVVM, тема, tray, chrome, single-instance
+src/ZTorrent.App     WPF UI, MVVM, тема, tray, chrome, single-instance
         │
         ▼
-src/VibeTorrent.Core    MonoTorrent wrapper, DTO, сессия, настройки, безопасность путей
+src/ZTorrent.Core    MonoTorrent wrapper, DTO, сессия, настройки, безопасность путей
 ```
 
-- `VibeTorrent.Core` не ссылается на WPF и тестируется отдельно; `VibeTorrent.App` не работает с MonoTorrent напрямую.
+- `ZTorrent.Core` не ссылается на WPF и тестируется отдельно; `ZTorrent.App` не работает с MonoTorrent напрямую.
 - `TorrentEngineService` — единственная точка работы с `ClientEngine`. Снимки состояния — раз в секунду, детали — раз в две секунды, все мутации сериализованы.
 - События движка маршалятся в UI через `IUiDispatcher`; диск и сеть не блокируют интерфейс.
 - `settings.json` и `session.json` пишутся атомарно; битый JSON уходит в `*.corrupt-<timestamp>` и не блокирует запуск.
@@ -276,12 +276,12 @@ src/VibeTorrent.Core    MonoTorrent wrapper, DTO, сессия, настройк
 - Удалённого управления и облачной синхронизации нет.
 
 > [!NOTE]
-> VibeTorrent не проверяет скачанные файлы антивирусом и не гарантирует легальность контента. Скачивайте только то, на что у вас есть права.
+> ZTorrent не проверяет скачанные файлы антивирусом и не гарантирует легальность контента. Скачивайте только то, на что у вас есть права.
 
 ## Тесты
 
 ```powershell
-dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj
+dotnet test tests\ZTorrent.Tests\ZTorrent.Tests.csproj
 ```
 
 24 теста: path safety (traversal, UNC, ADS, зарезервированные имена), форматирование, атомарные настройки и сессия, битый JSON, дедупликация, preview `.torrent`/magnet, приоритеты файлов, add/pause/resume/remove, удаление данных и восстановление сессии.
@@ -303,11 +303,11 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj
 | Английская локализация | в следующих версиях |
 | Удалённое управление | не входит в v1.0 |
 
-Предложить направление или сообщить об ошибке — через [Issues](https://github.com/Cahard/VibeTorrent/issues).
+Предложить направление или сообщить об ошибке — через [Issues](https://github.com/Cahard/ZTorrent/issues).
 
 ## FAQ
 
-### VibeTorrent — бесплатный торрент-клиент?
+### ZTorrent — бесплатный торрент-клиент?
 
 Да. Код распространяется под GPL-3.0, без подписок и платных функций в v1.0.
 
@@ -321,7 +321,7 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj
 
 ### Где хранятся данные?
 
-В `%LOCALAPPDATA%\VibeTorrent`: `settings.json`, `session.json`, `torrents\`, `fastresume\`, `metadata\`, `cache\`, `logs\`.
+В `%LOCALAPPDATA%\ZTorrent`: `settings.json`, `session.json`, `torrents\`, `fastresume\`, `metadata\`, `cache\`, `logs\`.
 
 ### Поддерживаются ли magnet-ссылки?
 
@@ -349,9 +349,9 @@ dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj
 
 ## Участие в разработке
 
-- Баги и предложения — через [Issues](https://github.com/Cahard/VibeTorrent/issues). Приложите версию Windows, версию .NET и шаги воспроизведения.
+- Баги и предложения — через [Issues](https://github.com/Cahard/ZTorrent/issues). Приложите версию Windows, версию .NET и шаги воспроизведения.
 - Перед PR запустите `.\build.ps1`: сборка и 24 теста должны проходить.
-- Держите `VibeTorrent.Core` без зависимостей от WPF.
+- Держите `ZTorrent.Core` без зависимостей от WPF.
 - Изменения в работе с путями сопровождайте тестами path safety.
 - Не публикуйте уязвимости в открытых issues.
 

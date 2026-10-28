@@ -1,9 +1,0 @@
-<Solution>
-  <Folder Name="/src/">
-    <Project Path="src/VibeTorrent.App/VibeTorrent.App.csproj" />
-    <Project Path="src/VibeTorrent.Core/VibeTorrent.Core.csproj" />
-  </Folder>
-  <Folder Name="/tests/">
-    <Project Path="tests/VibeTorrent.Tests/VibeTorrent.Tests.csproj" />
-  </Folder>
-</Solution>

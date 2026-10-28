@@ -3,7 +3,7 @@
 ## Reporting a vulnerability
 
 Please report security issues privately through GitHub Security Advisories:
-<https://github.com/Cahard/VibeTorrent/security/advisories/new>.
+<https://github.com/Cahard/ZTorrent/security/advisories/new>.
 
 Do not open a public issue for path traversal, arbitrary file write/delete,
 remote code execution, credential leakage, or denial-of-service findings.

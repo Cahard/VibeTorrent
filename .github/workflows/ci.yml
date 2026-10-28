@@ -31,10 +31,10 @@ jobs:
             NuGet.config
 
       - name: Restore
-        run: dotnet restore VibeTorrent.slnx
+        run: dotnet restore ZTorrent.slnx
 
       - name: Build
-        run: dotnet build VibeTorrent.slnx -c Release --no-restore --nologo
+        run: dotnet build ZTorrent.slnx -c Release --no-restore --nologo
 
       - name: Test
-        run: dotnet test tests\VibeTorrent.Tests\VibeTorrent.Tests.csproj -c Release --no-build --nologo
+        run: dotnet test tests\ZTorrent.Tests\ZTorrent.Tests.csproj -c Release --no-build --nologo
