@@ -79,19 +79,19 @@
 
     <LinearGradientBrush x:Key="CardGradient" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="#FFFFFF" Offset="0" />
-        <GradientStop Color="#F8FAFC" Offset="0.6" />
-        <GradientStop Color="#F1F5F9" Offset="1" />
+        <GradientStop Color="#FBFDFF" Offset="0.6" />
+        <GradientStop Color="#F8FAFC" Offset="1" />
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="WindowGradient" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#F4F7FB" Offset="0" />
-        <GradientStop Color="#EEF2F8" Offset="0.5" />
-        <GradientStop Color="#F8FAFC" Offset="1" />
+        <GradientStop Color="#FAFCFF" Offset="0" />
+        <GradientStop Color="#F7FAFD" Offset="0.5" />
+        <GradientStop Color="#FBFDFF" Offset="1" />
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="SearchGradient" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="#FFFFFF" Offset="0" />
-        <GradientStop Color="#F1F5F9" Offset="1" />
+        <GradientStop Color="#F8FAFC" Offset="1" />
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="DividerGradient" StartPoint="0,0" EndPoint="1,0">

@@ -13,6 +13,7 @@
 
             <Style TargetType="{x:Type Window}">
                 <Setter Property="Background" Value="{DynamicResource BaseBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
                 <Setter Property="FontFamily" Value="{StaticResource TextFont}" />
                 <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
                 <Setter Property="UseLayoutRounding" Value="True" />

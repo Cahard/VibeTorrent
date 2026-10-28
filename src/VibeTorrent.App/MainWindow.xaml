@@ -171,7 +171,7 @@
                             <StackPanel Margin="14,0,14,0">
                                 <TextBlock Text="{loc:T 'LIBRARY'}" Style="{StaticResource SidebarLabel}" />
 
-                                <ToggleButton Style="{StaticResource NavToggle}"
+                                <ToggleButton x:Name="NavAll" Style="{StaticResource NavToggle}"
                                               IsChecked="{Binding IsFilterAll, Mode=OneWay}"
                                               Command="{Binding SetFilterCommand}" CommandParameter="all">
                                     <Grid>
@@ -180,19 +180,18 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="&#xE8FD;" Style="{StaticResource IconGlyph}" FontSize="14"
+                                        <TextBlock Text="&#xE8FD;" Style="{StaticResource NavIconAll}" FontSize="14"
                                                    HorizontalAlignment="Left" />
                                         <TextBlock Grid.Column="1" Text="{loc:T 'All downloads'}" Margin="9,0,4,0"
-                                                   VerticalAlignment="Center" FontSize="12.5" />
+                                                   VerticalAlignment="Center" FontSize="12.5"  Style="{StaticResource NavTextAll}" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding AllCount}" FontSize="9"
-                                                       Foreground="{DynamicResource TextSecondaryBrush}"
-                                                       HorizontalAlignment="Center" />
+                                                       HorizontalAlignment="Center"  Style="{StaticResource NavTextAll}" />
                                         </Border>
                                     </Grid>
                                 </ToggleButton>
 
-                                <ToggleButton Style="{StaticResource NavToggle}"
+                                <ToggleButton x:Name="NavActive" Style="{StaticResource NavToggle}"
                                               IsChecked="{Binding IsFilterActive, Mode=OneWay}"
                                               Command="{Binding SetFilterCommand}" CommandParameter="active">
                                     <Grid>
@@ -201,19 +200,18 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" FontSize="14"
+                                        <TextBlock Text="&#xE896;" Style="{StaticResource NavIconActive}" FontSize="14"
                                                    HorizontalAlignment="Left" />
                                         <TextBlock Grid.Column="1" Text="{loc:T 'Active'}" Margin="9,0,4,0"
-                                                   VerticalAlignment="Center" FontSize="12.5" />
+                                                   VerticalAlignment="Center" FontSize="12.5"  Style="{StaticResource NavTextActive}" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding ActiveCount}" FontSize="9"
-                                                       Foreground="{DynamicResource CyanBrush}"
-                                                       HorizontalAlignment="Center" />
+                                                       HorizontalAlignment="Center"  Style="{StaticResource NavTextActive}" />
                                         </Border>
                                     </Grid>
                                 </ToggleButton>
 
-                                <ToggleButton Style="{StaticResource NavToggle}"
+                                <ToggleButton x:Name="NavCompleted" Style="{StaticResource NavToggle}"
                                               IsChecked="{Binding IsFilterCompleted, Mode=OneWay}"
                                               Command="{Binding SetFilterCommand}" CommandParameter="completed">
                                     <Grid>
@@ -222,19 +220,18 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="&#xE73E;" Style="{StaticResource IconGlyph}" FontSize="13"
+                                        <TextBlock Text="&#xE73E;" Style="{StaticResource NavIconCompleted}" FontSize="13"
                                                    HorizontalAlignment="Left" />
                                         <TextBlock Grid.Column="1" Text="{loc:T 'Completed'}" Margin="9,0,4,0"
-                                                   VerticalAlignment="Center" FontSize="12.5" />
+                                                   VerticalAlignment="Center" FontSize="12.5"  Style="{StaticResource NavTextCompleted}" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding CompletedCount}" FontSize="9"
-                                                       Foreground="{DynamicResource TextSecondaryBrush}"
-                                                       HorizontalAlignment="Center" />
+                                                       HorizontalAlignment="Center"  Style="{StaticResource NavTextCompleted}" />
                                         </Border>
                                     </Grid>
                                 </ToggleButton>
 
-                                <ToggleButton Style="{StaticResource NavToggle}"
+                                <ToggleButton x:Name="NavPaused" Style="{StaticResource NavToggle}"
                                               IsChecked="{Binding IsFilterPaused, Mode=OneWay}"
                                               Command="{Binding SetFilterCommand}" CommandParameter="paused">
                                     <Grid>
@@ -243,19 +240,18 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="&#xE769;" Style="{StaticResource IconGlyph}" FontSize="12"
+                                        <TextBlock Text="&#xE769;" Style="{StaticResource NavIconPaused}" FontSize="12"
                                                    HorizontalAlignment="Left" />
                                         <TextBlock Grid.Column="1" Text="{loc:T 'Paused'}" Margin="9,0,4,0"
-                                                   VerticalAlignment="Center" FontSize="12.5" />
+                                                   VerticalAlignment="Center" FontSize="12.5"  Style="{StaticResource NavTextPaused}" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding PausedCount}" FontSize="9"
-                                                       Foreground="{DynamicResource WarningBrush}"
-                                                       HorizontalAlignment="Center" />
+                                                       HorizontalAlignment="Center"  Style="{StaticResource NavTextPaused}" />
                                         </Border>
                                     </Grid>
                                 </ToggleButton>
 
-                                <ToggleButton Style="{StaticResource NavToggle}"
+                                <ToggleButton x:Name="NavError" Style="{StaticResource NavToggle}"
                                               IsChecked="{Binding IsFilterError, Mode=OneWay}"
                                               Command="{Binding SetFilterCommand}" CommandParameter="error">
                                     <Grid>
@@ -264,14 +260,13 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="&#xE7BA;" Style="{StaticResource IconGlyph}" FontSize="13"
+                                        <TextBlock Text="&#xE7BA;" Style="{StaticResource NavIconError}" FontSize="13"
                                                    HorizontalAlignment="Left" />
                                         <TextBlock Grid.Column="1" Text="{loc:T 'Error'}" Margin="9,0,4,0"
-                                                   VerticalAlignment="Center" FontSize="12.5" />
+                                                   VerticalAlignment="Center" FontSize="12.5"  Style="{StaticResource NavTextError}" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding ErrorCount}" FontSize="9"
-                                                       Foreground="{DynamicResource DangerBrush}"
-                                                       HorizontalAlignment="Center" />
+                                                       HorizontalAlignment="Center"  Style="{StaticResource NavTextError}" />
                                         </Border>
                                     </Grid>
                                 </ToggleButton>
@@ -296,7 +291,7 @@
 
 
 
-                                <ToggleButton Style="{StaticResource NavToggle}"
+                                <ToggleButton x:Name="NavSettings" Style="{StaticResource NavToggle}"
                                               IsChecked="{Binding IsSettingsOpen, Mode=OneWay}"
                                               Command="{Binding OpenSettingsCommand}">
                                     <Grid>
@@ -304,10 +299,10 @@
                                             <ColumnDefinition Width="20" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="&#xE713;" Style="{StaticResource IconGlyph}" FontSize="13"
+                                        <TextBlock Text="&#xE713;" Style="{StaticResource NavIconSettings}" FontSize="13"
                                                    HorizontalAlignment="Left" />
                                         <TextBlock Grid.Column="1" Text="{loc:T 'Settings'}" Margin="9,0,0,0"
-                                                   VerticalAlignment="Center" FontSize="12.5" />
+                                                   VerticalAlignment="Center" FontSize="12.5"  Style="{StaticResource NavTextSettings}" />
                                     </Grid>
                                 </ToggleButton>
 
@@ -469,7 +464,7 @@
                             <TextBlock Text="{loc:T 'Local data only'}" FontSize="8.5"
                                        Foreground="{DynamicResource TextMutedBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="VibeTorrent 1.4.4" FontSize="8.5" Foreground="{DynamicResource TextDisabledBrush}" />
+                            <TextBlock Text="VibeTorrent 1.4.5" FontSize="8.5" Foreground="{DynamicResource TextMutedBrush}" />
                         </StackPanel>
                     </Grid>
                 </Border>

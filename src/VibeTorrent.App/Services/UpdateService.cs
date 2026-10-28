@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.Json;
 using VibeTorrent.Core.Configuration;
+using VibeTorrent.Core.Localization;
 
 namespace VibeTorrent.App.Services;
 
@@ -33,6 +34,9 @@ public interface IUpdateService
 public sealed class UpdateService : IUpdateService
 {
     private const string ApiUrl = "https://api.github.com/repos/Cahard/VibeTorrent/releases/latest";
+    private const string LatestPageUrl = "https://github.com/Cahard/VibeTorrent/releases/latest";
+    private const string StableSetupUrl =
+        "https://github.com/Cahard/VibeTorrent/releases/latest/download/VibeTorrent-Setup.exe";
     private readonly AppPaths _paths;
     private readonly HttpClient _http;
 
@@ -41,16 +45,69 @@ public sealed class UpdateService : IUpdateService
         _paths = paths;
         _http = new HttpClient
         {
-            Timeout = TimeSpan.FromSeconds(20)
+            Timeout = Timeout.InfiniteTimeSpan // per-request timeout for checks; downloads may be large
         };
         _http.DefaultRequestHeaders.UserAgent.ParseAdd("VibeTorrent-Updater/1.0");
-        _http.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.github+json");
     }
 
     public Version CurrentVersion =>
         Assembly.GetEntryAssembly()?.GetName().Version ?? new Version(1, 0, 0, 0);
 
     public async Task<UpdateInfo?> CheckAsync(CancellationToken cancellationToken = default)
+    {
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(TimeSpan.FromSeconds(12));
+        try
+        {
+            // The GitHub web endpoint is tried first because api.github.com is
+            // frequently blocked or throttled while the release page still works.
+            var (webSucceeded, webUpdate) = await TryCheckLatestPageAsync(timeout.Token).ConfigureAwait(false);
+            if (webSucceeded)
+            {
+                return webUpdate;
+            }
+
+            return await CheckApiAsync(timeout.Token).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException || !cancellationToken.IsCancellationRequested)
+        {
+            throw new InvalidOperationException(
+                L.T("Could not reach GitHub. Check your internet connection."), ex);
+        }
+    }
+
+    private async Task<(bool Success, UpdateInfo? Update)> TryCheckLatestPageAsync(
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            using var response = await _http.GetAsync(
+                    LatestPageUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                .ConfigureAwait(false);
+            if (!response.IsSuccessStatusCode)
+            {
+                return (false, null);
+            }
+
+            var uri = response.RequestMessage?.RequestUri;
+            var tag = uri?.Segments.LastOrDefault()?.Trim('/');
+            if (string.IsNullOrWhiteSpace(tag) ||
+                !Version.TryParse(tag.TrimStart('v', 'V'), out var version))
+            {
+                return (false, null);
+            }
+
+            return (true, version <= CurrentVersion
+                ? null
+                : new UpdateInfo(version, tag, StableSetupUrl, StableSetupUrl + ".sha256"));
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            return (false, null);
+        }
+    }
+
+    private async Task<UpdateInfo?> CheckApiAsync(CancellationToken cancellationToken)
     {
         using var response = await _http.GetAsync(ApiUrl, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();

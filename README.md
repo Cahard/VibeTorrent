@@ -225,7 +225,7 @@ See [SECURITY.md](SECURITY.md) for responsible disclosure.
 
 ## Tests
 
-**33 xUnit tests** cover:
+**34 xUnit tests** cover:
 
 - path traversal, UNC/ADS and reserved-name validation;
 - settings validation and atomic persistence;

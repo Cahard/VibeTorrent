@@ -145,6 +145,7 @@
                                 Visibility="{Binding Details.ShowPauseButton, Converter={StaticResource BoolToVisibility}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE769;" FontFamily="{StaticResource IconFont}" FontSize="10"
+                                           Foreground="{DynamicResource OnAccentBrush}"
                                            VerticalAlignment="Center" Margin="0,0,6,0" />
                                 <TextBlock Text="{loc:T 'Pause'}" FontSize="11.5" Foreground="{DynamicResource OnAccentBrush}" />
                             </StackPanel>
@@ -154,6 +155,7 @@
                                 Visibility="{Binding Details.ShowResumeButton, Converter={StaticResource BoolToVisibility}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE768;" FontFamily="{StaticResource IconFont}" FontSize="10"
+                                           Foreground="{DynamicResource OnAccentBrush}"
                                            VerticalAlignment="Center" Margin="0,0,6,0" />
                                 <TextBlock Text="{loc:T 'Resume'}" FontSize="11.5" Foreground="{DynamicResource OnAccentBrush}" />
                             </StackPanel>
@@ -216,7 +218,11 @@
             <TabControl Grid.Row="4" Margin="12,10,12,10" Style="{StaticResource DetailsTabControl}"
                         SelectedIndex="{Binding Details.SelectedTabIndex, Mode=TwoWay}"
                         Visibility="{Binding Details, Converter={StaticResource NullToVisibility}}">
-                <TabItem Style="{StaticResource DetailsTabItem}" Header="{loc:T 'Overview'}">
+                <TabItem x:Name="TabOverview" Style="{StaticResource DetailsTabItem}">
+                    <TabItem.Header>
+                        <TextBlock Text="{loc:T 'Overview'}" Style="{StaticResource TabText0}"
+                                   Tag="{Binding IsSelected, ElementName=TabOverview}" />
+                    </TabItem.Header>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                                   Padding="0,0,4,0">
                         <StackPanel Margin="6,4,2,8">
@@ -421,11 +427,14 @@
                     </ScrollViewer>
                 </TabItem>
 
-                <TabItem Style="{StaticResource DetailsTabItem}">
+                <TabItem x:Name="TabFiles" Style="{StaticResource DetailsTabItem}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{loc:T 'Files'}" />
-                            <TextBlock Text="{Binding Details.FileCount}" Margin="4,0,0,0" Opacity="0.55" />
+                            <TextBlock Text="{loc:T 'Files'}" Style="{StaticResource TabText1}"
+                                       Tag="{Binding IsSelected, ElementName=TabFiles}" />
+                            <TextBlock Text="{Binding Details.FileCount}" Margin="4,0,0,0" Opacity="0.55"
+                                       Style="{StaticResource TabText1}"
+                                       Tag="{Binding IsSelected, ElementName=TabFiles}" />
                         </StackPanel>
                     </TabItem.Header>
                     <Grid Margin="4,4,4,0">
@@ -487,11 +496,14 @@
                     </Grid>
                 </TabItem>
 
-                <TabItem Style="{StaticResource DetailsTabItem}">
+                <TabItem x:Name="TabTrackers" Style="{StaticResource DetailsTabItem}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{loc:T 'Trackers'}" />
-                            <TextBlock Text="{Binding Details.TrackerCount}" Margin="4,0,0,0" Opacity="0.55" />
+                            <TextBlock Text="{loc:T 'Trackers'}" Style="{StaticResource TabText2}"
+                                       Tag="{Binding IsSelected, ElementName=TabTrackers}" />
+                            <TextBlock Text="{Binding Details.TrackerCount}" Margin="4,0,0,0" Opacity="0.55"
+                                       Style="{StaticResource TabText2}"
+                                       Tag="{Binding IsSelected, ElementName=TabTrackers}" />
                         </StackPanel>
                     </TabItem.Header>
                     <ScrollViewer Padding="4,4,4,0" VerticalScrollBarVisibility="Auto">
@@ -540,11 +552,14 @@
                     </ScrollViewer>
                 </TabItem>
 
-                <TabItem Style="{StaticResource DetailsTabItem}">
+                <TabItem x:Name="TabPeers" Style="{StaticResource DetailsTabItem}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{loc:T 'Peers'}" />
-                            <TextBlock Text="{Binding Details.PeerCount}" Margin="4,0,0,0" Opacity="0.55" />
+                            <TextBlock Text="{loc:T 'Peers'}" Style="{StaticResource TabText3}"
+                                       Tag="{Binding IsSelected, ElementName=TabPeers}" />
+                            <TextBlock Text="{Binding Details.PeerCount}" Margin="4,0,0,0" Opacity="0.55"
+                                       Style="{StaticResource TabText3}"
+                                       Tag="{Binding IsSelected, ElementName=TabPeers}" />
                         </StackPanel>
                     </TabItem.Header>
                     <ListBox ItemsSource="{Binding Details.Peers}" ItemContainerStyle="{StaticResource DetailListItem}"

@@ -86,22 +86,26 @@
                     <Border HorizontalAlignment="Left" Background="{DynamicResource B_08FFFFFF}" BorderBrush="{DynamicResource B_16FFFFFF}"
                             BorderThickness="1" CornerRadius="10" Padding="3" Margin="0,0,0,14">
                         <StackPanel Orientation="Horizontal">
-                            <RadioButton Style="{StaticResource SegmentedTab}" GroupName="AddMode"
+                            <RadioButton x:Name="ModeFile" Style="{StaticResource SegmentedTab}" GroupName="AddMode"
                                          IsChecked="{Binding IsFileMode, Mode=OneWay}"
                                          Command="{Binding SwitchModeCommand}" CommandParameter="file">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="&#xE8A5;" FontFamily="{StaticResource IconFont}" FontSize="11"
+                                               Style="{StaticResource ModeFileText}"
+                                              
                                                VerticalAlignment="Center" Margin="0,0,6,0" />
-                                    <TextBlock Text="{loc:T '.torrent file'}" />
+                                    <TextBlock Text="{loc:T '.torrent file'}" Style="{StaticResource ModeFileText}" />
                                 </StackPanel>
                             </RadioButton>
-                            <RadioButton Style="{StaticResource SegmentedTab}" GroupName="AddMode"
+                            <RadioButton x:Name="ModeMagnet" Style="{StaticResource SegmentedTab}" GroupName="AddMode"
                                          IsChecked="{Binding IsMagnetMode, Mode=OneWay}"
                                          Command="{Binding SwitchModeCommand}" CommandParameter="magnet">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="&#xE71B;" FontFamily="{StaticResource IconFont}" FontSize="11"
+                                               Style="{StaticResource ModeMagnetText}"
+                                              
                                                VerticalAlignment="Center" Margin="0,0,6,0" />
-                                    <TextBlock Text="{loc:T 'Magnet link'}" />
+                                    <TextBlock Text="{loc:T 'Magnet link'}" Style="{StaticResource ModeMagnetText}" />
                                 </StackPanel>
                             </RadioButton>
                         </StackPanel>

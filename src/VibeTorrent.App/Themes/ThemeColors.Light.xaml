@@ -193,7 +193,7 @@
     <SolidColorBrush x:Key="B_44FB7185" Color="{StaticResource C_44FB7185}" />
     <Color x:Key="C_45FFFFFF">#450F172A</Color>
     <SolidColorBrush x:Key="B_45FFFFFF" Color="{StaticResource C_45FFFFFF}" />
-    <Color x:Key="C_48000000">#48000000</Color>
+    <Color x:Key="C_48000000">#14000000</Color>
     <SolidColorBrush x:Key="B_48000000" Color="{StaticResource C_48000000}" />
     <Color x:Key="C_4DFB7185">#4DFB7185</Color>
     <SolidColorBrush x:Key="B_4DFB7185" Color="{StaticResource C_4DFB7185}" />

@@ -758,6 +758,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         try
         {
             UpdateStatusText = L.T("Downloading update...");
+            await PersistSessionForShutdownAsync();
             var installer = await _updates.DownloadAsync(_pendingUpdate);
             if (!_updates.LaunchInstaller(installer))
             {

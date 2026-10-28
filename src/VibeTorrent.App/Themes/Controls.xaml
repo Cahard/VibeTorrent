@@ -18,7 +18,6 @@
 
     <Style TargetType="{x:Type TextBlock}">
         <Setter Property="FontFamily" Value="{StaticResource TextFont}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
         <Setter Property="FontSize" Value="{StaticResource FontBody}" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
@@ -389,6 +388,176 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="NavTextBase" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
+    </Style>
+    <Style x:Key="NavTextAll" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource NavTextBase}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterAll}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavTextActive" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource NavTextBase}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterActive}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavTextCompleted" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource NavTextBase}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterCompleted}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavTextPaused" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource NavTextBase}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterPaused}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavTextError" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource NavTextBase}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterError}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavTextSettings" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource NavTextBase}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSettingsOpen}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavIconAll" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconGlyph}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterAll}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavIconActive" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconGlyph}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterActive}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavIconCompleted" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconGlyph}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterCompleted}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavIconPaused" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconGlyph}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterPaused}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavIconError" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconGlyph}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFilterError}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavIconSettings" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconGlyph}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSettingsOpen}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="TabText0" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Details.SelectedTabIndex}" Value="0">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveTabForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="TabText1" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Details.SelectedTabIndex}" Value="1">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveTabForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="TabText2" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Details.SelectedTabIndex}" Value="2">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveTabForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="TabText3" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Details.SelectedTabIndex}" Value="3">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveTabForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="ModeFileText" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFileMode}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource SelectedChipForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="ModeMagnetText" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMagnetMode}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource SelectedChipForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="NavText" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="NavIcon" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconGlyph}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TabText" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ActiveTabForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ModeText" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource SelectedChipForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <!-- Text inside a radio chip follows the chip's active foreground. -->

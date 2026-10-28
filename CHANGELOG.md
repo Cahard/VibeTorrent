@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.4.5 — 2026-10-28
+
+### Fixed
+
+- All active navigation items, details tabs, priority selectors, torrent-type tabs, and primary button labels now use white text in the light theme.
+- Light-theme background gradient is lighter and the modal shadow stays dark (no white glow).
+- Update checks use the GitHub release page first and fall back to the API, with a shorter timeout.
+- Session state is backed up and restored from `session.json.bak`; state is also flushed before an update installs.
+
 ## 1.4.4 — 2026-10-28
 
 ### Fixed
