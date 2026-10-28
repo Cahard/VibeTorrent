@@ -99,7 +99,7 @@
                                            FontSize="16.5" FontWeight="SemiBold" Foreground="{DynamicResource B_FFFFFF}"
                                            TextWrapping="Wrap" MaxHeight="42" TextTrimming="CharacterEllipsis" />
                                 <TextBlock Text="{Binding Details.Summary.InfoHash}" FontFamily="{StaticResource MonoFont}"
-                                           FontSize="8.5" Foreground="{DynamicResource B_AAFFFFFF}" Margin="0,4,0,0"
+                                           FontSize="8.5" Foreground="{DynamicResource OnAccentBrush}" Opacity="0.72" Margin="0,4,0,0"
                                            TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </Grid>

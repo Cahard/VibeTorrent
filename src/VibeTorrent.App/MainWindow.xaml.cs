@@ -46,7 +46,11 @@ public partial class MainWindow : Window
             WindowState = WindowState.Maximized;
         }
 
-        SourceInitialized += (_, _) => WindowEffects.ApplyWindow(this);
+        SourceInitialized += (_, _) =>
+        {
+            WindowEffects.ApplyWindow(this);
+            WindowMaximizeFix.Attach(this);
+        };
         ThemeService.ThemeChanged += OnThemeChanged;
         StateChanged += (_, _) => UpdateMaximizeGlyph();
         SizeChanged += (_, _) => ApplyResponsiveLayout();

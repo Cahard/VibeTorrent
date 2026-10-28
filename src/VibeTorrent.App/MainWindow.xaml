@@ -294,24 +294,7 @@
                                     </Grid>
                                 </Button>
 
-                                <Button Style="{StaticResource GhostButton}" Height="42" Padding="12,0"
-                                        HorizontalContentAlignment="Stretch"
-                                        Command="{Binding CheckForUpdatesCommand}"
-                                        IsEnabled="{Binding IsInitialized}"
-                                        ToolTip="{Binding UpdateStatusText}" Margin="0,0,0,2">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="20" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="&#xE895;" Style="{StaticResource IconGlyph}" FontSize="14"
-                                                   HorizontalAlignment="Left"
-                                                   Foreground="{DynamicResource DownloadBrush}" />
-                                        <TextBlock Grid.Column="1" Text="{Binding UpdateButtonText}" FontSize="12.5"
-                                                   Margin="9,0,4,0" VerticalAlignment="Center"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </Grid>
-                                </Button>
+
 
                                 <ToggleButton Style="{StaticResource NavToggle}"
                                               IsChecked="{Binding IsSettingsOpen, Mode=OneWay}"
@@ -352,6 +335,24 @@
                         </ScrollViewer>
 
                         <StackPanel Grid.Row="2" Margin="14,0,14,13">
+                                <Button Style="{StaticResource GhostButton}" Height="42" Padding="12,0" Margin="0,0,0,8"
+                                    HorizontalContentAlignment="Stretch"
+                                    Command="{Binding CheckForUpdatesCommand}"
+                                    IsEnabled="{Binding IsInitialized}"
+                                    ToolTip="{Binding UpdateStatusText}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="&#xE895;" Style="{StaticResource IconGlyph}" FontSize="14"
+                                               HorizontalAlignment="Left"
+                                               Foreground="{DynamicResource DownloadBrush}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding UpdateButtonText}" FontSize="12.5"
+                                               Margin="9,0,4,0" VerticalAlignment="Center"
+                                               TextTrimming="CharacterEllipsis" />
+                                </Grid>
+                            </Button>
                             <Border CornerRadius="14" Background="{DynamicResource B_0D111F}" BorderBrush="{DynamicResource B_1BFFFFFF}" BorderThickness="1"
                                     Padding="12,11">
                                 <StackPanel>

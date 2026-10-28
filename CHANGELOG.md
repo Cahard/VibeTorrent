@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.4.2 — 2026-10-28
+
+### Fixed
+
+- Light-theme active selectors and primary buttons now use white text.
+- The info hash on the cover card is white in every theme.
+- A maximized borderless window respects the Windows taskbar work area.
+- “Check for updates” now sits at the bottom of the sidebar, above the storage card.
+
+### Added
+
+- GitHub link with the GitHub icon next to the version in Settings.
+
 ## 1.4.1 — 2026-10-28
 
 ### Added
