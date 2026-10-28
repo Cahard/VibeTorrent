@@ -275,6 +275,16 @@ public partial class MainWindow : Window
         }
     }
 
+    private void StorageCard_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (_viewModel.ChangeDownloadFolderCommand.CanExecute(null))
+        {
+            _viewModel.ChangeDownloadFolderCommand.Execute(null);
+        }
+
+        e.Handled = true;
+    }
+
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         var inTextInput = Keyboard.FocusedElement is TextBoxBase;

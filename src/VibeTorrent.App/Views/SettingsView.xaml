@@ -130,17 +130,22 @@
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right"
                                             VerticalAlignment="Center">
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="Theme"
-                                                 Content="{loc:T 'Dark'}" Margin="0,0,6,0"
+                                                 Margin="0,0,6,0"
                                                  IsChecked="{Binding IsThemeDark, Mode=OneWay}"
-                                                 Command="{Binding SetThemeCommand}" CommandParameter="dark" />
+                                                 Command="{Binding SetThemeCommand}" CommandParameter="dark">
+                                        <TextBlock Text="{loc:T 'Dark'}" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="Theme"
-                                                 Content="{loc:T 'Green'}" Margin="0,0,6,0"
+                                                 Margin="0,0,6,0"
                                                  IsChecked="{Binding IsThemeGreen, Mode=OneWay}"
-                                                 Command="{Binding SetThemeCommand}" CommandParameter="green" />
+                                                 Command="{Binding SetThemeCommand}" CommandParameter="green">
+                                        <TextBlock Text="{loc:T 'Green'}" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="Theme"
-                                                 Content="{loc:T 'Light'}"
                                                  IsChecked="{Binding IsThemeLight, Mode=OneWay}"
-                                                 Command="{Binding SetThemeCommand}" CommandParameter="light" />
+                                                 Command="{Binding SetThemeCommand}" CommandParameter="light">
+                                        <TextBlock Text="{loc:T 'Light'}" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -158,17 +163,22 @@
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right"
                                             VerticalAlignment="Center">
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="Language"
-                                                 Content="English" Margin="0,0,6,0"
+                                                 Margin="0,0,6,0"
                                                  IsChecked="{Binding IsEnglish, Mode=OneWay}"
-                                                 Command="{Binding SetLanguageCommand}" CommandParameter="en" />
+                                                 Command="{Binding SetLanguageCommand}" CommandParameter="en">
+                                        <TextBlock Text="English" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="Language"
-                                                 Content="Русский" Margin="0,0,6,0"
+                                                 Margin="0,0,6,0"
                                                  IsChecked="{Binding IsRussian, Mode=OneWay}"
-                                                 Command="{Binding SetLanguageCommand}" CommandParameter="ru" />
+                                                 Command="{Binding SetLanguageCommand}" CommandParameter="ru">
+                                        <TextBlock Text="Русский" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="Language"
-                                                 Content="한국어"
                                                  IsChecked="{Binding IsKorean, Mode=OneWay}"
-                                                 Command="{Binding SetLanguageCommand}" CommandParameter="ko" />
+                                                 Command="{Binding SetLanguageCommand}" CommandParameter="ko">
+                                        <TextBlock Text="한국어" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -186,25 +196,34 @@
                                 </StackPanel>
                                 <WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="AfterAction"
-                                                 Content="{loc:T 'Do nothing'}" Margin="0,0,4,4"
+                                                 Margin="0,0,4,4"
                                                  IsChecked="{Binding IsAfterNone, Mode=OneWay}"
-                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="none" />
+                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="none">
+                                        <TextBlock Text="{loc:T 'Do nothing'}" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="AfterAction"
-                                                 Content="{loc:T 'Shut down'}" Margin="0,0,4,4"
+                                                 Margin="0,0,4,4"
                                                  IsChecked="{Binding IsAfterShutdown, Mode=OneWay}"
-                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="shutdown" />
+                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="shutdown">
+                                        <TextBlock Text="{loc:T 'Shut down'}" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="AfterAction"
-                                                 Content="{loc:T 'Sleep'}" Margin="0,0,4,4"
+                                                 Margin="0,0,4,4"
                                                  IsChecked="{Binding IsAfterSleep, Mode=OneWay}"
-                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="sleep" />
+                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="sleep">
+                                        <TextBlock Text="{loc:T 'Sleep'}" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="AfterAction"
-                                                 Content="{loc:T 'Hibernate'}" Margin="0,0,4,4"
+                                                 Margin="0,0,4,4"
                                                  IsChecked="{Binding IsAfterHibernate, Mode=OneWay}"
-                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="hibernate" />
+                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="hibernate">
+                                        <TextBlock Text="{loc:T 'Hibernate'}" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="AfterAction"
-                                                 Content="{loc:T 'Restart'}"
                                                  IsChecked="{Binding IsAfterRestart, Mode=OneWay}"
-                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="restart" />
+                                                 Command="{Binding SetAfterDownloadsCompleteCommand}" CommandParameter="restart">
+                                        <TextBlock Text="{loc:T 'Restart'}" Style="{StaticResource ChipText}" />
+                                    </RadioButton>
                                 </WrapPanel>
                             </Grid>
                         </Border>
@@ -563,7 +582,7 @@
                     <Button Style="{StaticResource GhostButton}" Command="{Binding ResetCommand}">
                         <TextBlock Text="{loc:T 'Reset to defaults'}" />
                     </Button>
-                    <TextBlock Text="VibeTorrent 1.4.2 · MonoTorrent 3.0.2" Style="{StaticResource MicroCaption}"
+                    <TextBlock Text="VibeTorrent 1.4.3 · MonoTorrent 3.0.2" Style="{StaticResource MicroCaption}"
                                VerticalAlignment="Center" Margin="14,0,0,0" Foreground="{DynamicResource TextDisabledBrush}" />
                     <TextBlock VerticalAlignment="Center" Margin="12,0,0,0">
                         <Hyperlink NavigateUri="https://github.com/Cahard/VibeTorrent"

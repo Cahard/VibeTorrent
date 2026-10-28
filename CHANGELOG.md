@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.4.3 — 2026-10-28
+
+### Added
+
+- Clicking the Storage card opens the standard Windows folder picker and changes the download folder.
+
+### Fixed
+
+- Removed the pale glow around modal windows in the light theme by keeping modal shadows dark.
+- Status bar has a light surface and readable text in the light theme.
+- Active settings/library selectors, priority selectors, torrent-type tabs, and primary button labels are white in the light theme.
+- The info hash on the details cover is white.
+
 ## 1.4.2 — 2026-10-28
 
 ### Fixed

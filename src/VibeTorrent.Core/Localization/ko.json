@@ -319,6 +319,8 @@
  "Queued": "대기열",
  "Priority": "우선순위",
  "SPEED LIMITS": "속도 제한",
+ "Change download folder": "다운로드 폴더 변경",
+ "Download folder changed": "다운로드 폴더가 변경되었습니다",
  "Check for updates": "업데이트 확인",
  "Update to {0}": "업데이트 {0}",
  "Checking for updates...": "업데이트 확인 중...",

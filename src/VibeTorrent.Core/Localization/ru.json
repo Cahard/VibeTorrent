@@ -311,6 +311,8 @@
  "Queued": "В очереди",
  "Priority": "Приоритет",
  "SPEED LIMITS": "ЛИМИТЫ СКОРОСТИ",
+ "Change download folder": "Изменить папку загрузки",
+ "Download folder changed": "Папка загрузки изменена",
  "Check for updates": "Проверить обновления",
  "Update to {0}": "Обновить до {0}",
  "Checking for updates...": "Проверка обновлений...",

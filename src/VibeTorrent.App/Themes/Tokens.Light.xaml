@@ -135,6 +135,7 @@
     <SolidColorBrush x:Key="DownloadBrush" Color="#059669" />
     <SolidColorBrush x:Key="UploadBrush" Color="#E11D48" />
     <SolidColorBrush x:Key="OnAccentBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="StatusBarBrush" Color="#FFF1F5F9" />
     <SolidColorBrush x:Key="SelectedChipBrush" Color="#2563EB" />
     <SolidColorBrush x:Key="SelectedChipBorderBrush" Color="#1D4ED8" />
     <SolidColorBrush x:Key="SelectedChipForeground" Color="#FFFFFF" />

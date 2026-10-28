@@ -146,7 +146,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE769;" FontFamily="{StaticResource IconFont}" FontSize="10"
                                            VerticalAlignment="Center" Margin="0,0,6,0" />
-                                <TextBlock Text="{loc:T 'Pause'}" FontSize="11.5" />
+                                <TextBlock Text="{loc:T 'Pause'}" FontSize="11.5" Foreground="{DynamicResource OnAccentBrush}" />
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource PrimaryButton}" Padding="12,8" Height="34"
@@ -155,7 +155,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE768;" FontFamily="{StaticResource IconFont}" FontSize="10"
                                            VerticalAlignment="Center" Margin="0,0,6,0" />
-                                <TextBlock Text="{loc:T 'Resume'}" FontSize="11.5" />
+                                <TextBlock Text="{loc:T 'Resume'}" FontSize="11.5" Foreground="{DynamicResource OnAccentBrush}" />
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource SecondaryButton}" Padding="12,8" Height="34"
@@ -192,17 +192,23 @@
                     <TextBlock Text="{loc:T 'Priority'}" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"
                                VerticalAlignment="Center" Margin="0,0,8,0" />
                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="TorrentPriority"
-                                 Content="{loc:T 'High'}" Padding="10,4" Margin="0,0,4,0"
+                                 Padding="10,4" Margin="0,0,4,0"
                                  IsChecked="{Binding Details.IsHighPriority, Mode=OneWay}"
-                                 Command="{Binding SetTorrentPriorityCommand}" CommandParameter="High" />
+                                 Command="{Binding SetTorrentPriorityCommand}" CommandParameter="High">
+                        <TextBlock Text="{loc:T 'High'}" Style="{StaticResource ChipText}" />
+                    </RadioButton>
                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="TorrentPriority"
-                                 Content="{loc:T 'Normal'}" Padding="10,4" Margin="0,0,4,0"
+                                 Padding="10,4" Margin="0,0,4,0"
                                  IsChecked="{Binding Details.IsNormalPriority, Mode=OneWay}"
-                                 Command="{Binding SetTorrentPriorityCommand}" CommandParameter="Normal" />
+                                 Command="{Binding SetTorrentPriorityCommand}" CommandParameter="Normal">
+                        <TextBlock Text="{loc:T 'Normal'}" Style="{StaticResource ChipText}" />
+                    </RadioButton>
                     <RadioButton Style="{StaticResource LanguageChip}" GroupName="TorrentPriority"
-                                 Content="{loc:T 'Low'}" Padding="10,4"
+                                 Padding="10,4"
                                  IsChecked="{Binding Details.IsLowPriority, Mode=OneWay}"
-                                 Command="{Binding SetTorrentPriorityCommand}" CommandParameter="Low" />
+                                 Command="{Binding SetTorrentPriorityCommand}" CommandParameter="Low">
+                        <TextBlock Text="{loc:T 'Low'}" Style="{StaticResource ChipText}" />
+                    </RadioButton>
                 </StackPanel>
             </StackPanel>
 

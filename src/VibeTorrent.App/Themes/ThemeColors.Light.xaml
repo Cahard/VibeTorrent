@@ -261,7 +261,7 @@
     <SolidColorBrush x:Key="B_DB2777" Color="{StaticResource C_DB2777}" />
     <Color x:Key="C_DDFBFF">#FFFFFF</Color>
     <SolidColorBrush x:Key="B_DDFBFF" Color="{StaticResource C_DDFBFF}" />
-    <Color x:Key="C_E0000000">#E0F4F7FB</Color>
+    <Color x:Key="C_E0000000">#E0000000</Color>
     <SolidColorBrush x:Key="B_E0000000" Color="{StaticResource C_E0000000}" />
     <Color x:Key="C_E60A0D18">#E6F4F7FB</Color>
     <SolidColorBrush x:Key="B_E60A0D18" Color="{StaticResource C_E60A0D18}" />
@@ -277,7 +277,7 @@
     <SolidColorBrush x:Key="B_EEFFFFFF" Color="{StaticResource C_EEFFFFFF}" />
     <Color x:Key="C_EFFFFFFF">#EFFFFFFF</Color>
     <SolidColorBrush x:Key="B_EFFFFFFF" Color="{StaticResource C_EFFFFFFF}" />
-    <Color x:Key="C_F0000000">#F0F4F7FB</Color>
+    <Color x:Key="C_F0000000">#F0000000</Color>
     <SolidColorBrush x:Key="B_F0000000" Color="{StaticResource C_F0000000}" />
     <Color x:Key="C_F2141828">#F2FFFFFF</Color>
     <SolidColorBrush x:Key="B_F2141828" Color="{StaticResource C_F2141828}" />

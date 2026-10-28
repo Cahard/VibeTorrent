@@ -1115,6 +1115,45 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     }
 
     [RelayCommand]
+    private async Task ChangeDownloadFolder()
+    {
+        if (IsDemoMode)
+        {
+            ShowToast(L.T("Download folder"), L.T("Settings are not saved in demo mode."), ToastKind.Info);
+            return;
+        }
+
+        var folder = _dialogs.PickFolder(_settings.DownloadDirectory);
+        if (string.IsNullOrWhiteSpace(folder) ||
+            string.Equals(Path.GetFullPath(folder), Path.GetFullPath(_settings.DownloadDirectory),
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var previous = _settings.DownloadDirectory;
+        try
+        {
+            _settings.DownloadDirectory = Path.GetFullPath(folder);
+            await _engine.ApplySettingsAsync(_settings);
+            await _settingsService.SaveAsync(_settings);
+            if (SettingsPage is not null)
+            {
+                SettingsPage.DownloadDirectory = _settings.DownloadDirectory;
+            }
+
+            RefreshStorage();
+            ShowToast(L.T("Download folder changed"), _settings.DownloadDirectory, ToastKind.Success);
+        }
+        catch (Exception ex)
+        {
+            _settings.DownloadDirectory = previous;
+            _logger.LogWarning(ex, "Could not change the download folder.");
+            ShowToast(L.T("Download folder"), ex.Message, ToastKind.Error);
+        }
+    }
+
+    [RelayCommand]
     private async Task MoveDownloadFolderAsync()
     {
         var item = SelectedTorrent;

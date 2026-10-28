@@ -21,8 +21,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
                         <Border x:Name="Bg" CornerRadius="8" Background="Transparent"
-                                BorderBrush="Transparent" BorderThickness="1" Padding="14,7">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                BorderBrush="Transparent" BorderThickness="1" Padding="14,7"
+                                TextElement.Foreground="{TemplateBinding Foreground}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -30,9 +32,10 @@
                                 <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource B_2A7C3AED}" />
-                                <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource B_667C3AED}" />
-                                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource SelectedChipBrush}" />
+                                <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource SelectedChipBorderBrush}" />
+                                <Setter TargetName="Bg" Property="TextElement.Foreground" Value="{DynamicResource SelectedChipForeground}" />
+                                <Setter Property="Foreground" Value="{DynamicResource SelectedChipForeground}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -308,8 +311,9 @@
                                 MinWidth="144">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="11"
+                                           Foreground="{DynamicResource OnAccentBrush}"
                                            VerticalAlignment="Center" Margin="0,0,7,0" />
-                                <TextBlock Text="{loc:T 'Add torrent'}" />
+                                <TextBlock Text="{loc:T 'Add torrent'}" Foreground="{DynamicResource OnAccentBrush}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>

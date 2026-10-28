@@ -45,8 +45,10 @@
                         IsEnabled="{Binding IsInitialized}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="14"
+                                   Foreground="{DynamicResource OnAccentBrush}"
                                    VerticalAlignment="Center" Margin="0,0,8,0" />
-                        <TextBlock Text="{loc:T 'Add torrent'}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Text="{loc:T 'Add torrent'}" FontWeight="SemiBold" VerticalAlignment="Center"
+                                           Foreground="{DynamicResource OnAccentBrush}" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -274,6 +276,9 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <WrapPanel Orientation="Horizontal">
+                <WrapPanel.Resources>
+                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource ChipText}" />
+                </WrapPanel.Resources>
                 <RadioButton Style="{StaticResource LanguageChip}" GroupName="LibraryFilter"
                              IsChecked="{Binding IsFilterAll, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="all" Margin="0,0,4,0">
@@ -500,6 +505,7 @@
                                 IsEnabled="{Binding IsInitialized}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="12"
+                                       Foreground="{DynamicResource OnAccentBrush}"
                                            VerticalAlignment="Center" Margin="0,0,7,0" />
                                 <TextBlock Text="{loc:T 'Choose .torrent'}" />
                             </StackPanel>

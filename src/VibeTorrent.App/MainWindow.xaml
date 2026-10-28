@@ -354,7 +354,9 @@
                                 </Grid>
                             </Button>
                             <Border CornerRadius="14" Background="{DynamicResource B_0D111F}" BorderBrush="{DynamicResource B_1BFFFFFF}" BorderThickness="1"
-                                    Padding="12,11">
+                                    Padding="12,11" Cursor="Hand"
+                                    ToolTip="{loc:T 'Change download folder'}"
+                                    MouseLeftButtonUp="StorageCard_OnMouseLeftButtonUp">
                                 <StackPanel>
                                     <Grid>
                                         <StackPanel Orientation="Horizontal">
@@ -448,26 +450,26 @@
 
                 <!-- ============================== status bar ============================== -->
                 <Border Grid.Row="2" Grid.Column="1" BorderBrush="{DynamicResource B_12FFFFFF}" BorderThickness="0,1,0,0"
-                        Background="{DynamicResource B_66080A12}">
+                        Background="{DynamicResource StatusBarBrush}">
                     <Grid Margin="22,0,18,0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <Ellipse Style="{StaticResource StatusDot}" Width="5" Height="5" Margin="0,0,6,0" />
                             <TextBlock Text="{Binding EngineStatusText}" FontSize="9"
-                                       Foreground="{DynamicResource TextMutedBrush}" />
+                                       Foreground="{DynamicResource TextSecondaryBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
                             <TextBlock Text="{Binding DhtStatusText}" FontSize="9"
-                                       Foreground="{DynamicResource TextDisabledBrush}" />
+                                       Foreground="{DynamicResource TextMutedBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
                             <TextBlock Text="{Binding UptimeLabel}" FontSize="9"
-                                       Foreground="{DynamicResource TextDisabledBrush}" />
+                                       Foreground="{DynamicResource TextMutedBrush}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <TextBlock Text="&#xE72E;" FontFamily="{StaticResource IconFont}" FontSize="8"
                                        Foreground="{DynamicResource TextDisabledBrush}" Margin="0,0,4,0" />
                             <TextBlock Text="{loc:T 'Local data only'}" FontSize="8.5"
-                                       Foreground="{DynamicResource TextDisabledBrush}" />
+                                       Foreground="{DynamicResource TextMutedBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="VibeTorrent 1.4.0" FontSize="8.5" Foreground="{DynamicResource TextDisabledBrush}" />
+                            <TextBlock Text="VibeTorrent 1.4.3" FontSize="8.5" Foreground="{DynamicResource TextDisabledBrush}" />
                         </StackPanel>
                     </Grid>
                 </Border>
