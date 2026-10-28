@@ -827,7 +827,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             }
 
             ShowToast(L.T("Installing update"), L.T("ZTorrent will restart automatically."), ToastKind.Info);
-            await Task.Delay(600);
+            await Task.Delay(1200);
             if (Application.Current.MainWindow is MainWindow window)
             {
                 window.CloseForExit();

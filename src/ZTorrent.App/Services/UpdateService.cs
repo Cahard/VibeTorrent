@@ -247,7 +247,7 @@ public sealed class UpdateService : IUpdateService
         var installDir = Path.GetDirectoryName(exePath) ?? string.Empty;
         var script = $$"""
             $ErrorActionPreference = 'Stop'
-            Start-Sleep -Milliseconds 1200
+            Start-Sleep -Milliseconds 1800
             $installerArgs = @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/CLOSEAPPLICATIONS','/DIR={{Escape(installDir)}}')
             $process = Start-Process -FilePath '{{Escape(installerPath)}}' -ArgumentList $installerArgs -Wait -PassThru
             if (Test-Path '{{Escape(exePath)}}') {

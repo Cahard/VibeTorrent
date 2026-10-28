@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.1 — 2026-10-28
+
+### Fixed
+
+- Search placeholder contrast now matches the other input fields in the green and dark themes.
+- The "Installing update" stage stays visible slightly longer before the app restarts.
+
 ## 2.0.0 — 2026-10-28
 
 ### Changed
