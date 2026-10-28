@@ -46,7 +46,8 @@ public partial class MainWindow : Window
             WindowState = WindowState.Maximized;
         }
 
-        SourceInitialized += (_, _) => WindowEffects.ApplyDarkWindow(this);
+        SourceInitialized += (_, _) => WindowEffects.ApplyWindow(this);
+        ThemeService.ThemeChanged += OnThemeChanged;
         StateChanged += (_, _) => UpdateMaximizeGlyph();
         SizeChanged += (_, _) => ApplyResponsiveLayout();
         Loaded += OnLoaded;
@@ -161,6 +162,11 @@ public partial class MainWindow : Window
     {
         _allowClose = true;
         Close();
+    }
+
+    private void OnThemeChanged()
+    {
+        Dispatcher.BeginInvoke(() => WindowEffects.ApplyWindow(this));
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)

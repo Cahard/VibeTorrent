@@ -15,6 +15,7 @@ public sealed class AppSettings
     public string DownloadDirectory { get; set; } = string.Empty;
     public string Language { get; set; } = "en";
     public string AfterDownloadsComplete { get; set; } = "none";
+    public string Theme { get; set; } = "dark";
     public int ListenPort { get; set; } = 55123;
     public int MaxDownloadKbps { get; set; }
     public int MaxUploadKbps { get; set; }
@@ -46,6 +47,7 @@ public sealed class AppSettings
         DownloadDirectory = DownloadDirectory,
         Language = Language,
         AfterDownloadsComplete = AfterDownloadsComplete,
+        Theme = Theme,
         ListenPort = ListenPort,
         MaxDownloadKbps = MaxDownloadKbps,
         MaxUploadKbps = MaxUploadKbps,
@@ -229,6 +231,18 @@ public sealed class AppSettings
         else if (AfterDownloadsComplete != normalizedAction)
         {
             AfterDownloadsComplete = normalizedAction;
+            changed = true;
+        }
+
+        var normalizedTheme = Theme?.Trim().ToLowerInvariant();
+        if (normalizedTheme is not ("dark" or "green" or "light"))
+        {
+            Theme = "dark";
+            changed = true;
+        }
+        else if (Theme != normalizedTheme)
+        {
+            Theme = normalizedTheme;
             changed = true;
         }
 

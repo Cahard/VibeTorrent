@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.3.0 — 2026-10-28
+
+### Added
+
+- Automatic settings persistence; the settings screen no longer has Save/Cancel buttons and closes when you switch to another library view.
+- Three themes: Midnight, Green and Light, switchable live from Settings.
+- Per-torrent download/upload traffic chart in the details pane.
+- “Waiting for peers” state for torrents that have reached the last pieces but are not progressing.
+
+### Fixed
+
+- Pause now clears the traffic graph immediately instead of leaving the previous speed plateau.
+- Torrent row action buttons have their own column and no longer cover size/downloaded values.
+- Library filter tabs are rounded rectangles instead of pills.
+- The details-panel button uses a proper sidebar icon.
+- Speed arrows in the title bar share the same baseline as the values.
+- The Settings navigation item is no longer clipped at the bottom.
+- Primary button shimmer is clipped to the button's rounded corners.
+- Settings page can be closed by navigating to any library filter.
+
 ## 1.2.0 — 2026-10-27
 
 ### Fixed

@@ -11,7 +11,7 @@
         Width="1460" Height="920" MinWidth="1180" MinHeight="720"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="False"
-        Background="#070810" UseLayoutRounding="True" SnapsToDevicePixels="True"
+        Background="{DynamicResource B_070810}" UseLayoutRounding="True" SnapsToDevicePixels="True"
         FontFamily="{StaticResource TextFont}" TextOptions.TextFormattingMode="Display"
         Closing="Window_Closing"
         PreviewKeyDown="Window_PreviewKeyDown"
@@ -30,12 +30,12 @@
         <Style x:Key="SidebarLabel" TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="9.5" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="{StaticResource TextDisabledBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextDisabledBrush}" />
             <Setter Property="Margin" Value="13,0,0,7" />
         </Style>
 
         <Style x:Key="NavCountBadge" TargetType="{x:Type Border}">
-            <Setter Property="Background" Value="#10FFFFFF" />
+            <Setter Property="Background" Value="{DynamicResource B_10FFFFFF}" />
             <Setter Property="CornerRadius" Value="6" />
             <Setter Property="Padding" Value="5,1" />
             <Setter Property="MinWidth" Value="21" />
@@ -45,10 +45,10 @@
         <Style x:Key="StatusDot" TargetType="{x:Type Ellipse}">
             <Setter Property="Width" Value="6" />
             <Setter Property="Height" Value="6" />
-            <Setter Property="Fill" Value="{StaticResource TextDisabledBrush}" />
+            <Setter Property="Fill" Value="{DynamicResource TextDisabledBrush}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Stats.IsEngineRunning}" Value="True">
-                    <Setter Property="Fill" Value="{StaticResource SuccessBrush}" />
+                    <Setter Property="Fill" Value="{DynamicResource SuccessBrush}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -64,7 +64,7 @@
         </Storyboard>
     </Window.Resources>
 
-    <Grid x:Name="RootLayer" Background="#070810">
+    <Grid x:Name="RootLayer" Background="{DynamicResource B_070810}">
         <Grid.RenderTransform>
             <TranslateTransform x:Name="WindowTranslate" Y="0" />
         </Grid.RenderTransform>
@@ -74,9 +74,9 @@
             <Ellipse x:Name="GlowCyan" Width="980" Height="980" Canvas.Left="-330" Canvas.Top="-470" Opacity="0.3">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
-                        <GradientStop Color="#5022D3EE" Offset="0" />
-                        <GradientStop Color="#1422D3EE" Offset="0.5" />
-                        <GradientStop Color="#0022D3EE" Offset="1" />
+                        <GradientStop Color="{DynamicResource C_5022D3EE}" Offset="0" />
+                        <GradientStop Color="{DynamicResource C_1422D3EE}" Offset="0.5" />
+                        <GradientStop Color="{DynamicResource C_0022D3EE}" Offset="1" />
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
@@ -84,9 +84,9 @@
             <Ellipse Width="820" Height="820" Canvas.Right="-260" Canvas.Top="-280" Opacity="0.24">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
-                        <GradientStop Color="#55A855F7" Offset="0" />
-                        <GradientStop Color="#12A855F7" Offset="0.55" />
-                        <GradientStop Color="#00A855F7" Offset="1" />
+                        <GradientStop Color="{DynamicResource C_55A855F7}" Offset="0" />
+                        <GradientStop Color="{DynamicResource C_12A855F7}" Offset="0.55" />
+                        <GradientStop Color="{DynamicResource C_00A855F7}" Offset="1" />
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
@@ -94,9 +94,9 @@
             <Ellipse Width="760" Height="760" Canvas.Left="220" Canvas.Bottom="-460" Opacity="0.18">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
-                        <GradientStop Color="#50F472B6" Offset="0" />
-                        <GradientStop Color="#10F472B6" Offset="0.55" />
-                        <GradientStop Color="#00F472B6" Offset="1" />
+                        <GradientStop Color="{DynamicResource C_50F472B6}" Offset="0" />
+                        <GradientStop Color="{DynamicResource C_10F472B6}" Offset="0.55" />
+                        <GradientStop Color="{DynamicResource C_00F472B6}" Offset="1" />
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
@@ -106,8 +106,8 @@
         <Rectangle IsHitTestVisible="False">
             <Rectangle.Fill>
                 <RadialGradientBrush Center="0.45,0.38" GradientOrigin="0.45,0.38" RadiusX="0.85" RadiusY="0.9">
-                    <GradientStop Color="#00000000" Offset="0.45" />
-                    <GradientStop Color="#48000000" Offset="1" />
+                    <GradientStop Color="{DynamicResource C_00000000}" Offset="0.45" />
+                    <GradientStop Color="{DynamicResource C_48000000}" Offset="1" />
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -125,7 +125,7 @@
             </Rectangle.Fill>
         </Rectangle>
 
-        <Border BorderBrush="#22FFFFFF" BorderThickness="1">
+        <Border BorderBrush="{DynamicResource B_22FFFFFF}" BorderThickness="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="252" />
@@ -138,7 +138,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- ============================== sidebar ============================== -->
-                <Border Grid.RowSpan="3" Background="#E60A0D18" BorderBrush="#18FFFFFF" BorderThickness="0,0,1,0">
+                <Border Grid.RowSpan="3" Background="{DynamicResource B_E60A0D18}" BorderBrush="{DynamicResource B_18FFFFFF}" BorderThickness="0,0,1,0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="56" />
@@ -157,21 +157,14 @@
                                    RenderOptions.BitmapScalingMode="HighQuality" />
                             <StackPanel Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center">
                                 <TextBlock Text="VibeTorrent" FontFamily="{StaticResource DisplayFont}"
-                                           FontSize="15.5" FontWeight="SemiBold">
-                                    <TextBlock.Foreground>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                            <GradientStop Color="#E9FDFF" Offset="0" />
-                                            <GradientStop Color="#C4B5FD" Offset="0.55" />
-                                            <GradientStop Color="#FBCFE8" Offset="1" />
-                                        </LinearGradientBrush>
-                                    </TextBlock.Foreground>
-                                </TextBlock>
+                                           FontSize="15.5" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextPrimaryBrush}" />
                                 <TextBlock Text="{loc:T 'native torrent client'}" FontSize="8"
-                                           Foreground="{StaticResource TextDisabledBrush}" Margin="1,0,0,0" />
+                                           Foreground="{DynamicResource TextDisabledBrush}" Margin="1,0,0,0" />
                             </StackPanel>
-                            <Border Grid.Column="2" CornerRadius="5" Background="#14A855F7" BorderBrush="#35A855F7"
+                            <Border Grid.Column="2" CornerRadius="5" Background="{DynamicResource B_14A855F7}" BorderBrush="{DynamicResource B_35A855F7}"
                                     BorderThickness="1" Padding="5,2" VerticalAlignment="Center">
-                                <TextBlock Text="1.2" FontSize="7.5" Foreground="#E9D5FF" FontWeight="SemiBold" />
+                                <TextBlock Text="1.3" FontSize="7.5" Foreground="{DynamicResource B_E9D5FF}" FontWeight="SemiBold" />
                             </Border>
                         </Grid>
 
@@ -195,7 +188,7 @@
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding AllCount}" FontSize="9"
-                                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}"
                                                        HorizontalAlignment="Center" />
                                         </Border>
                                     </Grid>
@@ -216,7 +209,7 @@
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding ActiveCount}" FontSize="9"
-                                                       Foreground="{StaticResource CyanBrush}"
+                                                       Foreground="{DynamicResource CyanBrush}"
                                                        HorizontalAlignment="Center" />
                                         </Border>
                                     </Grid>
@@ -237,7 +230,7 @@
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding CompletedCount}" FontSize="9"
-                                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}"
                                                        HorizontalAlignment="Center" />
                                         </Border>
                                     </Grid>
@@ -258,7 +251,7 @@
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding PausedCount}" FontSize="9"
-                                                       Foreground="{StaticResource WarningBrush}"
+                                                       Foreground="{DynamicResource WarningBrush}"
                                                        HorizontalAlignment="Center" />
                                         </Border>
                                     </Grid>
@@ -279,13 +272,13 @@
                                                    VerticalAlignment="Center" FontSize="12.5" />
                                         <Border Grid.Column="2" Style="{StaticResource NavCountBadge}">
                                             <TextBlock Text="{Binding ErrorCount}" FontSize="9"
-                                                       Foreground="{StaticResource DangerBrush}"
+                                                       Foreground="{DynamicResource DangerBrush}"
                                                        HorizontalAlignment="Center" />
                                         </Border>
                                     </Grid>
                                 </ToggleButton>
 
-                                <Border Height="1" Background="{StaticResource DividerGradient}" Margin="12,15,12,14" />
+                                <Border Height="1" Background="{DynamicResource DividerGradient}" Margin="12,15,12,14" />
                                 <TextBlock Text="{loc:T 'TOOLS'}" Style="{StaticResource SidebarLabel}" />
 
                                 <Button Style="{StaticResource GhostButton}" Height="38" Padding="12,0"
@@ -298,7 +291,7 @@
                                     </StackPanel>
                                 </Button>
 
-                                <ToggleButton Style="{StaticResource NavToggle}" Height="38"
+                                <ToggleButton Style="{StaticResource NavToggle}"
                                               IsChecked="{Binding IsSettingsOpen, Mode=OneWay}"
                                               Command="{Binding OpenSettingsCommand}">
                                     <Grid>
@@ -313,9 +306,9 @@
                                     </Grid>
                                 </ToggleButton>
 
-                                <Border Height="1" Background="{StaticResource DividerGradient}" Margin="12,14,12,14" />
+                                <Border Height="1" Background="{DynamicResource DividerGradient}" Margin="12,14,12,14" />
 
-                                <Border CornerRadius="12" Background="#0AFFFFFF" BorderBrush="#16FFFFFF"
+                                <Border CornerRadius="12" Background="{DynamicResource B_0AFFFFFF}" BorderBrush="{DynamicResource B_16FFFFFF}"
                                         BorderThickness="1" Padding="11,9" Margin="0,0,0,4">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -327,38 +320,38 @@
                                         <StackPanel Grid.Column="1">
                                             <TextBlock Text="{loc:T 'Network'}" FontSize="10" FontWeight="SemiBold" />
                                             <TextBlock Text="{Binding DhtStatusText}" FontSize="8.5"
-                                                       Foreground="{StaticResource TextMutedBrush}" Margin="0,2,0,0" />
+                                                       Foreground="{DynamicResource TextMutedBrush}" Margin="0,2,0,0" />
                                         </StackPanel>
                                         <TextBlock Grid.Column="2" Text="{Binding ListenPortText}" FontSize="8"
-                                                   Foreground="{StaticResource TextDisabledBrush}" VerticalAlignment="Center" />
+                                                   Foreground="{DynamicResource TextDisabledBrush}" VerticalAlignment="Center" />
                                     </Grid>
                                 </Border>
                             </StackPanel>
                         </ScrollViewer>
 
                         <StackPanel Grid.Row="2" Margin="14,0,14,13">
-                            <Border CornerRadius="14" Background="#0D111F" BorderBrush="#1BFFFFFF" BorderThickness="1"
+                            <Border CornerRadius="14" Background="{DynamicResource B_0D111F}" BorderBrush="{DynamicResource B_1BFFFFFF}" BorderThickness="1"
                                     Padding="12,11">
                                 <StackPanel>
                                     <Grid>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="&#xE8B7;" Style="{StaticResource IconGlyph}" FontSize="11"
-                                                       Foreground="{StaticResource TextMutedBrush}" Margin="0,0,6,0" />
+                                                       Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,6,0" />
                                             <TextBlock Text="{loc:T 'STORAGE'}" Style="{StaticResource MicroCaption}" FontSize="8.5" />
                                         </StackPanel>
                                         <TextBlock Text="{Binding StorageFreeText}" FontSize="9"
-                                                   HorizontalAlignment="Right" Foreground="{StaticResource TextSecondaryBrush}" />
+                                                   HorizontalAlignment="Right" Foreground="{DynamicResource TextSecondaryBrush}" />
                                     </Grid>
                                     <controls:LinearProgress Height="3" Margin="0,8,0,5"
                                                              Value="{Binding StorageUsedPercent, Mode=OneWay}"
-                                                             TrackBrush="#20FFFFFF"
-                                                             ProgressBrush="{StaticResource AccentGradientHorizontal}" />
+                                                             TrackBrush="{DynamicResource B_20FFFFFF}"
+                                                             ProgressBrush="{DynamicResource AccentGradientHorizontal}" />
                                     <Grid>
                                         <TextBlock Text="{Binding StoragePathText}" FontSize="8.3"
-                                                   Foreground="{StaticResource TextMutedBrush}"
+                                                   Foreground="{DynamicResource TextMutedBrush}"
                                                    TextTrimming="CharacterEllipsis" ToolTip="{Binding StoragePathText}" />
                                         <TextBlock Text="{Binding StorageTotalText}" FontSize="8.3"
-                                                   Foreground="{StaticResource TextDisabledBrush}"
+                                                   Foreground="{DynamicResource TextDisabledBrush}"
                                                    HorizontalAlignment="Right" />
                                     </Grid>
                                 </StackPanel>
@@ -377,28 +370,26 @@
                     <StackPanel Orientation="Horizontal" Margin="22,0,0,0" VerticalAlignment="Center">
                         <Ellipse Style="{StaticResource StatusDot}" Margin="0,0,7,0" />
                         <TextBlock Text="{Binding EngineStatusText}" FontSize="10.5"
-                                   Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
-                        <Border Width="1" Height="12" Background="#1CFFFFFF" Margin="11,0" />
+                                   Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                        <Border Width="1" Height="12" Background="{DynamicResource B_1CFFFFFF}" Margin="11,0" />
                         <TextBlock Text="{Binding DhtStatusText}" FontSize="10"
-                                   Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center" />
-                        <Border Width="1" Height="12" Background="#1CFFFFFF" Margin="11,0" />
+                                   Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
+                        <Border Width="1" Height="12" Background="{DynamicResource B_1CFFFFFF}" Margin="11,0" />
                         <TextBlock Text="{Binding ListenPortText}" FontSize="10"
-                                   Foreground="{StaticResource TextDisabledBrush}" VerticalAlignment="Center" />
+                                   Foreground="{DynamicResource TextDisabledBrush}" VerticalAlignment="Center" />
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
-                        <Border Background="#0CFFFFFF" BorderBrush="#14FFFFFF" BorderThickness="1" CornerRadius="8"
+                        <Border Background="{DynamicResource B_0CFFFFFF}" BorderBrush="{DynamicResource B_14FFFFFF}" BorderThickness="1" CornerRadius="8"
                                 Padding="9,5" Margin="0,0,10,0">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#x2193;" FontSize="9" Foreground="{StaticResource CyanBrush}"
-                                           Margin="0,0,3,0" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding DownloadSpeedText}" FontSize="9.5"
-                                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,8,0" />
-                                <TextBlock Text="&#x2191;" FontSize="9" Foreground="{StaticResource PinkBrush}"
-                                           Margin="0,0,3,0" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding UploadSpeedText}" FontSize="9.5"
-                                           Foreground="{StaticResource TextSecondaryBrush}" />
-                            </StackPanel>
+                            <TextBlock FontSize="9.5" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource TextSecondaryBrush}">
+                                <Run Text="&#x2193;" Foreground="{DynamicResource CyanBrush}" />
+                                <Run Text="{Binding DownloadSpeedText, Mode=OneWay}" />
+                                <Run Text="   " />
+                                <Run Text="&#x2191;" Foreground="{DynamicResource PinkBrush}" />
+                                <Run Text="{Binding UploadSpeedText, Mode=OneWay}" />
+                            </TextBlock>
                         </Border>
                         <Button Style="{StaticResource WindowControlButton}" Click="MinimizeButton_OnClick"
                                 ToolTip="{loc:T 'Collapse'}">
@@ -433,27 +424,27 @@
                 </Grid>
 
                 <!-- ============================== status bar ============================== -->
-                <Border Grid.Row="2" Grid.Column="1" BorderBrush="#12FFFFFF" BorderThickness="0,1,0,0"
-                        Background="#66080A12">
+                <Border Grid.Row="2" Grid.Column="1" BorderBrush="{DynamicResource B_12FFFFFF}" BorderThickness="0,1,0,0"
+                        Background="{DynamicResource B_66080A12}">
                     <Grid Margin="22,0,18,0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <Ellipse Style="{StaticResource StatusDot}" Width="5" Height="5" Margin="0,0,6,0" />
                             <TextBlock Text="{Binding EngineStatusText}" FontSize="9"
-                                       Foreground="{StaticResource TextMutedBrush}" />
-                            <TextBlock Text="·" FontSize="9" Foreground="{StaticResource TextDisabledBrush}" Margin="8,0" />
+                                       Foreground="{DynamicResource TextMutedBrush}" />
+                            <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
                             <TextBlock Text="{Binding DhtStatusText}" FontSize="9"
-                                       Foreground="{StaticResource TextDisabledBrush}" />
-                            <TextBlock Text="·" FontSize="9" Foreground="{StaticResource TextDisabledBrush}" Margin="8,0" />
+                                       Foreground="{DynamicResource TextDisabledBrush}" />
+                            <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
                             <TextBlock Text="{Binding UptimeLabel}" FontSize="9"
-                                       Foreground="{StaticResource TextDisabledBrush}" />
+                                       Foreground="{DynamicResource TextDisabledBrush}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <TextBlock Text="&#xE72E;" FontFamily="{StaticResource IconFont}" FontSize="8"
-                                       Foreground="{StaticResource TextDisabledBrush}" Margin="0,0,4,0" />
+                                       Foreground="{DynamicResource TextDisabledBrush}" Margin="0,0,4,0" />
                             <TextBlock Text="{loc:T 'Local data only'}" FontSize="8.5"
-                                       Foreground="{StaticResource TextDisabledBrush}" />
-                            <TextBlock Text="·" FontSize="9" Foreground="{StaticResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="VibeTorrent 1.2.0" FontSize="8.5" Foreground="{StaticResource TextDisabledBrush}" />
+                                       Foreground="{DynamicResource TextDisabledBrush}" />
+                            <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
+                            <TextBlock Text="VibeTorrent 1.3.0" FontSize="8.5" Foreground="{DynamicResource TextDisabledBrush}" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -461,7 +452,7 @@
         </Border>
 
         <!-- ============================== add dialog ============================== -->
-        <Grid x:Name="AddOverlay" Panel.ZIndex="100" Background="#C2070812"
+        <Grid x:Name="AddOverlay" Panel.ZIndex="100" Background="{DynamicResource B_C2070812}"
               FocusManager.IsFocusScope="True" KeyboardNavigation.TabNavigation="Cycle">
             <Grid.Style>
                 <Style TargetType="{x:Type Grid}">
@@ -486,7 +477,7 @@
         </Grid>
 
         <!-- ============================== confirm dialog ============================== -->
-        <Grid x:Name="ConfirmOverlay" Panel.ZIndex="110" Background="#B8070812"
+        <Grid x:Name="ConfirmOverlay" Panel.ZIndex="110" Background="{DynamicResource B_B8070812}"
               FocusManager.IsFocusScope="True" KeyboardNavigation.TabNavigation="Cycle">
             <Grid.Style>
                 <Style TargetType="{x:Type Grid}">
@@ -515,7 +506,7 @@
                       HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,68,20,0" Width="336">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="#F2141828" BorderBrush="#36FFFFFF" BorderThickness="1" CornerRadius="12"
+                    <Border Background="{DynamicResource B_F2141828}" BorderBrush="{DynamicResource B_36FFFFFF}" BorderThickness="1" CornerRadius="12"
                             Margin="0,0,0,8" ClipToBounds="True">
                         <Border.RenderTransform>
                             <TranslateTransform X="0" />
@@ -533,7 +524,7 @@
                                 <ColumnDefinition Width="30" />
                             </Grid.ColumnDefinitions>
                             <Border Background="{Binding AccentBrush}" />
-                            <Border Grid.Column="1" Width="28" Height="28" CornerRadius="9" Background="#0FFFFFFF"
+                            <Border Grid.Column="1" Width="28" Height="28" CornerRadius="9" Background="{DynamicResource B_0FFFFFFF}"
                                     VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock Text="{Binding Glyph}" FontFamily="{StaticResource IconFont}" FontSize="12"
                                            Foreground="{Binding AccentBrush}" HorizontalAlignment="Center"
@@ -541,7 +532,7 @@
                             </Border>
                             <StackPanel Grid.Column="2" Margin="0,10,8,10" VerticalAlignment="Center">
                                 <TextBlock Text="{Binding Title}" FontSize="11" FontWeight="SemiBold" />
-                                <TextBlock Text="{Binding Message}" FontSize="9.5" Foreground="{StaticResource TextMutedBrush}"
+                                <TextBlock Text="{Binding Message}" FontSize="9.5" Foreground="{DynamicResource TextMutedBrush}"
                                            TextWrapping="Wrap" MaxHeight="32" TextTrimming="CharacterEllipsis"
                                            Margin="0,2,0,0" />
                             </StackPanel>
@@ -558,21 +549,21 @@
         </ItemsControl>
 
         <!-- ============================== drag overlay ============================== -->
-        <Grid Panel.ZIndex="300" Background="#D9080A12"
+        <Grid Panel.ZIndex="300" Background="{DynamicResource B_D9080A12}"
               Visibility="{Binding IsDragOver, Converter={StaticResource BoolToVisibility}}"
               IsHitTestVisible="False">
-            <Border Margin="20" CornerRadius="18" BorderBrush="#887C3AED" BorderThickness="2">
+            <Border Margin="20" CornerRadius="18" BorderBrush="{DynamicResource B_887C3AED}" BorderThickness="2">
                 <Border.Background>
                     <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.8" RadiusY="0.8">
-                        <GradientStop Color="#207C3AED" Offset="0" />
-                        <GradientStop Color="#06080A12" Offset="1" />
+                        <GradientStop Color="{DynamicResource C_207C3AED}" Offset="0" />
+                        <GradientStop Color="{DynamicResource C_06080A12}" Offset="1" />
                     </RadialGradientBrush>
                 </Border.Background>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Border Width="76" Height="76" CornerRadius="24" Background="#20FFFFFF"
-                            BorderBrush="#50FFFFFF" BorderThickness="1" HorizontalAlignment="Center">
+                    <Border Width="76" Height="76" CornerRadius="24" Background="{DynamicResource B_20FFFFFF}"
+                            BorderBrush="{DynamicResource B_50FFFFFF}" BorderThickness="1" HorizontalAlignment="Center">
                         <TextBlock Text="&#xE896;" FontFamily="{StaticResource IconFont}" FontSize="30"
-                                   Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                   Foreground="{DynamicResource B_FFFFFF}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <TextBlock Text="{loc:T 'Drop to add'}" Style="{StaticResource H1}" FontSize="24"
                                HorizontalAlignment="Center" Margin="0,18,0,0" />

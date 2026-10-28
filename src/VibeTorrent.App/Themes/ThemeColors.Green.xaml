@@ -1,0 +1,300 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Generated theme palette for hardcoded view colours. -->
+    <Color x:Key="C_00000000">#00000000</Color>
+    <SolidColorBrush x:Key="B_00000000" Color="{StaticResource C_00000000}" />
+    <Color x:Key="C_0022D3EE">#0032EE7D</Color>
+    <SolidColorBrush x:Key="B_0022D3EE" Color="{StaticResource C_0022D3EE}" />
+    <Color x:Key="C_00A855F7">#0062F79E</Color>
+    <SolidColorBrush x:Key="B_00A855F7" Color="{StaticResource C_00A855F7}" />
+    <Color x:Key="C_00F472B6">#00F472B6</Color>
+    <SolidColorBrush x:Key="B_00F472B6" Color="{StaticResource C_00F472B6}" />
+    <Color x:Key="C_00FFFFFF">#00FFFFFF</Color>
+    <SolidColorBrush x:Key="B_00FFFFFF" Color="{StaticResource C_00FFFFFF}" />
+    <Color x:Key="C_06080A12">#0609120C</Color>
+    <SolidColorBrush x:Key="B_06080A12" Color="{StaticResource C_06080A12}" />
+    <Color x:Key="C_06B6D4">#FF16D462</Color>
+    <SolidColorBrush x:Key="B_06B6D4" Color="{StaticResource C_06B6D4}" />
+    <Color x:Key="C_070810">#FF08100B</Color>
+    <SolidColorBrush x:Key="B_070810" Color="{StaticResource C_070810}" />
+    <Color x:Key="C_08000000">#08000000</Color>
+    <SolidColorBrush x:Key="B_08000000" Color="{StaticResource C_08000000}" />
+    <Color x:Key="C_08FFFFFF">#08FFFFFF</Color>
+    <SolidColorBrush x:Key="B_08FFFFFF" Color="{StaticResource C_08FFFFFF}" />
+    <Color x:Key="C_0A0C16">#FF0B160F</Color>
+    <SolidColorBrush x:Key="B_0A0C16" Color="{StaticResource C_0A0C16}" />
+    <Color x:Key="C_0A7C3AED">#0A48ED8A</Color>
+    <SolidColorBrush x:Key="B_0A7C3AED" Color="{StaticResource C_0A7C3AED}" />
+    <Color x:Key="C_0AFFFFFF">#0AFFFFFF</Color>
+    <SolidColorBrush x:Key="B_0AFFFFFF" Color="{StaticResource C_0AFFFFFF}" />
+    <Color x:Key="C_0B0D17">#FF0C1710</Color>
+    <SolidColorBrush x:Key="B_0B0D17" Color="{StaticResource C_0B0D17}" />
+    <Color x:Key="C_0B0D18">#FF0C1811</Color>
+    <SolidColorBrush x:Key="B_0B0D18" Color="{StaticResource C_0B0D18}" />
+    <Color x:Key="C_0BFFFFFF">#0BFFFFFF</Color>
+    <SolidColorBrush x:Key="B_0BFFFFFF" Color="{StaticResource C_0BFFFFFF}" />
+    <Color x:Key="C_0C0F1A">#FF0D1A12</Color>
+    <SolidColorBrush x:Key="B_0C0F1A" Color="{StaticResource C_0C0F1A}" />
+    <Color x:Key="C_0C101C">#FF0D1C13</Color>
+    <SolidColorBrush x:Key="B_0C101C" Color="{StaticResource C_0C101C}" />
+    <Color x:Key="C_0C111D">#FF0D1D14</Color>
+    <SolidColorBrush x:Key="B_0C111D" Color="{StaticResource C_0C111D}" />
+    <Color x:Key="C_0CFFFFFF">#0CFFFFFF</Color>
+    <SolidColorBrush x:Key="B_0CFFFFFF" Color="{StaticResource C_0CFFFFFF}" />
+    <Color x:Key="C_0D0C18">#FF0D1811</Color>
+    <SolidColorBrush x:Key="B_0D0C18" Color="{StaticResource C_0D0C18}" />
+    <Color x:Key="C_0D101B">#FF0E1B13</Color>
+    <SolidColorBrush x:Key="B_0D101B" Color="{StaticResource C_0D101B}" />
+    <Color x:Key="C_0D111F">#FF0E1F15</Color>
+    <SolidColorBrush x:Key="B_0D111F" Color="{StaticResource C_0D111F}" />
+    <Color x:Key="C_0D1220">#FF0F2016</Color>
+    <SolidColorBrush x:Key="B_0D1220" Color="{StaticResource C_0D1220}" />
+    <Color x:Key="C_0DFFFFFF">#0DFFFFFF</Color>
+    <SolidColorBrush x:Key="B_0DFFFFFF" Color="{StaticResource C_0DFFFFFF}" />
+    <Color x:Key="C_0E111D">#FF0F1D15</Color>
+    <SolidColorBrush x:Key="B_0E111D" Color="{StaticResource C_0E111D}" />
+    <Color x:Key="C_0E111E">#FF0F1E15</Color>
+    <SolidColorBrush x:Key="B_0E111E" Color="{StaticResource C_0E111E}" />
+    <Color x:Key="C_0EFFFFFF">#0EFFFFFF</Color>
+    <SolidColorBrush x:Key="B_0EFFFFFF" Color="{StaticResource C_0EFFFFFF}" />
+    <Color x:Key="C_0FFFFFFF">#0FFFFFFF</Color>
+    <SolidColorBrush x:Key="B_0FFFFFFF" Color="{StaticResource C_0FFFFFFF}" />
+    <Color x:Key="C_100E1D">#FF0F1D15</Color>
+    <SolidColorBrush x:Key="B_100E1D" Color="{StaticResource C_100E1D}" />
+    <Color x:Key="C_100F1E">#FF101E16</Color>
+    <SolidColorBrush x:Key="B_100F1E" Color="{StaticResource C_100F1E}" />
+    <Color x:Key="C_10F472B6">#10F472B6</Color>
+    <SolidColorBrush x:Key="B_10F472B6" Color="{StaticResource C_10F472B6}" />
+    <Color x:Key="C_10FFFFFF">#10FFFFFF</Color>
+    <SolidColorBrush x:Key="B_10FFFFFF" Color="{StaticResource C_10FFFFFF}" />
+    <Color x:Key="C_12A855F7">#1262F79E</Color>
+    <SolidColorBrush x:Key="B_12A855F7" Color="{StaticResource C_12A855F7}" />
+    <Color x:Key="C_12FFFFFF">#12FFFFFF</Color>
+    <SolidColorBrush x:Key="B_12FFFFFF" Color="{StaticResource C_12FFFFFF}" />
+    <Color x:Key="C_14182A">#FF162A1E</Color>
+    <SolidColorBrush x:Key="B_14182A" Color="{StaticResource C_14182A}" />
+    <Color x:Key="C_141B2D">#FF162D1F</Color>
+    <SolidColorBrush x:Key="B_141B2D" Color="{StaticResource C_141B2D}" />
+    <Color x:Key="C_1422D3EE">#1432EE7D</Color>
+    <SolidColorBrush x:Key="B_1422D3EE" Color="{StaticResource C_1422D3EE}" />
+    <Color x:Key="C_147C3AED">#1448ED8A</Color>
+    <SolidColorBrush x:Key="B_147C3AED" Color="{StaticResource C_147C3AED}" />
+    <Color x:Key="C_14A855F7">#1462F79E</Color>
+    <SolidColorBrush x:Key="B_14A855F7" Color="{StaticResource C_14A855F7}" />
+    <Color x:Key="C_14FFFFFF">#14FFFFFF</Color>
+    <SolidColorBrush x:Key="B_14FFFFFF" Color="{StaticResource C_14FFFFFF}" />
+    <Color x:Key="C_1622D3EE">#1632EE7D</Color>
+    <SolidColorBrush x:Key="B_1622D3EE" Color="{StaticResource C_1622D3EE}" />
+    <Color x:Key="C_1634D399">#1641D37B</Color>
+    <SolidColorBrush x:Key="B_1634D399" Color="{StaticResource C_1634D399}" />
+    <Color x:Key="C_167C3AED">#1648ED8A</Color>
+    <SolidColorBrush x:Key="B_167C3AED" Color="{StaticResource C_167C3AED}" />
+    <Color x:Key="C_16A855F7">#1662F79E</Color>
+    <SolidColorBrush x:Key="B_16A855F7" Color="{StaticResource C_16A855F7}" />
+    <Color x:Key="C_16F472B6">#16F472B6</Color>
+    <SolidColorBrush x:Key="B_16F472B6" Color="{StaticResource C_16F472B6}" />
+    <Color x:Key="C_16FB7185">#16FB7185</Color>
+    <SolidColorBrush x:Key="B_16FB7185" Color="{StaticResource C_16FB7185}" />
+    <Color x:Key="C_16FFFFFF">#16FFFFFF</Color>
+    <SolidColorBrush x:Key="B_16FFFFFF" Color="{StaticResource C_16FFFFFF}" />
+    <Color x:Key="C_17162D">#FF182D20</Color>
+    <SolidColorBrush x:Key="B_17162D" Color="{StaticResource C_17162D}" />
+    <Color x:Key="C_181D32">#FF1A3224</Color>
+    <SolidColorBrush x:Key="B_181D32" Color="{StaticResource C_181D32}" />
+    <Color x:Key="C_18A855F7">#1862F79E</Color>
+    <SolidColorBrush x:Key="B_18A855F7" Color="{StaticResource C_18A855F7}" />
+    <Color x:Key="C_18FB7185">#18FB7185</Color>
+    <SolidColorBrush x:Key="B_18FB7185" Color="{StaticResource C_18FB7185}" />
+    <Color x:Key="C_18FFFFFF">#18FFFFFF</Color>
+    <SolidColorBrush x:Key="B_18FFFFFF" Color="{StaticResource C_18FFFFFF}" />
+    <Color x:Key="C_191D33">#FF1B3325</Color>
+    <SolidColorBrush x:Key="B_191D33" Color="{StaticResource C_191D33}" />
+    <Color x:Key="C_1A1628">#FF17281E</Color>
+    <SolidColorBrush x:Key="B_1A1628" Color="{StaticResource C_1A1628}" />
+    <Color x:Key="C_1AFB7185">#1AFB7185</Color>
+    <SolidColorBrush x:Key="B_1AFB7185" Color="{StaticResource C_1AFB7185}" />
+    <Color x:Key="C_1AFFFFFF">#1AFFFFFF</Color>
+    <SolidColorBrush x:Key="B_1AFFFFFF" Color="{StaticResource C_1AFFFFFF}" />
+    <Color x:Key="C_1BFFFFFF">#1BFFFFFF</Color>
+    <SolidColorBrush x:Key="B_1BFFFFFF" Color="{StaticResource C_1BFFFFFF}" />
+    <Color x:Key="C_1CFFFFFF">#1CFFFFFF</Color>
+    <SolidColorBrush x:Key="B_1CFFFFFF" Color="{StaticResource C_1CFFFFFF}" />
+    <Color x:Key="C_1DFFFFFF">#1DFFFFFF</Color>
+    <SolidColorBrush x:Key="B_1DFFFFFF" Color="{StaticResource C_1DFFFFFF}" />
+    <Color x:Key="C_1F7C3AED">#1F48ED8A</Color>
+    <SolidColorBrush x:Key="B_1F7C3AED" Color="{StaticResource C_1F7C3AED}" />
+    <Color x:Key="C_1FFFFFFF">#1FFFFFFF</Color>
+    <SolidColorBrush x:Key="B_1FFFFFFF" Color="{StaticResource C_1FFFFFFF}" />
+    <Color x:Key="C_207C3AED">#2048ED8A</Color>
+    <SolidColorBrush x:Key="B_207C3AED" Color="{StaticResource C_207C3AED}" />
+    <Color x:Key="C_20FFFFFF">#20FFFFFF</Color>
+    <SolidColorBrush x:Key="B_20FFFFFF" Color="{StaticResource C_20FFFFFF}" />
+    <Color x:Key="C_2222D3EE">#2232EE7D</Color>
+    <SolidColorBrush x:Key="B_2222D3EE" Color="{StaticResource C_2222D3EE}" />
+    <Color x:Key="C_227C3AED">#2248ED8A</Color>
+    <SolidColorBrush x:Key="B_227C3AED" Color="{StaticResource C_227C3AED}" />
+    <Color x:Key="C_22FB7185">#22FB7185</Color>
+    <SolidColorBrush x:Key="B_22FB7185" Color="{StaticResource C_22FB7185}" />
+    <Color x:Key="C_22FFFFFF">#22FFFFFF</Color>
+    <SolidColorBrush x:Key="B_22FFFFFF" Color="{StaticResource C_22FFFFFF}" />
+    <Color x:Key="C_24FFFFFF">#24FFFFFF</Color>
+    <SolidColorBrush x:Key="B_24FFFFFF" Color="{StaticResource C_24FFFFFF}" />
+    <Color x:Key="C_26A855F7">#2662F79E</Color>
+    <SolidColorBrush x:Key="B_26A855F7" Color="{StaticResource C_26A855F7}" />
+    <Color x:Key="C_26F472B6">#26F472B6</Color>
+    <SolidColorBrush x:Key="B_26F472B6" Color="{StaticResource C_26F472B6}" />
+    <Color x:Key="C_26FFFFFF">#26FFFFFF</Color>
+    <SolidColorBrush x:Key="B_26FFFFFF" Color="{StaticResource C_26FFFFFF}" />
+    <Color x:Key="C_287C3AED">#2848ED8A</Color>
+    <SolidColorBrush x:Key="B_287C3AED" Color="{StaticResource C_287C3AED}" />
+    <Color x:Key="C_2A7C3AED">#2A48ED8A</Color>
+    <SolidColorBrush x:Key="B_2A7C3AED" Color="{StaticResource C_2A7C3AED}" />
+    <Color x:Key="C_2AFFFFFF">#2AFFFFFF</Color>
+    <SolidColorBrush x:Key="B_2AFFFFFF" Color="{StaticResource C_2AFFFFFF}" />
+    <Color x:Key="C_2BFFFFFF">#2BFFFFFF</Color>
+    <SolidColorBrush x:Key="B_2BFFFFFF" Color="{StaticResource C_2BFFFFFF}" />
+    <Color x:Key="C_2EFB7185">#2EFB7185</Color>
+    <SolidColorBrush x:Key="B_2EFB7185" Color="{StaticResource C_2EFB7185}" />
+    <Color x:Key="C_3022D3EE">#3032EE7D</Color>
+    <SolidColorBrush x:Key="B_3022D3EE" Color="{StaticResource C_3022D3EE}" />
+    <Color x:Key="C_3034D399">#3041D37B</Color>
+    <SolidColorBrush x:Key="B_3034D399" Color="{StaticResource C_3034D399}" />
+    <Color x:Key="C_30A855F7">#3062F79E</Color>
+    <SolidColorBrush x:Key="B_30A855F7" Color="{StaticResource C_30A855F7}" />
+    <Color x:Key="C_30F472B6">#30F472B6</Color>
+    <SolidColorBrush x:Key="B_30F472B6" Color="{StaticResource C_30F472B6}" />
+    <Color x:Key="C_30FFFFFF">#30FFFFFF</Color>
+    <SolidColorBrush x:Key="B_30FFFFFF" Color="{StaticResource C_30FFFFFF}" />
+    <Color x:Key="C_337C3AED">#3348ED8A</Color>
+    <SolidColorBrush x:Key="B_337C3AED" Color="{StaticResource C_337C3AED}" />
+    <Color x:Key="C_33FB7185">#33FB7185</Color>
+    <SolidColorBrush x:Key="B_33FB7185" Color="{StaticResource C_33FB7185}" />
+    <Color x:Key="C_33FFFFFF">#33FFFFFF</Color>
+    <SolidColorBrush x:Key="B_33FFFFFF" Color="{StaticResource C_33FFFFFF}" />
+    <Color x:Key="C_35A855F7">#3562F79E</Color>
+    <SolidColorBrush x:Key="B_35A855F7" Color="{StaticResource C_35A855F7}" />
+    <Color x:Key="C_35FFFFFF">#35FFFFFF</Color>
+    <SolidColorBrush x:Key="B_35FFFFFF" Color="{StaticResource C_35FFFFFF}" />
+    <Color x:Key="C_36FFFFFF">#36FFFFFF</Color>
+    <SolidColorBrush x:Key="B_36FFFFFF" Color="{StaticResource C_36FFFFFF}" />
+    <Color x:Key="C_38FFFFFF">#38FFFFFF</Color>
+    <SolidColorBrush x:Key="B_38FFFFFF" Color="{StaticResource C_38FFFFFF}" />
+    <Color x:Key="C_3AFFFFFF">#3AFFFFFF</Color>
+    <SolidColorBrush x:Key="B_3AFFFFFF" Color="{StaticResource C_3AFFFFFF}" />
+    <Color x:Key="C_3C22D3EE">#3C32EE7D</Color>
+    <SolidColorBrush x:Key="B_3C22D3EE" Color="{StaticResource C_3C22D3EE}" />
+    <Color x:Key="C_40FFFFFF">#40FFFFFF</Color>
+    <SolidColorBrush x:Key="B_40FFFFFF" Color="{StaticResource C_40FFFFFF}" />
+    <Color x:Key="C_4422D3EE">#4432EE7D</Color>
+    <SolidColorBrush x:Key="B_4422D3EE" Color="{StaticResource C_4422D3EE}" />
+    <Color x:Key="C_44F472B6">#44F472B6</Color>
+    <SolidColorBrush x:Key="B_44F472B6" Color="{StaticResource C_44F472B6}" />
+    <Color x:Key="C_44FB7185">#44FB7185</Color>
+    <SolidColorBrush x:Key="B_44FB7185" Color="{StaticResource C_44FB7185}" />
+    <Color x:Key="C_45FFFFFF">#45FFFFFF</Color>
+    <SolidColorBrush x:Key="B_45FFFFFF" Color="{StaticResource C_45FFFFFF}" />
+    <Color x:Key="C_48000000">#48000000</Color>
+    <SolidColorBrush x:Key="B_48000000" Color="{StaticResource C_48000000}" />
+    <Color x:Key="C_4DFB7185">#4DFB7185</Color>
+    <SolidColorBrush x:Key="B_4DFB7185" Color="{StaticResource C_4DFB7185}" />
+    <Color x:Key="C_4DFFFFFF">#4DFFFFFF</Color>
+    <SolidColorBrush x:Key="B_4DFFFFFF" Color="{StaticResource C_4DFFFFFF}" />
+    <Color x:Key="C_5022D3EE">#5032EE7D</Color>
+    <SolidColorBrush x:Key="B_5022D3EE" Color="{StaticResource C_5022D3EE}" />
+    <Color x:Key="C_50F472B6">#50F472B6</Color>
+    <SolidColorBrush x:Key="B_50F472B6" Color="{StaticResource C_50F472B6}" />
+    <Color x:Key="C_50FFFFFF">#50FFFFFF</Color>
+    <SolidColorBrush x:Key="B_50FFFFFF" Color="{StaticResource C_50FFFFFF}" />
+    <Color x:Key="C_5522D3EE">#5532EE7D</Color>
+    <SolidColorBrush x:Key="B_5522D3EE" Color="{StaticResource C_5522D3EE}" />
+    <Color x:Key="C_55A855F7">#5562F79E</Color>
+    <SolidColorBrush x:Key="B_55A855F7" Color="{StaticResource C_55A855F7}" />
+    <Color x:Key="C_55FB7185">#55FB7185</Color>
+    <SolidColorBrush x:Key="B_55FB7185" Color="{StaticResource C_55FB7185}" />
+    <Color x:Key="C_55FFFFFF">#55FFFFFF</Color>
+    <SolidColorBrush x:Key="B_55FFFFFF" Color="{StaticResource C_55FFFFFF}" />
+    <Color x:Key="C_66000000">#66000000</Color>
+    <SolidColorBrush x:Key="B_66000000" Color="{StaticResource C_66000000}" />
+    <Color x:Key="C_66080A12">#6609120C</Color>
+    <SolidColorBrush x:Key="B_66080A12" Color="{StaticResource C_66080A12}" />
+    <Color x:Key="C_667C3AED">#6648ED8A</Color>
+    <SolidColorBrush x:Key="B_667C3AED" Color="{StaticResource C_667C3AED}" />
+    <Color x:Key="C_70FFFFFF">#70FFFFFF</Color>
+    <SolidColorBrush x:Key="B_70FFFFFF" Color="{StaticResource C_70FFFFFF}" />
+    <Color x:Key="C_7C3AED">#FF48ED8A</Color>
+    <SolidColorBrush x:Key="B_7C3AED" Color="{StaticResource C_7C3AED}" />
+    <Color x:Key="C_80FB7185">#80FB7185</Color>
+    <SolidColorBrush x:Key="B_80FB7185" Color="{StaticResource C_80FB7185}" />
+    <Color x:Key="C_887C3AED">#8848ED8A</Color>
+    <SolidColorBrush x:Key="B_887C3AED" Color="{StaticResource C_887C3AED}" />
+    <Color x:Key="C_88FFFFFF">#88FFFFFF</Color>
+    <SolidColorBrush x:Key="B_88FFFFFF" Color="{StaticResource C_88FFFFFF}" />
+    <Color x:Key="C_8B5CF6">#FF68F6A1</Color>
+    <SolidColorBrush x:Key="B_8B5CF6" Color="{StaticResource C_8B5CF6}" />
+    <Color x:Key="C_A5F3FC">#FFACFCCC</Color>
+    <SolidColorBrush x:Key="B_A5F3FC" Color="{StaticResource C_A5F3FC}" />
+    <Color x:Key="C_A7F3D0">#FFADF3C9</Color>
+    <SolidColorBrush x:Key="B_A7F3D0" Color="{StaticResource C_A7F3D0}" />
+    <Color x:Key="C_AAFFFFFF">#AAFFFFFF</Color>
+    <SolidColorBrush x:Key="B_AAFFFFFF" Color="{StaticResource C_AAFFFFFF}" />
+    <Color x:Key="C_B3080A12">#B309120C</Color>
+    <SolidColorBrush x:Key="B_B3080A12" Color="{StaticResource C_B3080A12}" />
+    <Color x:Key="C_B3FFFFFF">#B3FFFFFF</Color>
+    <SolidColorBrush x:Key="B_B3FFFFFF" Color="{StaticResource C_B3FFFFFF}" />
+    <Color x:Key="C_B8070812">#B808120C</Color>
+    <SolidColorBrush x:Key="B_B8070812" Color="{StaticResource C_B8070812}" />
+    <Color x:Key="C_C2070812">#C208120C</Color>
+    <SolidColorBrush x:Key="B_C2070812" Color="{StaticResource C_C2070812}" />
+    <Color x:Key="C_C4B5FD">#FFBBFDD5</Color>
+    <SolidColorBrush x:Key="B_C4B5FD" Color="{StaticResource C_C4B5FD}" />
+    <Color x:Key="C_C50F1F">#C50F1F</Color>
+    <SolidColorBrush x:Key="B_C50F1F" Color="{StaticResource C_C50F1F}" />
+    <Color x:Key="C_C7CCE0">#C7CCE0</Color>
+    <SolidColorBrush x:Key="B_C7CCE0" Color="{StaticResource C_C7CCE0}" />
+    <Color x:Key="C_D0000000">#D0000000</Color>
+    <SolidColorBrush x:Key="B_D0000000" Color="{StaticResource C_D0000000}" />
+    <Color x:Key="C_D8B4FE">#FFBAFED5</Color>
+    <SolidColorBrush x:Key="B_D8B4FE" Color="{StaticResource C_D8B4FE}" />
+    <Color x:Key="C_D9080A12">#D909120C</Color>
+    <SolidColorBrush x:Key="B_D9080A12" Color="{StaticResource C_D9080A12}" />
+    <Color x:Key="C_DB2777">#DB2777</Color>
+    <SolidColorBrush x:Key="B_DB2777" Color="{StaticResource C_DB2777}" />
+    <Color x:Key="C_DDFBFF">#DDFBFF</Color>
+    <SolidColorBrush x:Key="B_DDFBFF" Color="{StaticResource C_DDFBFF}" />
+    <Color x:Key="C_E0000000">#E0000000</Color>
+    <SolidColorBrush x:Key="B_E0000000" Color="{StaticResource C_E0000000}" />
+    <Color x:Key="C_E60A0D18">#E60B1810</Color>
+    <SolidColorBrush x:Key="B_E60A0D18" Color="{StaticResource C_E60A0D18}" />
+    <Color x:Key="C_E81123">#E81123</Color>
+    <SolidColorBrush x:Key="B_E81123" Color="{StaticResource C_E81123}" />
+    <Color x:Key="C_E9D5FF">#E9D5FF</Color>
+    <SolidColorBrush x:Key="B_E9D5FF" Color="{StaticResource C_E9D5FF}" />
+    <Color x:Key="C_E9FDFF">#E9FDFF</Color>
+    <SolidColorBrush x:Key="B_E9FDFF" Color="{StaticResource C_E9FDFF}" />
+    <Color x:Key="C_EDE9FE">#EDE9FE</Color>
+    <SolidColorBrush x:Key="B_EDE9FE" Color="{StaticResource C_EDE9FE}" />
+    <Color x:Key="C_EEFFFFFF">#EEFFFFFF</Color>
+    <SolidColorBrush x:Key="B_EEFFFFFF" Color="{StaticResource C_EEFFFFFF}" />
+    <Color x:Key="C_EFFFFFFF">#EFFFFFFF</Color>
+    <SolidColorBrush x:Key="B_EFFFFFFF" Color="{StaticResource C_EFFFFFFF}" />
+    <Color x:Key="C_F0000000">#F0000000</Color>
+    <SolidColorBrush x:Key="B_F0000000" Color="{StaticResource C_F0000000}" />
+    <Color x:Key="C_F2141828">#F216281D</Color>
+    <SolidColorBrush x:Key="B_F2141828" Color="{StaticResource C_F2141828}" />
+    <Color x:Key="C_F215192B">#F2172B1F</Color>
+    <SolidColorBrush x:Key="B_F215192B" Color="{StaticResource C_F215192B}" />
+    <Color x:Key="C_F515192B">#F5172B1F</Color>
+    <SolidColorBrush x:Key="B_F515192B" Color="{StaticResource C_F515192B}" />
+    <Color x:Key="C_F5F3FF">#F5F3FF</Color>
+    <SolidColorBrush x:Key="B_F5F3FF" Color="{StaticResource C_F5F3FF}" />
+    <Color x:Key="C_FBCFE8">#FBCFE8</Color>
+    <SolidColorBrush x:Key="B_FBCFE8" Color="{StaticResource C_FBCFE8}" />
+    <Color x:Key="C_FDA4AF">#FDA4AF</Color>
+    <SolidColorBrush x:Key="B_FDA4AF" Color="{StaticResource C_FDA4AF}" />
+    <Color x:Key="C_FFE4E8">#FFE4E8</Color>
+    <SolidColorBrush x:Key="B_FFE4E8" Color="{StaticResource C_FFE4E8}" />
+    <Color x:Key="C_FFF1F8">#FFF1F8</Color>
+    <SolidColorBrush x:Key="B_FFF1F8" Color="{StaticResource C_FFF1F8}" />
+    <Color x:Key="C_FFFFFF">#FFFFFF</Color>
+    <SolidColorBrush x:Key="B_FFFFFF" Color="{StaticResource C_FFFFFF}" />
+</ResourceDictionary>

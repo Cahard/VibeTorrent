@@ -37,6 +37,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     private readonly Queue<double> _downloadSamplesQueue = new();
     private readonly Queue<double> _uploadSamplesQueue = new();
     private readonly DispatcherTimer _storageTimer;
+    private readonly DispatcherTimer _settingsSaveTimer;
+    private bool _settingsSaveInFlight;
 
     private AppSettings _settings = AppSettings.Default;
     private CancellationTokenSource? _detailsCts;
@@ -85,6 +87,14 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         UploadHistory = _uploadSamplesQueue.ToArray();
         _storageTimer = new DispatcherTimer(TimeSpan.FromSeconds(30), DispatcherPriority.Background,
             (_, _) => RefreshStorage(), Dispatcher.CurrentDispatcher);
+        DispatcherTimer? settingsSaveTimer = null;
+        settingsSaveTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(450), DispatcherPriority.Background,
+            (_, _) =>
+            {
+                settingsSaveTimer!.Stop();
+                _ = SaveSettingsPageAsync(SettingsPage);
+            }, Dispatcher.CurrentDispatcher);
+        _settingsSaveTimer = settingsSaveTimer;
         LocalizationManager.Instance.LanguageChanged += OnLanguageChanged;
     }
 
@@ -400,6 +410,11 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     [RelayCommand]
     private void SetFilter(string? filter)
     {
+        if (IsSettingsOpen)
+        {
+            CloseSettingsInternal();
+        }
+
         SelectedFilter = filter switch
         {
             "active" or "completed" or "paused" or "error" => filter,
@@ -644,6 +659,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         AddDialog = null;
         IsAddDialogOpen = false;
         SettingsPage = new SettingsViewModel(_settings, _paths, _dialogs, CloseSettingsInternal);
+        SettingsPage.Changed += OnSettingsChanged;
         OnPropertyChanged(nameof(HeaderTitle));
         OnPropertyChanged(nameof(HeaderEyebrow));
         OnPropertyChanged(nameof(HeaderSubtitle));
@@ -662,11 +678,81 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     private void CloseSettingsInternal()
     {
+        _settingsSaveTimer.Stop();
+        var page = SettingsPage;
+        if (page is not null)
+        {
+            page.Changed -= OnSettingsChanged;
+            _ = SaveSettingsPageAsync(page);
+        }
+
         SettingsPage = null;
         IsSettingsOpen = false;
         OnPropertyChanged(nameof(HeaderTitle));
         OnPropertyChanged(nameof(HeaderEyebrow));
         OnPropertyChanged(nameof(HeaderSubtitle));
+    }
+
+    private void OnSettingsChanged(object? sender, EventArgs e)
+    {
+        _settingsSaveTimer.Stop();
+        _settingsSaveTimer.Start();
+    }
+
+    private async Task SaveSettingsPageAsync(SettingsViewModel? page)
+    {
+        if (page is null || page.IsSaving || _settingsSaveInFlight)
+        {
+            return;
+        }
+
+        if (IsDemoMode)
+        {
+            page.ErrorMessage = L.T("Settings are not saved in demo mode.");
+            return;
+        }
+
+        if (!page.TryBuild(out var candidate, out _))
+        {
+            return;
+        }
+
+        // Window geometry and view state are owned by the shell, not by the
+        // settings page. Keep the live values when a debounced save runs.
+        candidate.WindowWidth = _settings.WindowWidth;
+        candidate.WindowHeight = _settings.WindowHeight;
+        candidate.IsWindowMaximized = _settings.IsWindowMaximized;
+        candidate.IsDetailsPaneOpen = IsDetailsPaneOpen;
+        candidate.SortMode = SortMode;
+        candidate.LastFilter = SelectedFilter;
+
+        _settingsSaveInFlight = true;
+        page.IsSaving = true;
+        try
+        {
+            await _engine.ApplySettingsAsync(candidate);
+            await _settingsService.SaveAsync(candidate);
+            _settings = candidate.Clone();
+            CurrentSettings = _settings;
+            IsDetailsPaneOpen = _settings.IsDetailsPaneOpen;
+            ThemeService.Apply(_settings.Theme);
+            LocalizationManager.Instance.SetLanguage(_settings.Language);
+
+            if (!_startupService.TrySetEnabled(candidate.StartWithWindows, out var startupError) &&
+                !string.IsNullOrWhiteSpace(startupError))
+            {
+                ShowToast(L.T("Autostart"), startupError, ToastKind.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            page.ErrorMessage = ex.Message;
+        }
+        finally
+        {
+            page.IsSaving = false;
+            _settingsSaveInFlight = false;
+        }
     }
 
     [RelayCommand]
@@ -699,6 +785,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             _settings = candidate.Clone();
             CurrentSettings = _settings;
             IsDetailsPaneOpen = _settings.IsDetailsPaneOpen;
+            ThemeService.Apply(_settings.Theme);
             LocalizationManager.Instance.SetLanguage(_settings.Language);
 
             if (!_startupService.TrySetEnabled(candidate.StartWithWindows, out var startupError) &&
@@ -1006,8 +1093,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             CloseAddDialogInternal,
             mode);
         IsAddDialogOpen = true;
-        SettingsPage = null;
-        IsSettingsOpen = false;
+        CloseSettingsInternal();
     }
 
     private async Task OpenAddDialogForFileAsync(string path)

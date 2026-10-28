@@ -25,7 +25,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel VerticalAlignment="Center">
                 <TextBlock Text="{Binding HeaderEyebrow}" Style="{StaticResource MicroCaption}"
-                           Foreground="{StaticResource CyanBrush}" Margin="0,0,0,4" />
+                           Foreground="{DynamicResource CyanBrush}" Margin="0,0,0,4" />
                 <TextBlock Text="{Binding HeaderTitle}" Style="{StaticResource DisplayTitle}" />
                 <TextBlock Text="{Binding HeaderSubtitle}" Style="{StaticResource Caption}" Margin="1,3,0,0" />
             </StackPanel>
@@ -62,13 +62,13 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" CornerRadius="16" BorderThickness="1" BorderBrush="#20FFFFFF"
+            <Border Grid.Column="0" CornerRadius="16" BorderThickness="1" BorderBrush="{DynamicResource B_20FFFFFF}"
                     Padding="15,13" ClipToBounds="True">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#141B2D" Offset="0" />
-                        <GradientStop Color="#0D1220" Offset="0.78" />
-                        <GradientStop Color="#0C111D" Offset="1" />
+                        <GradientStop Color="{DynamicResource C_141B2D}" Offset="0" />
+                        <GradientStop Color="{DynamicResource C_0D1220}" Offset="0.78" />
+                        <GradientStop Color="{DynamicResource C_0C111D}" Offset="1" />
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -78,15 +78,15 @@
                     </Grid.RowDefinitions>
                     <Grid>
                         <StackPanel Orientation="Horizontal">
-                            <Border Width="25" Height="25" CornerRadius="8" Background="#2222D3EE" Margin="0,0,8,0">
+                            <Border Width="25" Height="25" CornerRadius="8" Background="{DynamicResource B_2222D3EE}" Margin="0,0,8,0">
                                 <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" FontSize="12"
-                                           Foreground="{StaticResource CyanBrush}" />
+                                           Foreground="{DynamicResource CyanBrush}" />
                             </Border>
                             <TextBlock Text="{loc:T 'DOWNLOAD'}" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
                         </StackPanel>
                         <TextBlock Text="{Binding DownloadedTotalLabel}"
                                    Style="{StaticResource MicroCaption}" HorizontalAlignment="Right"
-                                   VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" />
+                                   VerticalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}" />
                     </Grid>
                     <Grid Grid.Row="1" Margin="0,6,0,0">
                         <Grid.ColumnDefinitions>
@@ -95,17 +95,17 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{Binding DownloadSpeedText}" Style="{StaticResource H2}"
-                                       FontSize="22" FontWeight="SemiBold" Foreground="#E9FDFF" />
+                                       FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource B_E9FDFF}" />
                             <TextBlock Text="{Binding ActiveCaption}" Style="{StaticResource MicroCaption}"
-                                       Foreground="{StaticResource CyanBrush}" Margin="0,2,0,0" />
+                                       Foreground="{DynamicResource CyanBrush}" Margin="0,2,0,0" />
                         </StackPanel>
                         <controls:Sparkline Grid.Column="1" Values="{Binding DownloadHistory}"
-                                            Stroke="{StaticResource CyanBrush}" Height="36"
+                                            Stroke="{DynamicResource CyanBrush}" Height="36"
                                             VerticalAlignment="Center" Margin="4,4,0,0">
                             <controls:Sparkline.Fill>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                    <GradientStop Color="#4422D3EE" Offset="0" />
-                                    <GradientStop Color="#0022D3EE" Offset="1" />
+                                    <GradientStop Color="{DynamicResource C_4422D3EE}" Offset="0" />
+                                    <GradientStop Color="{DynamicResource C_0022D3EE}" Offset="1" />
                                 </LinearGradientBrush>
                             </controls:Sparkline.Fill>
                         </controls:Sparkline>
@@ -113,13 +113,13 @@
                 </Grid>
             </Border>
 
-            <Border Grid.Column="2" CornerRadius="16" BorderThickness="1" BorderBrush="#20FFFFFF"
+            <Border Grid.Column="2" CornerRadius="16" BorderThickness="1" BorderBrush="{DynamicResource B_20FFFFFF}"
                     Padding="15,13" ClipToBounds="True">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#1A1628" Offset="0" />
-                        <GradientStop Color="#100E1D" Offset="0.78" />
-                        <GradientStop Color="#0D0C18" Offset="1" />
+                        <GradientStop Color="{DynamicResource C_1A1628}" Offset="0" />
+                        <GradientStop Color="{DynamicResource C_100E1D}" Offset="0.78" />
+                        <GradientStop Color="{DynamicResource C_0D0C18}" Offset="1" />
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -129,15 +129,15 @@
                     </Grid.RowDefinitions>
                     <Grid>
                         <StackPanel Orientation="Horizontal">
-                            <Border Width="25" Height="25" CornerRadius="8" Background="#26F472B6" Margin="0,0,8,0">
+                            <Border Width="25" Height="25" CornerRadius="8" Background="{DynamicResource B_26F472B6}" Margin="0,0,8,0">
                                 <TextBlock Text="&#xE898;" Style="{StaticResource IconGlyph}" FontSize="12"
-                                           Foreground="{StaticResource PinkBrush}" />
+                                           Foreground="{DynamicResource PinkBrush}" />
                             </Border>
                             <TextBlock Text="{loc:T 'UPLOAD'}" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
                         </StackPanel>
                         <TextBlock Text="{Binding UploadedTotalLabel}"
                                    Style="{StaticResource MicroCaption}" HorizontalAlignment="Right"
-                                   VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" />
+                                   VerticalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}" />
                     </Grid>
                     <Grid Grid.Row="1" Margin="0,6,0,0">
                         <Grid.ColumnDefinitions>
@@ -146,17 +146,17 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{Binding UploadSpeedText}" Style="{StaticResource H2}"
-                                       FontSize="22" FontWeight="SemiBold" Foreground="#FFF1F8" />
+                                       FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource B_FFF1F8}" />
                             <TextBlock Text="{loc:T 'ratio and seeding'}" Style="{StaticResource MicroCaption}"
-                                       Foreground="{StaticResource PinkBrush}" Margin="0,2,0,0" />
+                                       Foreground="{DynamicResource PinkBrush}" Margin="0,2,0,0" />
                         </StackPanel>
                         <controls:Sparkline Grid.Column="1" Values="{Binding UploadHistory}"
-                                            Stroke="{StaticResource PinkBrush}" Height="36"
+                                            Stroke="{DynamicResource PinkBrush}" Height="36"
                                             VerticalAlignment="Center" Margin="4,4,0,0">
                             <controls:Sparkline.Fill>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                    <GradientStop Color="#44F472B6" Offset="0" />
-                                    <GradientStop Color="#00F472B6" Offset="1" />
+                                    <GradientStop Color="{DynamicResource C_44F472B6}" Offset="0" />
+                                    <GradientStop Color="{DynamicResource C_00F472B6}" Offset="1" />
                                 </LinearGradientBrush>
                             </controls:Sparkline.Fill>
                         </controls:Sparkline>
@@ -164,13 +164,13 @@
                 </Grid>
             </Border>
 
-            <Border Grid.Column="4" CornerRadius="16" BorderThickness="1" BorderBrush="#20FFFFFF"
+            <Border Grid.Column="4" CornerRadius="16" BorderThickness="1" BorderBrush="{DynamicResource B_20FFFFFF}"
                     Padding="15,13" ClipToBounds="True">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#17162D" Offset="0" />
-                        <GradientStop Color="#100F1E" Offset="0.78" />
-                        <GradientStop Color="#0D0C18" Offset="1" />
+                        <GradientStop Color="{DynamicResource C_17162D}" Offset="0" />
+                        <GradientStop Color="{DynamicResource C_100F1E}" Offset="0.78" />
+                        <GradientStop Color="{DynamicResource C_0D0C18}" Offset="1" />
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -180,16 +180,16 @@
                     </Grid.RowDefinitions>
                     <Grid>
                         <StackPanel Orientation="Horizontal">
-                            <Border Width="25" Height="25" CornerRadius="8" Background="#26A855F7" Margin="0,0,8,0">
+                            <Border Width="25" Height="25" CornerRadius="8" Background="{DynamicResource B_26A855F7}" Margin="0,0,8,0">
                                 <TextBlock Text="&#xE774;" Style="{StaticResource IconGlyph}" FontSize="12"
-                                           Foreground="{StaticResource VioletBrush}" />
+                                           Foreground="{DynamicResource VioletBrush}" />
                             </Border>
                             <TextBlock Text="{loc:T 'NETWORK'}" Style="{StaticResource MicroCaption}" VerticalAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,5,0" />
+                            <Ellipse Width="6" Height="6" Fill="{DynamicResource SuccessBrush}" Margin="0,0,5,0" />
                             <TextBlock Text="{Binding EngineStatusText}" Style="{StaticResource MicroCaption}"
-                                       Foreground="{StaticResource SuccessBrush}" />
+                                       Foreground="{DynamicResource SuccessBrush}" />
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Row="1" Margin="0,7,0,0">
@@ -199,14 +199,14 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{Binding DhtStatusText}" FontSize="13.5" FontWeight="SemiBold"
-                                       Foreground="{StaticResource TextPrimaryBrush}" />
+                                       Foreground="{DynamicResource TextPrimaryBrush}" />
                             <TextBlock Text="{Binding ListenPortText}" Style="{StaticResource MicroCaption}"
-                                       Margin="0,3,0,0" Foreground="{StaticResource TextMutedBrush}" />
+                                       Margin="0,3,0,0" Foreground="{DynamicResource TextMutedBrush}" />
                         </StackPanel>
-                        <Border Grid.Column="1" Background="#14A855F7" BorderBrush="#30A855F7" BorderThickness="1"
+                        <Border Grid.Column="1" Background="{DynamicResource B_14A855F7}" BorderBrush="{DynamicResource B_30A855F7}" BorderThickness="1"
                                 CornerRadius="9" Padding="9,5" VerticalAlignment="Center">
                             <TextBlock Text="{Binding ActiveCount}" FontSize="14" FontWeight="SemiBold"
-                                       Foreground="#EDE9FE" />
+                                       Foreground="{DynamicResource B_EDE9FE}" />
                         </Border>
                     </Grid>
                 </Grid>
@@ -220,7 +220,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Border Width="310" Height="38" HorizontalAlignment="Left" CornerRadius="11"
-                    Background="{StaticResource SearchGradient}" BorderBrush="#22FFFFFF" BorderThickness="1">
+                    Background="{DynamicResource SearchGradient}" BorderBrush="{DynamicResource B_22FFFFFF}" BorderThickness="1">
                 <Grid Margin="12,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -228,7 +228,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="&#xE721;" Style="{StaticResource IconGlyph}" FontSize="14"
-                               Foreground="{StaticResource TextMutedBrush}" Margin="0,0,8,0" />
+                               Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,8,0" />
                     <TextBox x:Name="SearchBox" Grid.Column="1" Style="{StaticResource SearchTextBox}"
                              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=120}"
                              Tag="{loc:T 'Search by name, hash or path'}" />
@@ -245,10 +245,10 @@
                         Click="SortButton_OnClick" ToolTip="{loc:T 'Sort'}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE8CB;" Style="{StaticResource IconGlyph}" FontSize="13"
-                                   Foreground="{StaticResource TextMutedBrush}" Margin="0,0,7,0" />
+                                   Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,7,0" />
                         <TextBlock Text="{Binding SortLabel}" FontSize="11.5" VerticalAlignment="Center" />
                         <TextBlock Text="&#xE70D;" Style="{StaticResource IconGlyph}" FontSize="9"
-                                   Foreground="{StaticResource TextMutedBrush}" Margin="7,0,0,0" />
+                                   Foreground="{DynamicResource TextMutedBrush}" Margin="7,0,0,0" />
                     </StackPanel>
                     <Button.ContextMenu>
                         <ContextMenu x:Name="SortMenu">
@@ -266,7 +266,11 @@
 
                 <Button Style="{StaticResource IconButton}" Command="{Binding ToggleDetailsPaneCommand}"
                         ToolTip="{loc:T 'Details panel'}">
-                    <TextBlock Text="&#xE8A9;" Style="{StaticResource IconGlyph}" FontSize="14" />
+                    <Viewbox Width="14" Height="14">
+                        <Path Data="M2,2 H14 A2,2 0 0 1 16,4 V12 A2,2 0 0 1 14,14 H2 A2,2 0 0 1 0,12 V4 A2,2 0 0 1 2,2 Z M10,2 V14"
+                              Fill="Transparent" Stroke="{DynamicResource TextSecondaryBrush}"
+                              StrokeThickness="1.2" StrokeLineJoin="Round" />
+                    </Viewbox>
                 </Button>
                 <Button Style="{StaticResource IconButton}" Command="{Binding OpenMagnetCommand}"
                         ToolTip="{loc:T 'Add magnet link'}">
@@ -282,7 +286,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <WrapPanel Orientation="Horizontal">
-                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                <RadioButton Style="{StaticResource LanguageChip}" GroupName="LibraryFilter"
                              IsChecked="{Binding IsFilterAll, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="all" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
@@ -290,7 +294,7 @@
                         <TextBlock Text="{Binding AllCount}" Margin="6,0,0,0" Opacity="0.55" />
                     </StackPanel>
                 </RadioButton>
-                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                <RadioButton Style="{StaticResource LanguageChip}" GroupName="LibraryFilter"
                              IsChecked="{Binding IsFilterActive, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="active" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
@@ -298,7 +302,7 @@
                         <TextBlock Text="{Binding ActiveCount}" Margin="6,0,0,0" Opacity="0.55" />
                     </StackPanel>
                 </RadioButton>
-                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                <RadioButton Style="{StaticResource LanguageChip}" GroupName="LibraryFilter"
                              IsChecked="{Binding IsFilterCompleted, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="completed" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
@@ -306,7 +310,7 @@
                         <TextBlock Text="{Binding CompletedCount}" Margin="6,0,0,0" Opacity="0.55" />
                     </StackPanel>
                 </RadioButton>
-                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                <RadioButton Style="{StaticResource LanguageChip}" GroupName="LibraryFilter"
                              IsChecked="{Binding IsFilterPaused, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="paused" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
@@ -314,7 +318,7 @@
                         <TextBlock Text="{Binding PausedCount}" Margin="6,0,0,0" Opacity="0.55" />
                     </StackPanel>
                 </RadioButton>
-                <RadioButton Style="{StaticResource FilterChip}" GroupName="LibraryFilter"
+                <RadioButton Style="{StaticResource LanguageChip}" GroupName="LibraryFilter"
                              IsChecked="{Binding IsFilterError, Mode=OneWay}"
                              Command="{Binding SetFilterCommand}" CommandParameter="error" Margin="0,0,4,0">
                     <StackPanel Orientation="Horizontal">
@@ -324,7 +328,7 @@
                 </RadioButton>
             </WrapPanel>
             <TextBlock Grid.Column="1" Text="{Binding FilterSummaryText}" Style="{StaticResource MicroCaption}"
-                       VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" />
+                       VerticalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}" />
         </Grid>
 
         <!-- ============================== list ============================== -->
@@ -343,12 +347,13 @@
                                 <ColumnDefinition Width="116" />
                                 <ColumnDefinition Width="96" />
                                 <ColumnDefinition Width="78" />
+                                <ColumnDefinition Width="92" />
                             </Grid.ColumnDefinitions>
 
                             <Grid Width="46" Height="46" VerticalAlignment="Center">
                                 <controls:ProgressRing Value="{Binding Progress, Mode=OneWay}" Thickness="3"
                                                        ProgressBrush="{Binding Status, Converter={StaticResource StatusBrush}}"
-                                                       TrackBrush="#16FFFFFF" />
+                                                       TrackBrush="{DynamicResource B_16FFFFFF}" />
                                 <TextBlock Text="{Binding Status, Converter={StaticResource StatusGlyph}}"
                                            Style="{StaticResource IconGlyph}" FontSize="12"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -364,12 +369,12 @@
                                     <TextBlock Text="{Binding Name}" FontSize="13.8" FontWeight="SemiBold"
                                                TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                                     <Border Grid.Column="1" Margin="9,0,0,0" Padding="6,2" CornerRadius="5"
-                                            Background="#16A855F7" BorderBrush="#35A855F7" BorderThickness="1"
+                                            Background="{DynamicResource B_16A855F7}" BorderBrush="{DynamicResource B_35A855F7}" BorderThickness="1"
                                             Visibility="{Binding IsPrivate, Converter={StaticResource BoolToVisibility}}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="&#xE72E;" FontFamily="{StaticResource IconFont}" FontSize="8"
-                                                       Foreground="#D8B4FE" VerticalAlignment="Center" Margin="0,0,3,0" />
-                                            <TextBlock Text="{loc:T 'Private'}" FontSize="8.5" Foreground="#E9D5FF"
+                                                       Foreground="{DynamicResource B_D8B4FE}" VerticalAlignment="Center" Margin="0,0,3,0" />
+                                            <TextBlock Text="{loc:T 'Private'}" FontSize="8.5" Foreground="{DynamicResource B_E9D5FF}"
                                                        FontWeight="SemiBold" />
                                         </StackPanel>
                                     </Border>
@@ -377,12 +382,12 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
                                     <TextBlock Text="{Binding StatusText}" FontSize="10.5" FontWeight="SemiBold"
                                                Foreground="{Binding Status, Converter={StaticResource StatusBrush}}" />
-                                    <TextBlock Text="·" FontSize="10.5" Foreground="{StaticResource TextDisabledBrush}" Margin="5,0" />
+                                    <TextBlock Text="·" FontSize="10.5" Foreground="{DynamicResource TextDisabledBrush}" Margin="5,0" />
                                     <TextBlock Text="{Binding FileCountText}" FontSize="10.5"
-                                               Foreground="{StaticResource TextMutedBrush}" />
-                                    <TextBlock Text="·" FontSize="10.5" Foreground="{StaticResource TextDisabledBrush}" Margin="5,0" />
+                                               Foreground="{DynamicResource TextMutedBrush}" />
+                                    <TextBlock Text="·" FontSize="10.5" Foreground="{DynamicResource TextDisabledBrush}" Margin="5,0" />
                                     <TextBlock Text="{Binding PeersText}" FontSize="10.5"
-                                               Foreground="{StaticResource TextMutedBrush}" TextTrimming="CharacterEllipsis" />
+                                               Foreground="{DynamicResource TextMutedBrush}" TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                                 <Grid Margin="0,7,0,0">
                                     <Grid.ColumnDefinitions>
@@ -390,48 +395,49 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <controls:LinearProgress Value="{Binding Progress, Mode=OneWay}" Height="4"
-                                                             TrackBrush="#16FFFFFF"
+                                                             TrackBrush="{DynamicResource B_16FFFFFF}"
                                                              ProgressBrush="{Binding Status, Converter={StaticResource StatusBrush}}" />
                                     <TextBlock Grid.Column="1" Text="{Binding ProgressText}" FontSize="9.5"
-                                               Foreground="{StaticResource TextMutedBrush}" Margin="9,-2,0,0"
+                                               Foreground="{DynamicResource TextMutedBrush}" Margin="9,-2,0,0"
                                                VerticalAlignment="Center" />
                                 </Grid>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#x2193;" FontSize="11" Foreground="{StaticResource CyanBrush}"
+                                    <TextBlock Text="&#x2193;" FontSize="11" Foreground="{DynamicResource CyanBrush}"
                                                Margin="0,0,4,0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding DownloadSpeedText}" FontSize="11.3" FontWeight="SemiBold"
-                                               Foreground="#DDFBFF" />
+                                               Foreground="{DynamicResource B_DDFBFF}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                    <TextBlock Text="&#x2191;" FontSize="11" Foreground="{StaticResource PinkBrush}"
+                                    <TextBlock Text="&#x2191;" FontSize="11" Foreground="{DynamicResource PinkBrush}"
                                                Margin="0,0,4,0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding UploadSpeedText}" FontSize="10.5"
-                                               Foreground="{StaticResource TextSecondaryBrush}" />
+                                               Foreground="{DynamicResource TextSecondaryBrush}" />
                                 </StackPanel>
                             </StackPanel>
 
                             <StackPanel Grid.Column="3" VerticalAlignment="Center">
                                 <TextBlock Text="{Binding EtaText}" FontSize="11.5" FontWeight="SemiBold"
-                                           Foreground="{StaticResource TextPrimaryBrush}" />
-                                <TextBlock Text="{loc:T 'left'}" FontSize="9.5" Foreground="{StaticResource TextMutedBrush}"
+                                           Foreground="{DynamicResource TextPrimaryBrush}" />
+                                <TextBlock Text="{loc:T 'left'}" FontSize="9.5" Foreground="{DynamicResource TextMutedBrush}"
                                            Margin="0,3,0,0" />
                                 <TextBlock Text="{Binding RatioLabel}" FontSize="9"
-                                           Foreground="{StaticResource TextDisabledBrush}" Margin="0,3,0,0" />
+                                           Foreground="{DynamicResource TextDisabledBrush}" Margin="0,3,0,0" />
                             </StackPanel>
 
                             <Grid Grid.Column="4" VerticalAlignment="Center">
                                 <StackPanel HorizontalAlignment="Right">
                                     <TextBlock Text="{Binding SizeText}" FontSize="11" FontWeight="SemiBold"
-                                               HorizontalAlignment="Right" Foreground="{StaticResource TextSecondaryBrush}" />
+                                               HorizontalAlignment="Right" Foreground="{DynamicResource TextSecondaryBrush}" />
                                     <TextBlock Text="{Binding DownloadedText}" FontSize="9.5"
-                                               HorizontalAlignment="Right" Foreground="{StaticResource TextMutedBrush}"
+                                               HorizontalAlignment="Right" Foreground="{DynamicResource TextMutedBrush}"
                                                Margin="0,3,0,0" />
                                 </StackPanel>
-                                <Border x:Name="RowActions" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                        Background="#F215192B" BorderBrush="#2AFFFFFF" BorderThickness="1"
+                            </Grid>
+                            <Border x:Name="RowActions" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Background="{DynamicResource B_F215192B}" BorderBrush="{DynamicResource B_2AFFFFFF}" BorderThickness="1"
                                         CornerRadius="9" Padding="2">
                                     <Border.Style>
                                         <Style TargetType="{x:Type Border}">
@@ -473,7 +479,6 @@
                                         </Button>
                                     </StackPanel>
                                 </Border>
-                            </Grid>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -483,15 +488,15 @@
             <Grid Visibility="{Binding IsLibraryEmpty, Converter={StaticResource BoolToVisibility}}">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="470">
                     <Grid Width="152" Height="152" HorizontalAlignment="Center" Margin="0,0,0,18">
-                        <Ellipse Width="150" Height="150" Stroke="#1CFFFFFF" StrokeThickness="1" />
-                        <Ellipse Width="118" Height="118" Stroke="#2A7C3AED" StrokeThickness="1" />
-                        <Ellipse Width="88" Height="88" Stroke="#3C22D3EE" StrokeThickness="1" />
+                        <Ellipse Width="150" Height="150" Stroke="{DynamicResource B_1CFFFFFF}" StrokeThickness="1" />
+                        <Ellipse Width="118" Height="118" Stroke="{DynamicResource B_2A7C3AED}" StrokeThickness="1" />
+                        <Ellipse Width="88" Height="88" Stroke="{DynamicResource B_3C22D3EE}" StrokeThickness="1" />
                         <Ellipse Width="72" Height="72">
                             <Ellipse.Fill>
                                 <RadialGradientBrush>
-                                    <GradientStop Color="#5522D3EE" Offset="0" />
-                                    <GradientStop Color="#227C3AED" Offset="0.55" />
-                                    <GradientStop Color="#00000000" Offset="1" />
+                                    <GradientStop Color="{DynamicResource C_5522D3EE}" Offset="0" />
+                                    <GradientStop Color="{DynamicResource C_227C3AED}" Offset="0.55" />
+                                    <GradientStop Color="{DynamicResource C_00000000}" Offset="1" />
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
@@ -522,9 +527,9 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,0">
                         <TextBlock Text="{loc:T 'or drag the file into the window'}" Style="{StaticResource MicroCaption}"
-                                   Foreground="{StaticResource TextMutedBrush}" />
+                                   Foreground="{DynamicResource TextMutedBrush}" />
                         <TextBlock Text="Ctrl+O" Style="{StaticResource MicroCaption}" Margin="7,0,0,0"
-                                   Foreground="{StaticResource TextDisabledBrush}" />
+                                   Foreground="{DynamicResource TextDisabledBrush}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -532,10 +537,10 @@
             <!-- filtered empty -->
             <Grid Visibility="{Binding IsFilterEmpty, Converter={StaticResource BoolToVisibility}}">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="400">
-                    <Border Width="58" Height="58" CornerRadius="18" Background="#12FFFFFF"
-                            BorderBrush="#1FFFFFFF" BorderThickness="1" HorizontalAlignment="Center">
+                    <Border Width="58" Height="58" CornerRadius="18" Background="{DynamicResource B_12FFFFFF}"
+                            BorderBrush="{DynamicResource B_1FFFFFFF}" BorderThickness="1" HorizontalAlignment="Center">
                         <TextBlock Text="&#xE721;" Style="{StaticResource IconGlyph}" FontSize="22"
-                                   Foreground="{StaticResource TextMutedBrush}" />
+                                   Foreground="{DynamicResource TextMutedBrush}" />
                     </Border>
                     <TextBlock Text="{loc:T 'No results'}" Style="{StaticResource H2}" Margin="0,14,0,0"
                                HorizontalAlignment="Center" />
@@ -549,10 +554,10 @@
             </Grid>
 
             <!-- loading -->
-            <Grid Background="#B3080A12" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}">
+            <Grid Background="{DynamicResource B_B3080A12}" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <controls:ProgressRing Width="54" Height="54" Value="0.72" Thickness="2.5"
-                                           ProgressBrush="{StaticResource AccentGradient}" TrackBrush="#16FFFFFF">
+                                           ProgressBrush="{DynamicResource AccentGradient}" TrackBrush="{DynamicResource B_16FFFFFF}">
                     </controls:ProgressRing>
                     <TextBlock Text="{loc:T 'Starting torrent engine…'}" Style="{StaticResource Caption}"
                                HorizontalAlignment="Center" Margin="0,14,0,0" />

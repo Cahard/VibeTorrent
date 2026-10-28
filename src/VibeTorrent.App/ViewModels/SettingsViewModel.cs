@@ -24,6 +24,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         _close = close;
         _uiState = settings.Clone();
         LanguageCode = AppLanguages.FromCode(settings.Language).ToCode();
+        ThemeCode = settings.Theme;
         AfterDownloadsComplete = settings.AfterDownloadsComplete;
 
         DownloadDirectory = settings.DownloadDirectory;
@@ -44,13 +45,20 @@ public sealed partial class SettingsViewModel : ObservableObject
         StartWithWindows = settings.StartWithWindows;
         ShowNotifications = settings.ShowNotifications;
         _originalPort = settings.ListenPort;
+        _initializing = false;
     }
 
     private readonly int _originalPort;
     private readonly AppSettings _uiState;
+    private bool _initializing = true;
+
+    public event EventHandler? Changed;
 
     [ObservableProperty]
     private string _languageCode = "en";
+
+    [ObservableProperty]
+    private string _themeCode = "dark";
 
     [ObservableProperty]
     private string _afterDownloadsComplete = "none";
@@ -112,17 +120,49 @@ public sealed partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     private string? _errorMessage;
 
+    protected override void OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        if (!_initializing &&
+            e.PropertyName is not (nameof(ErrorMessage) or nameof(IsSaving)))
+        {
+            Changed?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+
     public string DataDirectory => _paths.RootDirectory;
     public string LogsDirectory => _paths.LogsDirectory;
 
     public bool IsEnglish => LanguageCode == "en";
     public bool IsRussian => LanguageCode == "ru";
     public bool IsKorean => LanguageCode == "ko";
+    public bool IsThemeDark => ThemeCode == "dark";
+    public bool IsThemeGreen => ThemeCode == "green";
+    public bool IsThemeLight => ThemeCode == "light";
     public bool IsAfterNone => AfterDownloadsComplete == "none";
     public bool IsAfterShutdown => AfterDownloadsComplete == "shutdown";
     public bool IsAfterSleep => AfterDownloadsComplete == "sleep";
     public bool IsAfterHibernate => AfterDownloadsComplete == "hibernate";
     public bool IsAfterRestart => AfterDownloadsComplete == "restart";
+
+    partial void OnThemeCodeChanged(string value)
+    {
+        OnPropertyChanged(nameof(IsThemeDark));
+        OnPropertyChanged(nameof(IsThemeGreen));
+        OnPropertyChanged(nameof(IsThemeLight));
+    }
+
+    [RelayCommand]
+    private void SetTheme(string? code)
+    {
+        ThemeCode = code?.Trim().ToLowerInvariant() switch
+        {
+            "green" => "green",
+            "light" => "light",
+            _ => "dark"
+        };
+    }
 
     partial void OnAfterDownloadsCompleteChanged(string value)
     {
@@ -185,6 +225,7 @@ public sealed partial class SettingsViewModel : ObservableObject
     {
         var defaults = AppSettings.Default;
         LanguageCode = "en";
+        ThemeCode = "dark";
         AfterDownloadsComplete = "none";
         DownloadDirectory = _paths.DownloadsDirectory;
         ListenPortText = defaults.ListenPort.ToString(CultureInfo.InvariantCulture);
@@ -223,6 +264,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         {
             DownloadDirectory = DownloadDirectory.Trim(),
             Language = AppLanguages.FromCode(LanguageCode).ToCode(),
+            Theme = ThemeCode,
             AfterDownloadsComplete = AfterDownloadsComplete.Trim().ToLowerInvariant(),
             ListenPort = ParseInt(ListenPortText, L.T("Port"), list),
             MaxDownloadKbps = ParseInt(MaxDownloadText, L.T("Download limit"), list, allowEmpty: true),

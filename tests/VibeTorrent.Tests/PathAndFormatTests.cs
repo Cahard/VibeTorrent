@@ -1,3 +1,4 @@
+using VibeTorrent.Core.Configuration;
 using VibeTorrent.Core.Utilities;
 
 namespace VibeTorrent.Tests;
@@ -46,6 +47,18 @@ public sealed class PathAndFormatTests
     public void ProgressMath_ConvertsMonoTorrentPercentToFraction(double percent, double expected)
     {
         Assert.Equal(expected, ProgressMath.FromPercent(percent), 6);
+    }
+
+    [Fact]
+    public void Settings_ThemeRoundTripsAndFallsBackToDark()
+    {
+        var settings = AppSettings.Default;
+        settings.Theme = "green";
+        Assert.Equal("green", settings.Clone().Theme);
+
+        settings.Theme = "not-a-theme";
+        Assert.True(settings.Normalize());
+        Assert.Equal("dark", settings.Theme);
     }
 
     [Fact]

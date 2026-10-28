@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -70,6 +70,21 @@ public static class ShimmerBehavior
             return;
         }
 
+        // The shine host is a rectangular Grid. Clip it to the same rounded
+        // shape as the button so the sweep cannot show square corners.
+        if (button.Template.FindName("ShineHost", button) is FrameworkElement host)
+        {
+            void ApplyClip()
+            {
+                host.Clip = new RectangleGeometry(
+                    new Rect(0, 0, host.ActualWidth, host.ActualHeight), 11, 11);
+            }
+
+            host.SizeChanged -= OnShineHostSizeChanged;
+            host.SizeChanged += OnShineHostSizeChanged;
+            ApplyClip();
+        }
+
         // Template Freezables are frozen by WPF; assigning a fresh transform keeps
         // the animation local to this button instance.
         var transform = new TranslateTransform(-220, 0);
@@ -87,12 +102,26 @@ public static class ShimmerBehavior
         transform.BeginAnimation(TranslateTransform.XProperty, animation, HandoffBehavior.SnapshotAndReplace);
     }
 
+    private static void OnShineHostSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (sender is FrameworkElement host)
+        {
+            host.Clip = new RectangleGeometry(
+                new Rect(0, 0, host.ActualWidth, host.ActualHeight), 11, 11);
+        }
+    }
+
     private static void Stop(Button button)
     {
         if (button.Template?.FindName("Shine", button) is FrameworkElement shine &&
             shine.RenderTransform is TranslateTransform transform)
         {
             transform.BeginAnimation(TranslateTransform.XProperty, null);
+        }
+
+        if (button.Template?.FindName("ShineHost", button) is FrameworkElement host)
+        {
+            host.SizeChanged -= OnShineHostSizeChanged;
         }
     }
 }

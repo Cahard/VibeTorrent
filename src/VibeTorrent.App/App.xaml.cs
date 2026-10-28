@@ -78,6 +78,18 @@ public partial class App : Application
                 settings.Language = AppLanguages.FromCode(languageOverride).ToCode();
             }
 
+            var themeOverride = GetArgumentValue(args, "--theme");
+            if (!string.IsNullOrWhiteSpace(themeOverride))
+            {
+                settings.Theme = themeOverride.Trim().ToLowerInvariant() switch
+                {
+                    "green" => "green",
+                    "light" => "light",
+                    _ => "dark"
+                };
+            }
+
+            ThemeService.Apply(settings.Theme);
             LocalizationManager.Instance.SetLanguage(settings.Language);
             TryCreateDownloadDirectory(settings.DownloadDirectory);
 

@@ -1641,6 +1641,35 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         }
     }
 
+    private static double ComputeSelectedProgress(TorrentManager manager, ManagedTorrent managed)
+    {
+        var fallback = ProgressMath.FromPercent(manager.PartialProgress);
+        if (!manager.HasMetadata || manager.Files.Count == 0 ||
+            manager.Torrent is null || manager.Torrent.Files.Count != manager.Files.Count)
+        {
+            return fallback;
+        }
+
+        long selectedBytes = 0;
+        long completedBytes = 0;
+        for (var i = 0; i < manager.Files.Count; i++)
+        {
+            var file = manager.Files[i];
+            if (file.Priority == Priority.DoNotDownload || file.BitField is null)
+            {
+                continue;
+            }
+
+            var length = manager.Torrent.Files[i].Length;
+            selectedBytes += length;
+            completedBytes += (long)(length * Math.Clamp(file.BitField.PercentComplete, 0, 100) / 100d);
+        }
+
+        return selectedBytes > 0
+            ? Math.Clamp(completedBytes / (double)selectedBytes, 0, 1)
+            : fallback;
+    }
+
     private TorrentSnapshot BuildSnapshot(ManagedTorrent managed, DateTime now)
     {
         var manager = managed.Manager;
@@ -1650,7 +1679,7 @@ public sealed class TorrentEngineService : ITorrentEngineService, IDisposable
         // MonoTorrent exposes PartialProgress as a percentage (0..100), not a
         // fraction. Clamping it directly to 0..1 made any torrent above ~1%
         // render as 100% complete.
-        var progress = ProgressMath.FromPercent(manager.PartialProgress);
+        var progress = ComputeSelectedProgress(manager, managed);
         var total = manager.HasMetadata && managed.TotalBytes > 0
             ? managed.TotalBytes
             : managed.Record.KnownSize;

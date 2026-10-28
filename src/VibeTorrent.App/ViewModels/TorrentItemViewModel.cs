@@ -12,11 +12,25 @@ namespace VibeTorrent.App.ViewModels;
 /// </summary>
 public sealed class TorrentItemViewModel : ObservableObject
 {
+    private const int HistoryLength = 48;
+    private readonly Queue<double> _downloadSamples = new();
+    private readonly Queue<double> _uploadSamples = new();
     private TorrentSnapshot _snapshot;
+    private bool _wasIdle;
+    private double _lastProgress;
+    private DateTime _lastProgressAt = DateTime.UtcNow;
 
     public TorrentItemViewModel(TorrentSnapshot snapshot)
     {
         _snapshot = snapshot;
+        for (var i = 0; i < HistoryLength - 1; i++)
+        {
+            _downloadSamples.Enqueue(0);
+            _uploadSamples.Enqueue(0);
+        }
+
+        _downloadSamples.Enqueue(Math.Max(0, snapshot.DownloadSpeed));
+        _uploadSamples.Enqueue(Math.Max(0, snapshot.UploadSpeed));
     }
 
     public TorrentSnapshot Snapshot => _snapshot;
@@ -27,7 +41,8 @@ public sealed class TorrentItemViewModel : ObservableObject
     public string HashShort => _snapshot.ShortHash;
     public string SavePath => _snapshot.SavePath;
     public TorrentStatus Status => _snapshot.Status;
-    public string StatusText => StatusTextConverter.StatusText(Status);
+    public bool IsWaitingForPeers { get; private set; }
+    public string StatusText => IsWaitingForPeers ? L.T("Waiting for peers") : StatusTextConverter.StatusText(Status);
     public double Progress => _snapshot.Progress;
     public string ProgressText => DisplayFormat.Percent(_snapshot.Progress);
     public long TotalSize => _snapshot.TotalSize;
@@ -64,6 +79,8 @@ public sealed class TorrentItemViewModel : ObservableObject
     public bool IsQueued => _snapshot.IsQueued;
     public int DownloadLimitKbps => _snapshot.DownloadLimitKbps;
     public int UploadLimitKbps => _snapshot.UploadLimitKbps;
+    public IReadOnlyList<double> DownloadHistory => _downloadSamples.ToArray();
+    public IReadOnlyList<double> UploadHistory => _uploadSamples.ToArray();
     public bool IsPrivate => _snapshot.IsPrivate;
     public bool HasMetadata => _snapshot.HasMetadata;
     public bool IsPaused => _snapshot.IsPaused || _snapshot.Status == TorrentStatus.Paused;
@@ -82,6 +99,41 @@ public sealed class TorrentItemViewModel : ObservableObject
     public void Update(TorrentSnapshot snapshot)
     {
         _snapshot = snapshot;
+
+        var idle = snapshot.IsPaused || snapshot.IsQueued ||
+                   snapshot.Status is TorrentStatus.Paused or TorrentStatus.Queued
+                       or TorrentStatus.Stopped or TorrentStatus.Error;
+        if (idle && !_wasIdle)
+        {
+            // A pause must not leave the previous speed drawn as a plateau.
+            for (var i = 0; i < HistoryLength; i++)
+            {
+                _downloadSamples.Enqueue(0);
+                _uploadSamples.Enqueue(0);
+                _downloadSamples.Dequeue();
+                _uploadSamples.Dequeue();
+            }
+        }
+
+        if (snapshot.Progress > _lastProgress + 0.0001)
+        {
+            _lastProgressAt = DateTime.UtcNow;
+        }
+
+        _lastProgress = snapshot.Progress;
+        IsWaitingForPeers = !idle && !snapshot.IsComplete &&
+                            snapshot.Progress >= 0.99 &&
+                            DateTime.UtcNow - _lastProgressAt > TimeSpan.FromSeconds(25);
+
+        _wasIdle = idle;
+        _downloadSamples.Enqueue(idle ? 0 : snapshot.DownloadSpeed);
+        _uploadSamples.Enqueue(idle ? 0 : snapshot.UploadSpeed);
+        while (_downloadSamples.Count > HistoryLength)
+        {
+            _downloadSamples.Dequeue();
+            _uploadSamples.Dequeue();
+        }
+
         OnPropertyChanged(string.Empty);
     }
 

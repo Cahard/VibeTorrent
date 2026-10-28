@@ -4,17 +4,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="470" xmlns:loc="clr-namespace:VibeTorrent.App.Localization">
-    <Border Width="470" CornerRadius="18" Background="#0E111D" BorderBrush="#38FFFFFF" BorderThickness="1"
+    <Border Width="470" CornerRadius="18" Background="{DynamicResource B_0E111D}" BorderBrush="{DynamicResource B_38FFFFFF}" BorderThickness="1"
             Padding="22" TextOptions.TextFormattingMode="Display">
         <Border.Effect>
-            <DropShadowEffect BlurRadius="60" ShadowDepth="18" Direction="270" Color="#E0000000" Opacity="0.65" />
+            <DropShadowEffect BlurRadius="60" ShadowDepth="18" Direction="270" Color="{DynamicResource C_E0000000}" Opacity="0.65" />
         </Border.Effect>
         <StackPanel>
             <Grid>
-                <Border Width="44" Height="44" CornerRadius="13" Background="#22FB7185"
-                        BorderBrush="#55FB7185" BorderThickness="1" HorizontalAlignment="Left">
+                <Border Width="44" Height="44" CornerRadius="13" Background="{DynamicResource B_22FB7185}"
+                        BorderBrush="{DynamicResource B_55FB7185}" BorderThickness="1" HorizontalAlignment="Left">
                     <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource IconFont}" FontSize="18"
-                               Foreground="#FDA4AF" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                               Foreground="{DynamicResource B_FDA4AF}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
                 <Button Style="{StaticResource IconButton}" Width="30" Height="30" HorizontalAlignment="Right"
                         Command="{Binding DataContext.CancelRemoveCommand, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -24,11 +24,11 @@
             </Grid>
             <TextBlock Text="{loc:T 'Delete torrent?'}" Style="{StaticResource H2}" Margin="0,15,0,0" />
             <TextBlock Text="{Binding Name}" FontSize="12.5" FontWeight="SemiBold"
-                       Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextSecondaryBrush}" TextWrapping="Wrap"
                        TextTrimming="CharacterEllipsis" MaxHeight="42" Margin="0,5,0,0" />
             <TextBlock Text="{Binding FileCountText}" Style="{StaticResource MicroCaption}" Margin="0,5,0,0" />
 
-            <Border Background="#0BFFFFFF" BorderBrush="#18FFFFFF" BorderThickness="1" CornerRadius="11"
+            <Border Background="{DynamicResource B_0BFFFFFF}" BorderBrush="{DynamicResource B_18FFFFFF}" BorderThickness="1" CornerRadius="11"
                     Padding="12,10" Margin="0,14,0,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -41,7 +41,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock Text="{loc:T 'The torrent will be removed from the list'}" FontSize="9.5"
-                                   Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Right" />
+                                   Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Right" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -55,15 +55,15 @@
                 </StackPanel>
             </CheckBox>
 
-            <Border Background="#16FB7185" CornerRadius="9" Padding="10,8" Margin="0,14,0,0"
-                    BorderBrush="#33FB7185" BorderThickness="1"
+            <Border Background="{DynamicResource B_16FB7185}" CornerRadius="9" Padding="10,8" Margin="0,14,0,0"
+                    BorderBrush="{DynamicResource B_33FB7185}" BorderThickness="1"
                     Visibility="{Binding DeleteData, Converter={StaticResource BoolToVisibility}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource IconFont}" FontSize="11"
-                               Foreground="{StaticResource DangerBrush}" VerticalAlignment="Top"
+                               Foreground="{DynamicResource DangerBrush}" VerticalAlignment="Top"
                                Margin="0,1,7,0" />
                     <TextBlock Text="{loc:T 'The download will stop and its files will be deleted.'}" FontSize="10"
-                               Foreground="#FFE4E8" TextWrapping="Wrap" />
+                               Foreground="{DynamicResource B_FFE4E8}" TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
 

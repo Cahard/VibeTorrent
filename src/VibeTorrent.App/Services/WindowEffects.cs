@@ -13,7 +13,7 @@ internal static class WindowEffects
     private const int DwmwaTextColor = 36;
     private const int DwmcpRound = 2;
 
-    public static void ApplyDarkWindow(Window window)
+    public static void ApplyWindow(Window window)
     {
         try
         {
@@ -23,7 +23,8 @@ internal static class WindowEffects
                 return;
             }
 
-            var enabled = 1;
+            var light = ThemeService.IsLight;
+            var enabled = light ? 0 : 1;
             _ = DwmSetWindowAttribute(handle, DwmwaUseImmersiveDarkMode, ref enabled, sizeof(int));
             var corner = DwmcpRound;
             _ = DwmSetWindowAttribute(handle, DwmwaWindowCornerPreference, ref corner, sizeof(int));
@@ -31,9 +32,9 @@ internal static class WindowEffects
             // Microsoft documentation treats these three colour attributes as
             // COLORREF values; keeping them close to the app background avoids a
             // bright native frame flash on startup and during resize.
-            var border = ToColorRef(0x0A, 0x0C, 0x17);
-            var caption = ToColorRef(0x0A, 0x0C, 0x17);
-            var text = ToColorRef(0xF5, 0xF7, 0xFF);
+            var border = light ? ToColorRef(0xF4, 0xF7, 0xFB) : ToColorRef(0x0A, 0x0C, 0x17);
+            var caption = border;
+            var text = light ? ToColorRef(0x11, 0x18, 0x27) : ToColorRef(0xF5, 0xF7, 0xFF);
             _ = DwmSetWindowAttribute(handle, DwmwaBorderColor, ref border, sizeof(int));
             _ = DwmSetWindowAttribute(handle, DwmwaCaptionColor, ref caption, sizeof(int));
             _ = DwmSetWindowAttribute(handle, DwmwaTextColor, ref text, sizeof(int));
@@ -43,6 +44,8 @@ internal static class WindowEffects
             // DWM is optional: the custom rendered chrome still looks correct.
         }
     }
+
+    public static void ApplyDarkWindow(Window window) => ApplyWindow(window);
 
     private static int ToColorRef(byte r, byte g, byte b) => r | (g << 8) | (b << 16);
 
