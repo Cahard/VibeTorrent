@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.1 — 2026-10-28
+
+### Added
+
+- The download folder chosen while adding a torrent is remembered and used as the starting folder for the next torrent.
+- Moving an active torrent to a new folder also makes that folder the new default.
+
 ## 1.4.0 — 2026-10-28
 
 ### Added

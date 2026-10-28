@@ -903,11 +903,13 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         candidate.IsDetailsPaneOpen = IsDetailsPaneOpen;
         candidate.SortMode = SortMode;
         candidate.LastFilter = SelectedFilter;
+        candidate.LastUpdateCheckUtc = _settings.LastUpdateCheckUtc;
 
         _settingsSaveInFlight = true;
         page.IsSaving = true;
         try
         {
+            candidate.LastUpdateCheckUtc = _settings.LastUpdateCheckUtc;
             await _engine.ApplySettingsAsync(candidate);
             await _settingsService.SaveAsync(candidate);
             _settings = candidate.Clone();
@@ -1133,6 +1135,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         {
             var snapshot = await _engine.MoveDownloadFolderAsync(item.Id, target);
             item.Update(snapshot);
+            await RememberDownloadPathAsync(target);
             await RefreshDetailsAsync(item.Id);
             ShowToast(L.T("Download folder moved"), target, ToastKind.Success);
         }
@@ -1302,6 +1305,48 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         IsAddDialogOpen = false;
     }
 
+    private async Task RememberDownloadPathAsync(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return;
+        }
+
+        string fullPath;
+        try
+        {
+            fullPath = Path.GetFullPath(path);
+        }
+        catch (Exception)
+        {
+            return;
+        }
+
+        if (string.Equals(_settings.DownloadDirectory, fullPath, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        // A settings autosave may still be finishing after the add dialog closed.
+        // Let it commit first so the newly chosen download folder wins.
+        var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(5);
+        while (_settingsSaveInFlight && DateTime.UtcNow < deadline)
+        {
+            await Task.Delay(25);
+        }
+
+        _settings.DownloadDirectory = fullPath;
+        try
+        {
+            await _settingsService.SaveAsync(_settings);
+            RefreshStorage();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Could not persist the last download folder.");
+        }
+    }
+
     private async Task<(bool Success, string? Error)> SubmitAddAsync(AddTorrentRequest request)
     {
         if (IsDemoMode)
@@ -1335,6 +1380,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
                     });
             }
 
+            await RememberDownloadPathAsync(request.SavePath);
             SelectedFilter = "all";
             SearchText = string.Empty;
             var item = _index.TryGetValue(snapshot.Id, out var existing)
