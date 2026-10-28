@@ -406,7 +406,7 @@ public partial class App : Application
         }
 
         _viewModel.UpdateStageText = "Downloading update";
-        _viewModel.UpdateDetailText = "ZTorrent 2.0.0 — 18.4 MB / 48.2 MB";
+        _viewModel.UpdateDetailText = "ZTorrent 2.0.2 — 18.4 MB / 48.2 MB";
         _viewModel.UpdateProgress = 38;
         _viewModel.UpdatePercentText = "38%";
         _viewModel.IsUpdateProgressIndeterminate = false;

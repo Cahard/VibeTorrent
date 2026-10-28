@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2 — 2026-10-28
+
+### Fixed
+
+- The tray Exit command no longer terminates ZTorrent while an update is downloading or installing.
+
 ## 2.0.1 — 2026-10-28
 
 ### Fixed

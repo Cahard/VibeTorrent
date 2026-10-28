@@ -129,6 +129,18 @@ public partial class MainWindow : Window
 
     public async Task RequestExitAsync()
     {
+        if (_viewModel.IsUpdating)
+        {
+            Show();
+            if (WindowState == WindowState.Minimized)
+            {
+                WindowState = WindowState.Normal;
+            }
+
+            Activate();
+            return;
+        }
+
         if (_exitInProgress)
         {
             return;

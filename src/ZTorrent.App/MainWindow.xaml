@@ -465,7 +465,7 @@
                             <TextBlock Text="{loc:T 'Local data only'}" FontSize="8.5"
                                        Foreground="{DynamicResource TextMutedBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="ZTorrent 2.0.1" FontSize="8.5" Foreground="{DynamicResource TextMutedBrush}" />
+                            <TextBlock Text="ZTorrent 2.0.2" FontSize="8.5" Foreground="{DynamicResource TextMutedBrush}" />
                         </StackPanel>
                     </Grid>
                 </Border>
