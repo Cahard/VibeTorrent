@@ -97,7 +97,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid x:Name="Root" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True">
+                    <Grid x:Name="Root" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True"
+                          TextElement.Foreground="{DynamicResource OnAccentBrush}">
                         <Border CornerRadius="11" BorderThickness="1"
                                 BorderBrush="{DynamicResource B_4DFFFFFF}"
                                 Background="{DynamicResource PrimaryButtonGradient}" />
@@ -449,7 +450,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Grid x:Name="Root" Height="42" Margin="0,2">
+                    <Grid x:Name="Root" Height="42" Margin="0,2"
+                          TextElement.Foreground="{TemplateBinding Foreground}">
                         <Border x:Name="Bg" CornerRadius="11" Background="Transparent" />
                         <Border x:Name="ActiveBar" Width="3" Height="20" CornerRadius="2"
                                 HorizontalAlignment="Left" Background="{DynamicResource AccentGradient}"
@@ -463,9 +465,10 @@
                             <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="Bg" Property="Background" Value="{DynamicResource B_12FFFFFF}" />
+                            <Setter TargetName="Bg" Property="Background" Value="{DynamicResource ActiveNavBrush}" />
                             <Setter TargetName="ActiveBar" Property="Opacity" Value="1" />
-                            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+                            <Setter TargetName="Bg" Property="TextElement.Foreground" Value="{DynamicResource ActiveNavForeground}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ActiveNavForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -889,9 +892,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Grid Background="Transparent" Margin="0,0,2,0">
-                        <Border x:Name="Bg" CornerRadius="8" Background="Transparent" Padding="10,7">
-                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" />
+                    <Grid Background="Transparent" Margin="0,0,2,0"
+                          TextElement.Foreground="{TemplateBinding Foreground}">
+                        <Border x:Name="Bg" CornerRadius="8" Background="Transparent" Padding="10,7"
+                                TextElement.Foreground="{TemplateBinding Foreground}">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
                         </Border>
                         <Border x:Name="Underline" Height="2" CornerRadius="1" VerticalAlignment="Bottom"
                                 Margin="8,0" Background="{DynamicResource AccentGradientHorizontal}" Opacity="0" />
@@ -902,9 +908,10 @@
                             <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ActiveTabForeground}" />
                             <Setter TargetName="Underline" Property="Opacity" Value="1" />
-                            <Setter TargetName="Bg" Property="Background" Value="{DynamicResource B_10FFFFFF}" />
+                            <Setter TargetName="Bg" Property="Background" Value="{DynamicResource ActiveTabBrush}" />
+                            <Setter TargetName="Bg" Property="TextElement.Foreground" Value="{DynamicResource ActiveTabForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

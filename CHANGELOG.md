@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.4 — 2026-10-28
+
+### Fixed
+
+- Active sidebar navigation and details tabs now use a blue surface with white text in the light theme.
+- Empty-state “Choose .torrent” label is white on its primary button.
+
 ## 1.4.3 — 2026-10-28
 
 ### Added

@@ -469,7 +469,7 @@
                             <TextBlock Text="{loc:T 'Local data only'}" FontSize="8.5"
                                        Foreground="{DynamicResource TextMutedBrush}" />
                             <TextBlock Text="·" FontSize="9" Foreground="{DynamicResource TextDisabledBrush}" Margin="8,0" />
-                            <TextBlock Text="VibeTorrent 1.4.3" FontSize="8.5" Foreground="{DynamicResource TextDisabledBrush}" />
+                            <TextBlock Text="VibeTorrent 1.4.4" FontSize="8.5" Foreground="{DynamicResource TextDisabledBrush}" />
                         </StackPanel>
                     </Grid>
                 </Border>

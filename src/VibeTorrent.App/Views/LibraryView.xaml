@@ -507,7 +507,7 @@
                                 <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="12"
                                        Foreground="{DynamicResource OnAccentBrush}"
                                            VerticalAlignment="Center" Margin="0,0,7,0" />
-                                <TextBlock Text="{loc:T 'Choose .torrent'}" />
+                                <TextBlock Text="{loc:T 'Choose .torrent'}" Foreground="{DynamicResource OnAccentBrush}" />
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource SecondaryButton}" Margin="8,0,0,0"

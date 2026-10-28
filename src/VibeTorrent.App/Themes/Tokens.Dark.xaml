@@ -135,6 +135,10 @@
     <SolidColorBrush x:Key="DownloadBrush" Color="#22D3EE" />
     <SolidColorBrush x:Key="UploadBrush" Color="#F472B6" />
     <SolidColorBrush x:Key="OnAccentBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ActiveNavBrush" Color="#12FFFFFF" />
+    <SolidColorBrush x:Key="ActiveNavForeground" Color="#F5F7FF" />
+    <SolidColorBrush x:Key="ActiveTabBrush" Color="#10FFFFFF" />
+    <SolidColorBrush x:Key="ActiveTabForeground" Color="#F5F7FF" />
     <SolidColorBrush x:Key="StatusBarBrush" Color="#66080A12" />
     <SolidColorBrush x:Key="SelectedChipBrush" Color="#337C3AED" />
     <SolidColorBrush x:Key="SelectedChipBorderBrush" Color="#8B5CF6" />
